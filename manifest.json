@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "GitHub Browser",
+  "description": "Let's you click and go to modules inside GitHub source view",
+  "version": "1.0.0",
+  "author": "Giovanni T. Parra",
+  "content_scripts": [{
+    "matches": ["https://github.com/*/*/blob/*"],
+    "js": ["dist/content-script.js"]
+  }],
+  "permissions": [
+    "https://github.com/*/*/blob/*",
+    "activeTab"
+  ]
+}
