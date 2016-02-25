@@ -3,3 +3,7 @@
 browserify-cache.json
 node_modules
 dist
+npm-debug.log
+tmp
+package.zip
+archive.zip

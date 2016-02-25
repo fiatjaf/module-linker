@@ -29,7 +29,7 @@
     "python": "browserifyinc python.js -t babelify --outfile dist/python.js",
     "javascript": "browserifyinc javascript.js -t babelify --outfile dist/javascript.js",
     "go": "browserifyinc go.js -t babelify --outfile dist/go.js",
-    "build": "npm run python && npm run go && npm run javascript",
-    "pack": "npm run build && mkdirp tmp && mv dist tmp && cp icon128.png icon48.png icon16.png icon manifest.json style.css tmp/ && zip -r archive.zip package.zip tmp/ && rm -r tmp/"
+    "build": "mkdirp dist && npm run python && npm run go && npm run javascript",
+    "pack": "npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/ && rm -r tmp/"
   }
 }
