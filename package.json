@@ -26,10 +26,8 @@
     "mkdirp": "^0.5.1"
   },
   "scripts": {
-    "python": "browserifyinc python.js -t babelify --outfile dist/python.js",
-    "javascript": "browserifyinc javascript.js -t babelify --outfile dist/javascript.js",
-    "go": "browserifyinc go.js -t babelify --outfile dist/go.js",
-    "build": "mkdirp dist && npm run python && npm run go && npm run javascript",
+    "live": "ls full.js | entr fish -c 'browserifyinc full.js -t babelify --outfile dist/full.js; and echo \"done!\"'",
+    "build": "mkdirp dist && browserifyinc full.js -t babelify --outfile dist/full.js",
     "pack": "rm -fr tmp/ && npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/"
   }
 }
