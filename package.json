@@ -30,6 +30,6 @@
     "javascript": "browserifyinc javascript.js -t babelify --outfile dist/javascript.js",
     "go": "browserifyinc go.js -t babelify --outfile dist/go.js",
     "build": "mkdirp dist && npm run python && npm run go && npm run javascript",
-    "pack": "npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/ && rm -r tmp/"
+    "pack": "rm -fr tmp/ && npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/"
   }
 }
