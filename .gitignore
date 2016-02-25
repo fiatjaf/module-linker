@@ -1,0 +1,8 @@
+*.swo
+*.swp
+browserify-cache.json
+node_modules
+npm-debug.log
+dist
+package.zip
+archive.zip
