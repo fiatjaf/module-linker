@@ -1,0 +1,24 @@
+<!doctype html>
+
+<title>Github File Browser Chrome Extension</title>
+<style>* { font-family: monospace }</style>
+
+<h1>GitHub File Browser</h1>
+<p>(name suggestions accepted)</p>
+
+<div id=preview></div>
+
+<p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn/publish-accepted?hl=pt-BR>install from Chrome Web Store</a></p>
+<p><a href=https://eager.io/app/gh-browser/install?initialUrl=https://github.com/fiatjaf/pgjson/blob/master/index.js>preview on Eager</a></p>
+<p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a></p>
+
+<script src="https://preview.eager.io/embed.js"></script>
+<script>
+var preview = new EagerPreview({
+  frameSrc: 'https://github.com/fiatjaf/summadb/blob/master/handle/handlers.go',
+  el: document.querySelector('#preview'),
+  appId: 'gh-browser',
+  options: {}
+})
+preview.render()
+</script>
