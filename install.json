@@ -1,0 +1,18 @@
+{
+  "resources": {
+    "body": [
+      {
+        "type": "script",
+        "src": "./dist/python.js"
+      },
+      {
+        "type": "script",
+        "src": "./dist/javascript.js"
+      },
+      {
+        "type": "script",
+        "src": "./dist/go.js"
+      }
+    ]
+  }
+}
