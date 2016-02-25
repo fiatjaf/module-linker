@@ -4,6 +4,11 @@
   "description": "Let's you click and go to modules inside GitHub source view",
   "version": "1.0.0",
   "author": "Giovanni T. Parra",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "content_scripts": [{
     "matches": ["https://github.com/*/*/blob/*.py"],
     "js": ["dist/python.js"]

@@ -26,10 +26,10 @@
     "mkdirp": "^0.5.1"
   },
   "scripts": {
-    "live": "ls content-script.js | entr fish -c 'browserifyinc content-script.js -t babelify --outfile dist/content-script.js; and echo \"done!\"'",
     "python": "browserifyinc python.js -t babelify --outfile dist/python.js",
     "javascript": "browserifyinc javascript.js -t babelify --outfile dist/javascript.js",
     "go": "browserifyinc go.js -t babelify --outfile dist/go.js",
-    "pack": "mkdirp tmp/dist && browserify -t babelify content-script.js -o tmp/dist/content-script.js && cp icon.png manifest.json style.css tmp/ && zip -r archive.zip package.zip tmp/ && rm -r tmp/"
+    "build": "npm run python && npm run go && npm run javascript",
+    "pack": "npm run build && mkdirp tmp && mv dist tmp && cp icon128.png icon48.png icon16.png icon manifest.json style.css tmp/ && zip -r archive.zip package.zip tmp/ && rm -r tmp/"
   }
 }
