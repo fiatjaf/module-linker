@@ -1,5 +1,92 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/home/fiatjaf/comp/gh-browser/javascript.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/home/fiatjaf/comp/gh-browser/full.js":[function(require,module,exports){
 'use strict';
+
+var _python = require('./python');
+
+var _javascript = require('./javascript');
+
+var _go = require('./go');
+
+var filetype = window.location.pathname.split('.').slice(-1)[0];
+
+switch (filetype) {
+  case 'py':
+    (0, _python.process)();
+    break;
+  case 'js':
+  case 'ts':
+    (0, _javascript.process)();
+    break;
+  case 'go':
+    (0, _go.process)();
+    break;
+}
+
+},{"./go":"/home/fiatjaf/comp/gh-browser/go.js","./javascript":"/home/fiatjaf/comp/gh-browser/javascript.js","./python":"/home/fiatjaf/comp/gh-browser/python.js"}],"/home/fiatjaf/comp/gh-browser/go.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.process = process;
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _lodash = require('lodash.startswith');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require('lodash.endswith');
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function process() {
+  var importing = false;
+  (0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
+    var line = elem.innerText.trim();
+    var startedImporting = false;
+    if ((0, _lodash2.default)(line, 'import')) {
+      importing = true;
+      startedImporting = true;
+    }
+
+    if (importing) {
+      var module = (0, _jquery2.default)(elem).find('.pl-s');
+      if (module.length) {
+        var moduleName = module.text().slice(1, -1);
+
+        var url;
+        if ((0, _lodash2.default)(moduleName, 'github.com/')) {
+          url = 'https://' + moduleName;
+        } else if (moduleName.indexOf('.') === -1) {
+          url = 'https://golang.org/pkg/' + moduleName;
+        } else {
+          url = 'https://godoc.org/' + moduleName;
+        }
+        module.wrap('<a href="' + url + '"></a>');
+
+        // single line import
+        if (startedImporting) importing = false;
+      }
+    }
+
+    if ((0, _lodash4.default)(line, ')')) {
+      importing = false;
+    }
+  });
+}
+
+},{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.endswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/index.js","lodash.startswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/index.js"}],"/home/fiatjaf/comp/gh-browser/javascript.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.process = process;
 
 var _jquery = require('jquery');
 
@@ -13,31 +100,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var stdlib = { assert: 1, buffer: 1, addons: 1, child_process: 1, cluster: 1, console: 1, crypto: 1, debugger: 1, dns: 1, domain: 1, errors: 1, events: 1, fs: 1, globals: 1, http: 1, https: 1, modules: 1, net: 1, os: 1, path: 1, process: 1, punycode: 1, querystring: 1, readline: 1, repl: 1, stream: 1, string_decoder: 1, timers: 1, tls: 1, tty: 1, dgram: 1, url: 1, util: 1, v8: 1, vm: 1, zlib: 1 };
 
-(0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
-  var line = elem.innerText.trim();
-  var es6import = /import .* from ['"]([^'"]+)['"]/.exec(line);
-  var commonjsrequire = /require *\(['"]([^)]+)['"]\)/.exec(line);
+function process() {
+  (0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
+    var line = elem.innerText.trim();
+    var es6import = /import .* from ['"]([^'"]+)['"]/.exec(line);
+    var commonjsrequire = /require *\(['"]([^)]+)['"]\)/.exec(line);
 
-  var moduleName;
-  if (es6import) {
-    moduleName = es6import[1];
-  } else if (commonjsrequire) {
-    moduleName = commonjsrequire[1];
-  } else {
-    return;
-  }
+    var moduleName;
+    if (es6import) {
+      moduleName = es6import[1];
+    } else if (commonjsrequire) {
+      moduleName = commonjsrequire[1];
+    } else {
+      return;
+    }
 
-  var url;
-  if ((0, _lodash2.default)(moduleName, '.')) {
-    url = moduleName + '.js';
-  } else if (moduleName in stdlib) {
-    url = 'https://nodejs.org/api/' + moduleName + '.html';
-  } else {
-    url = 'https://npmjs.com/package/' + moduleName;
-  }
+    var url;
+    if ((0, _lodash2.default)(moduleName, '.')) {
+      url = moduleName + '.js';
+    } else if (moduleName in stdlib) {
+      url = 'https://nodejs.org/api/' + moduleName + '.html';
+    } else {
+      url = 'https://npmjs.com/package/' + moduleName;
+    }
 
-  (0, _jquery2.default)(elem).find('.pl-s').wrap('<a href="' + url + '"></a>');
-});
+    (0, _jquery2.default)(elem).find('.pl-s').wrap('<a href="' + url + '"></a>');
+  });
+}
 
 },{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.startswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/index.js"}],"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js":[function(require,module,exports){
 /*!
@@ -9872,6 +9961,401 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
+},{}],"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/index.js":[function(require,module,exports){
+/**
+ * lodash 4.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var toString = require('lodash.tostring');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_INTEGER = 1.7976931348623157e+308,
+    NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * The base implementation of `_.clamp` which doesn't coerce arguments to numbers.
+ *
+ * @private
+ * @param {number} number The number to clamp.
+ * @param {number} [lower] The lower bound.
+ * @param {number} upper The upper bound.
+ * @returns {number} Returns the clamped number.
+ */
+function baseClamp(number, lower, upper) {
+  if (number === number) {
+    if (upper !== undefined) {
+      number = number <= upper ? number : upper;
+    }
+    if (lower !== undefined) {
+      number = number >= lower ? number : lower;
+    }
+  }
+  return number;
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array constructors, and
+  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3');
+ * // => 3
+ */
+function toInteger(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  var remainder = value % 1;
+  return value === value ? (remainder ? value - remainder : value) : 0;
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3);
+ * // => 3
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3');
+ * // => 3
+ */
+function toNumber(value) {
+  if (isObject(value)) {
+    var other = isFunction(value.valueOf) ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+/**
+ * Checks if `string` ends with the given target string.
+ *
+ * @static
+ * @memberOf _
+ * @category String
+ * @param {string} [string=''] The string to search.
+ * @param {string} [target] The string to search for.
+ * @param {number} [position=string.length] The position to search from.
+ * @returns {boolean} Returns `true` if `string` ends with `target`, else `false`.
+ * @example
+ *
+ * _.endsWith('abc', 'c');
+ * // => true
+ *
+ * _.endsWith('abc', 'b');
+ * // => false
+ *
+ * _.endsWith('abc', 'b', 2);
+ * // => true
+ */
+function endsWith(string, target, position) {
+  string = toString(string);
+  target = typeof target == 'string' ? target : (target + '');
+
+  var length = string.length;
+  position = position === undefined
+    ? length
+    : baseClamp(toInteger(position), 0, length);
+
+  position -= target.length;
+  return position >= 0 && string.indexOf(target, position) == position;
+}
+
+module.exports = endsWith;
+
+},{"lodash.tostring":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/node_modules/lodash.tostring/index.js"}],"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/node_modules/lodash.tostring/index.js":[function(require,module,exports){
+(function (global){
+/**
+ * lodash 4.1.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+/** Detect free variable `self`. */
+var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+/** Detect free variable `window`. */
+var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+/** Detect `this` as the global object. */
+var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+/**
+ * Used as a reference to the global object.
+ *
+ * The `this` value is used if it's the global object to avoid Greasemonkey's
+ * restricted `window` object, otherwise the `window` object is used.
+ */
+var root = freeGlobal ||
+  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+    freeSelf || thisGlobal || Function('return this')();
+
+/**
+ * Checks if `value` is a global object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+ */
+function checkGlobal(value) {
+  return (value && value.Object === Object) ? value : null;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = Symbol ? symbolProto.toString : undefined;
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  if (isSymbol(value)) {
+    return Symbol ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+module.exports = toString;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
@@ -10094,4 +10578,162 @@ module.exports = startsWith;
 
 },{"lodash.tostring":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/node_modules/lodash.tostring/index.js"}],"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/node_modules/lodash.tostring/index.js":[function(require,module,exports){
 arguments[4]["/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/node_modules/lodash.tostring/index.js"][0].apply(exports,arguments)
-},{}]},{},["/home/fiatjaf/comp/gh-browser/javascript.js"]);
+},{}],"/home/fiatjaf/comp/gh-browser/python.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+exports.process = process;
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _lodash = require('lodash.endswith');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetch = window.fetch;
+
+var path = window.location.pathname.split('/');
+
+function process() {
+  var treePromise = fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/refs/heads/' + path[4]).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return data.object.sha;
+  }).then(function (sha) {
+    return fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/trees/' + sha + '?recursive=4');
+  }).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return data.tree;
+  }).then(function (tree) {
+    return tree.sort(function (a, b) {
+      return a.path.split('/').length - b.path.split('/').length;
+    });
+  }).then(function (tree) {
+    return tree.reverse();
+  });
+  var current = path.slice(5, -1);
+
+  (0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
+    var line = elem.innerText.trim();
+    var fromimport = /from *([\w\.]*) import /.exec(line);
+    var normalimport = /import *([\w\.]*)/.exec(line);
+
+    if (fromimport || normalimport) {
+      var _ret = function () {
+        var moduleName = fromimport ? fromimport[1] : normalimport[1];
+
+        if (moduleName in stdlib) {
+          inject('https://docs.python.org/3/library/' + moduleName + '.html', elem);
+          return {
+            v: undefined
+          };
+        } else if (moduleName.split('.')[0] in stdlib) {
+          inject('https://docs.python.org/3/library/' + moduleName.split('.') + '.html', elem);
+          return {
+            v: undefined
+          };
+        }
+
+        treePromise.then(function (tree) {
+          // searching for relative modules
+          var match;
+          var filepath;
+
+          (function () {
+            for (var _i = 0; _i < tree.length; _i++) {
+              filepath = tree[_i].path;
+
+              if ((0, _lodash2.default)(filepath, '.py')) {
+                var potentialModule = filepath.slice(0, -3).split('/').join('.');
+                var tryingModule = moduleName;
+                while (tryingModule.length) {
+                  if (potentialModule === tryingModule) {
+                    match = 'file';
+                    return;
+                  }
+
+                  var folderModule = potentialModule.slice(0, -9);
+                  if ((0, _lodash2.default)(potentialModule, '__init__') && folderModule === tryingModule) {
+                    match = 'folder';
+                    return;
+                  }
+
+                  var relativeModule = potentialModule.split('.').slice(current.length).join('.');
+                  if (relativeModule === tryingModule) {
+                    match = 'file';
+                    return;
+                  }
+
+                  var relativeFolderModule = relativeModule.slice(0, -9);
+                  if ((0, _lodash2.default)(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
+                    match = 'folder';
+                    return;
+                  }
+
+                  tryingModule = tryingModule.split('.').slice(0, -1).join('.');
+                }
+              }
+            }
+          })();
+
+          Promise.resolve().then(function () {
+            // deciding the url to which we will point (after knowing if it is a relative module)
+            if (match) {
+              var base = 'https://github.com/' + path[1] + '/' + path[2] + '/blob/' + path[4] + '/';
+              if (match === 'file') {
+                return base + filepath;
+              } else if (match === 'folder') {
+                return base.replace('/blob/', '/tree/') + filepath.split('/').slice(0, -1).join('/');
+              }
+            } else {
+              // try the "home_page" from PYPI
+              fetch('https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/' + moduleName.split('.')[0] + '/json', { headers: { 'X-Requested-With': 'fetch' } }).then(function (res) {
+                return res.json();
+              }).then(function (data) {
+                return data.info.home_page || 'https://pypi.python.org/pypi/' + moduleName.split('.')[0];
+              }
+              // or settle with the PYPI url
+              );
+            }
+          }).then(function (url) {
+            // inserting in the document
+            if (url) inject(url, elem);
+          });
+        });
+      }();
+
+      if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+    }
+  });
+}
+
+function inject(url, elem) {
+  var stmt = (0, _jquery2.default)(elem).find('.pl-k');
+  var parent = stmt.parent();
+  var toReplace;
+  parent.contents().each(function (i, node) {
+    if (node === stmt[0]) {
+      toReplace = parent.contents()[i + 1];
+    }
+  });
+  (0, _jquery2.default)('<a href="' + url + '"></a>').append(toReplace.textContent.trim()).insertAfter(stmt.eq(0));
+  (0, _jquery2.default)(' ').insertAfter(stmt);
+  toReplace.remove();
+
+  stmt.eq(0).after(' ');
+  stmt.eq(1).before(' ');
+}
+
+var stdlib = { site: 1, and: 1, int: 1, list: 1, str: 1, bytes: 1, set: 1, dict: 1, string: 1, re: 1, difflib: 1, textwrap: 1, unicodedata: 1, stringprep: 1, readline: 1, rlcompleter: 1, struct: 1, codecs: 1, datetime: 1, calendar: 1, collections: 1, 'collections.abc': 1, heapq: 1, bisect: 1, array: 1, weakref: 1, types: 1, copy: 1, pprint: 1, reprlib: 1, enum: 1, numbers: 1, math: 1, cmath: 1, decimal: 1, fractions: 1, random: 1, statistics: 1, itertools: 1, functools: 1, operator: 1, pathlib: 1, 'os.path': 1, fileinput: 1, stat: 1, filecmp: 1, tempfile: 1, glob: 1, fnmatch: 1, linecache: 1, shutil: 1, macpath: 1, pickle: 1, copyreg: 1, shelve: 1, marshal: 1, dbm: 1, sqlite3: 1, zlib: 1, gzip: 1, bz2: 1, lzma: 1, zipfile: 1, tarfile: 1, csv: 1, configparser: 1, netrc: 1, xdrlib: 1, plistlib: 1, hashlib: 1, hmac: 1, os: 1, io: 1, time: 1, argparse: 1, getopt: 1, logging: 1, 'logging.config': 1, 'logging.handlers': 1, getpass: 1, curses: 1, 'curses.textpad': 1, 'curses.ascii': 1, 'curses.panel': 1, platform: 1, errno: 1, ctypes: 1, threading: 1, multiprocessing: 1, concurrent: 1, 'concurrent.futures': 1, subprocess: 1, sched: 1, queue: 1, dummy_threading: 1, _thread: 1, _dummy_thread: 1, socket: 1, ssl: 1, select: 1, selectors: 1, asyncio: 1, asyncore: 1, asynchat: 1, signal: 1, mmap: 1, email: 1, json: 1, mailcap: 1, mailbox: 1, mimetypes: 1, base64: 1, binhex: 1, binascii: 1, quopri: 1, uu: 1, html: 1, 'html.parser': 1, 'html.entities': 1, 'xml.etree.ElementTree': 1, 'xml.dom': 1, 'xml.dom.minidom': 1, 'xml.dom.pulldom': 1, 'xml.sax': 1, 'xml.sax.handler': 1, 'xml.sax.saxutils': 1, 'xml.sax.xmlreader': 1, 'xml.parsers.expat': 1, webbrowser: 1, cgi: 1, cgitb: 1, wsgiref: 1, urllib: 1, 'urllib.request': 1, 'urllib.response': 1, 'urllib.parse': 1, 'urllib.error': 1, 'urllib.robotparser': 1, http: 1, 'http.client': 1, ftplib: 1, poplib: 1, imaplib: 1, nntplib: 1, smtplib: 1, smtpd: 1, telnetlib: 1, uuid: 1, socketserver: 1, 'http.server': 1, 'http.cookies': 1, 'http.cookiejar': 1, xmlrpc: 1, 'xmlrpc.client': 1, 'xmlrpc.server': 1, ipaddress: 1, audioop: 1, aifc: 1, sunau: 1, wave: 1, chunk: 1, colorsys: 1, imghdr: 1, sndhdr: 1, ossaudiodev: 1, gettext: 1, locale: 1, turtle: 1, cmd: 1, shlex: 1, tkinter: 1, 'tkinter.ttk': 1, 'tkinter.tix': 1, 'tkinter.scrolledtext': 1, typing: 1, pydoc: 1, doctest: 1, unittest: 1, 'unittest.mock': 1, test: 1, 'test.support': 1, bdb: 1, faulthandler: 1, pdb: 1, timeit: 1, trace: 1, tracemalloc: 1, distutils: 1, ensurepip: 1, venv: 1, zipapp: 1, sys: 1, sysconfig: 1, builtins: 1, __main__: 1, warnings: 1, contextlib: 1, abc: 1, atexit: 1, traceback: 1, __future__: 1, gc: 1, inspect: 1, fpectl: 1, code: 1, codeop: 1, zipimport: 1, pkgutil: 1, modulefinder: 1, runpy: 1, importlib: 1, parser: 1, ast: 1, symtable: 1, symbol: 1, token: 1, keyword: 1, tokenize: 1, tabnanny: 1, pyclbr: 1, py_compile: 1, compileall: 1, dis: 1, pickletools: 1, formatter: 1, msilib: 1, msvcrt: 1, winreg: 1, winsound: 1, posix: 1, pwd: 1, spwd: 1, grp: 1, crypt: 1, termios: 1, tty: 1, pty: 1, fcntl: 1, pipes: 1, resource: 1, nis: 1, syslog: 1, optparse: 1, imp: 1 };
+
+},{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.endswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/index.js"}]},{},["/home/fiatjaf/comp/gh-browser/full.js"]);
