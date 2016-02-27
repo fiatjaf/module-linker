@@ -9,15 +9,33 @@ body {
   max-width: 100%;
   margin: auto;
 }
+body > nav ul {
+  display: block;
+  margin: 30px auto;
+}
+body > nav li {
+  margin: 0 20px;
+  display: inline;
+}
 #preview {
   width: 100%;
-  height: 500px;
+  height: 600px;
+}
+#preview > iframe {
+  width: 100%;
+  height: 600px;
 }
 </style>
 
 <h1>GitHub File Browser</h1>
-<p>(name suggestions accepted)</p>
 
+<nav>
+  <ul>
+    <li><a data-url=https://github.com/fiatjaf/summadb/blob/master/handle/handlers.go href=#>Go example</a></li>
+    <li><a data-url=https://github.com/mailpile/Mailpile/blob/master/mailpile/app.py href=#>Python example</a></li>
+    <li><a data-url=https://github.com/TylorS/cycle-snabbdom/blob/master/src/index.js href=#>Javascript example</a></li>
+  </ul>
+</nav>
 <div id=preview></div>
 
 <p><a href=https://chrome.google.com/webstore/detail/github-browser/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
@@ -34,5 +52,10 @@ var preview = new EagerPreview({
   options: {}
 })
 preview.render()
-preview.on('navigate', inject)
+
+document.querySelector('body > nav').addEventListener('click', function (e) {
+  if (e.target.tagName === 'A') {
+    preview.navigate(e.target.dataset.url)
+  }
+})
 </script>
