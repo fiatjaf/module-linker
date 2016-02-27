@@ -10,6 +10,13 @@ body {
   max-width: 100%;
   margin: auto;
 }
+body > header {
+  margin-top: 18px;
+}
+body > header h1 {
+  display: inline;
+  margin-left: 12px;
+}
 body > nav ul {
   display: block;
   margin: 30px auto;
@@ -26,9 +33,15 @@ body > nav li {
   width: 100%;
   height: 600px;
 }
+body > footer {
+  text-align: center;
+  margin-top: 43px;
+  font-size: 80%;
+}
 </style>
 
 <header>
+  <img src=icon48.png>
   <h1>GitHub Module Browser</h1>
   <p>hover your mouse over the imported modules right on the code and click the links to be redirected to those modules.</p>
 </header>
@@ -40,11 +53,18 @@ body > nav li {
     <li><a data-url=https://github.com/TylorS/cycle-snabbdom/blob/master/src/index.js href=#>Javascript example</a></li>
   </ul>
 </nav>
-<div id=preview></div>
 
-<p><a href=https://chrome.google.com/webstore/detail/github-browser/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
-<p><a href=https://eager.io/app/gh-browser/install?initialUrl=https://github.com/fiatjaf/pgjson/blob/master/index.js>preview on Eager</a></p>
-<p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a> (contribute with support for more languages!)</p>
+<main>
+  <div id=preview></div>
+  
+  <p><a href=https://chrome.google.com/webstore/detail/github-browser/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
+  <p><a href=https://eager.io/app/gh-browser/install?initialUrl=https://github.com/fiatjaf/pgjson/blob/master/index.js>preview on Eager</a></p>
+  <p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a> (contribute with support for more languages!)</p>
+</main>
+
+<footer>
+  <p>Icon by Gregor Črešnar from <a href="https://thenounproject.com/search/?q=nodes&amp;i=344978">The Noun Project</a>.</p>
+</footer>
 
 <script src="https://preview.eager.io/embed.js"></script>
 <script>
