@@ -17,96 +17,98 @@ export function process () {
     .then(tree => tree.reverse())
   let current = path.slice(5, -1)
 
-  $('.blob-code-inner').each((i, elem) => {
-    let line = elem.innerText.trim()
-    let fromimport = /from *([\w\.]*) import /.exec(line)
-    let normalimport = /import *([\w\.]*)/.exec(line)
+  $('.blob-code-inner').each((_, el) => {
+    (function (elem) {
+      let line = elem.innerText.trim()
+      let fromimport = /from *([\w\.]*) import /.exec(line)
+      let normalimport = /import *([\w\.]*)/.exec(line)
 
-    if (fromimport || normalimport) {
-      let moduleName = fromimport ? fromimport [1] : normalimport [1]
-      if (moduleName[0] === '.') {
-        // do not search the stdlib when starting with a dot
-        moduleName = moduleName.slice(1)
-      } else {
-        if (moduleName in stdlib) {
-          inject(`https://docs.python.org/3/library/${moduleName}.html`, elem)
-          return
-        } else if (moduleName.split('.')[0] in stdlib) {
-          inject(`https://docs.python.org/3/library/${moduleName.split('.')}.html`, elem)
-          return
+      if (fromimport || normalimport) {
+        let moduleName = fromimport ? fromimport [1] : normalimport [1]
+        if (moduleName[0] === '.') {
+          // do not search the stdlib when starting with a dot
+          moduleName = moduleName.slice(1)
+        } else {
+          if (moduleName in stdlib) {
+            inject(`https://docs.python.org/3/library/${moduleName}.html`, elem)
+            return
+          } else if (moduleName.split('.')[0] in stdlib) {
+            inject(`https://docs.python.org/3/library/${moduleName.split('.')}.html`, elem)
+            return
+          }
         }
-      }
 
-      treePromise.then(tree => {
-        // searching for relative modules
-        var match
-        var filepath
+        treePromise.then(tree => {
+          // searching for relative modules
+          var match
+          var filepath
 
-        (() => {
-          for (let i = 0; i < tree.length; i++) {
-            filepath = tree[i].path
+          (() => {
+            for (let i = 0; i < tree.length; i++) {
+              filepath = tree[i].path
 
-            if (endswith(filepath, '.py')) {
-              let potentialModule = filepath.slice(0, -3).split('/').join('.')
-              let tryingModule = moduleName
-              while (tryingModule.length) {
-                if (potentialModule === tryingModule) {
-                  match = 'file'
-                  return
+              if (endswith(filepath, '.py')) {
+                let potentialModule = filepath.slice(0, -3).split('/').join('.')
+                let tryingModule = moduleName
+                while (tryingModule.length) {
+                  if (potentialModule === tryingModule) {
+                    match = 'file'
+                    return
+                  }
+
+                  let folderModule = potentialModule.slice(0, -9)
+                  if (endswith(potentialModule, '__init__') && folderModule === tryingModule) {
+                    match = 'folder'
+                    return
+                  }
+
+                  let relativeModule = potentialModule.split('.').slice(current.length).join('.')
+                  if (relativeModule === tryingModule) {
+                    match = 'file'
+                    return
+                  }
+
+                  let relativeFolderModule = relativeModule.slice(0, -9)
+                  if (endswith(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
+                    match = 'folder'
+                    return
+                  }
+
+                  tryingModule = tryingModule.split('.').slice(0, -1).join('.')
                 }
-
-                let folderModule = potentialModule.slice(0, -9)
-                if (endswith(potentialModule, '__init__') && folderModule === tryingModule) {
-                  match = 'folder'
-                  return
-                }
-
-                let relativeModule = potentialModule.split('.').slice(current.length).join('.')
-                if (relativeModule === tryingModule) {
-                  match = 'file'
-                  return
-                }
-
-                let relativeFolderModule = relativeModule.slice(0, -9)
-                if (endswith(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
-                  match = 'folder'
-                  return
-                }
-
-                tryingModule = tryingModule.split('.').slice(0, -1).join('.')
               }
             }
-          }
-        })()
+          })()
 
-        Promise.resolve()
-        .then(() => {
-          // deciding the url to which we will point (after knowing if it is a relative module)
-          if (match) {
-            let base = `/${path[1]}/${path[2]}/blob/${path[4]}/`
-            if (match === 'file') {
-              return base + filepath
-            } else if (match === 'folder') {
-              return base.replace('/blob/', '/tree/') +
-                     filepath.split('/').slice(0, -1).join('/')
+          Promise.resolve()
+          .then(() => {
+            // deciding the url to which we will point (after knowing if it is a relative module)
+            if (match) {
+              let base = `/${path[1]}/${path[2]}/blob/${path[4]}/`
+              if (match === 'file') {
+                return base + filepath
+              } else if (match === 'folder') {
+                return base.replace('/blob/', '/tree/') +
+                       filepath.split('/').slice(0, -1).join('/')
+              }
+            } else {
+              // try the "home_page" from PYPI
+              fetch(`https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {headers: {'X-Requested-With': 'fetch'}})
+              .then(res => res.json())
+              .then(data =>
+                data.info.home_page ||
+                `https://pypi.python.org/pypi/${moduleName.split('.')[0]}`
+                // or settle with the PYPI url
+              )
             }
-          } else {
-            // try the "home_page" from PYPI
-            fetch(`https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {headers: {'X-Requested-With': 'fetch'}})
-            .then(res => res.json())
-            .then(data =>
-              data.info.home_page ||
-              `https://pypi.python.org/pypi/${moduleName.split('.')[0]}`
-              // or settle with the PYPI url
-            )
-          }
+          })
+          .then(url => {
+            // inserting in the document
+            if (url) inject(url, elem)
+          })
         })
-        .then(url => {
-          // inserting in the document
-          if (url) inject(url, elem)
-        })
-      })
-    }
+      }
+    })(el)
   })
 }
 
