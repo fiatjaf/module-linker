@@ -80,7 +80,7 @@ export function process () {
         .then(() => {
           // deciding the url to which we will point (after knowing if it is a relative module)
           if (match) {
-            let base = `https://github.com/${path[1]}/${path[2]}/blob/${path[4]}/`
+            let base = `/${path[1]}/${path[2]}/blob/${path[4]}/`
             if (match === 'file') {
               return base + filepath
             } else if (match === 'folder') {
