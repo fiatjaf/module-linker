@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "GitHub Browser",
-  "description": "Let's you click and go to modules inside GitHub source view",
-  "version": "1.1.0",
+  "description": "Lets you click and browse modules inside GitHub source view",
+  "version": "1.2.0",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",

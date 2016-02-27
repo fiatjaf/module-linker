@@ -63,7 +63,7 @@ function process() {
         if ((0, _lodash2.default)(moduleName, 'github.com/')) {
           var ref = window.location.pathname.split('/')[4];
           var p = moduleName.split('/');
-          url = 'https://github.com/' + p[1] + '/' + p[2] + '/tree/' + ref + '/' + p.slice(3).join('/');
+          url = '/' + p[1] + '/' + p[2] + '/tree/' + ref + '/' + p.slice(3).join('/');
         } else if (moduleName.indexOf('.') === -1) {
           url = 'https://golang.org/pkg/' + moduleName;
         } else {
@@ -126,7 +126,7 @@ function process() {
     } else if (moduleName in stdlib) {
       url = 'https://nodejs.org/api/' + moduleName + '.html';
     } else {
-      url = 'https://npmjs.com/package/' + moduleName;
+      url = 'https://npmjs.com/package/' + moduleName.split('/')[0];
     }
 
     (0, _jquery2.default)(elem).find('.pl-s').wrap('<a href="' + url + '"></a>');
@@ -10626,98 +10626,103 @@ function process() {
   });
   var current = path.slice(5, -1);
 
-  (0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
-    var line = elem.innerText.trim();
-    var fromimport = /from *([\w\.]*) import /.exec(line);
-    var normalimport = /import *([\w\.]*)/.exec(line);
+  (0, _jquery2.default)('.blob-code-inner').each(function (_, el) {
+    (function (elem) {
+      var line = elem.innerText.trim();
+      var fromimport = /from *([\w\.]*) import /.exec(line);
+      var normalimport = /import *([\w\.]*)/.exec(line);
 
-    if (fromimport || normalimport) {
-      var _ret = function () {
-        var moduleName = fromimport ? fromimport[1] : normalimport[1];
-        if (moduleName[0] === '.') moduleName = moduleName.slice(1);
+      if (fromimport || normalimport) {
+        var _ret = function () {
+          var moduleName = fromimport ? fromimport[1] : normalimport[1];
+          if (moduleName[0] === '.') {
+            // do not search the stdlib when starting with a dot
+            moduleName = moduleName.slice(1);
+          } else {
+            if (moduleName in stdlib) {
+              inject('https://docs.python.org/3/library/' + moduleName + '.html', elem);
+              return {
+                v: undefined
+              };
+            } else if (moduleName.split('.')[0] in stdlib) {
+              inject('https://docs.python.org/3/library/' + moduleName.split('.') + '.html', elem);
+              return {
+                v: undefined
+              };
+            }
+          }
 
-        if (moduleName in stdlib) {
-          inject('https://docs.python.org/3/library/' + moduleName + '.html', elem);
-          return {
-            v: undefined
-          };
-        } else if (moduleName.split('.')[0] in stdlib) {
-          inject('https://docs.python.org/3/library/' + moduleName.split('.') + '.html', elem);
-          return {
-            v: undefined
-          };
-        }
+          treePromise.then(function (tree) {
+            // searching for relative modules
+            var match;
+            var filepath;
 
-        treePromise.then(function (tree) {
-          // searching for relative modules
-          var match;
-          var filepath;
+            (function () {
+              for (var i = 0; i < tree.length; i++) {
+                filepath = tree[i].path;
 
-          (function () {
-            for (var _i = 0; _i < tree.length; _i++) {
-              filepath = tree[_i].path;
+                if ((0, _lodash2.default)(filepath, '.py')) {
+                  var potentialModule = filepath.slice(0, -3).split('/').join('.');
+                  var tryingModule = moduleName;
+                  while (tryingModule.length) {
+                    if (potentialModule === tryingModule) {
+                      match = 'file';
+                      return;
+                    }
 
-              if ((0, _lodash2.default)(filepath, '.py')) {
-                var potentialModule = filepath.slice(0, -3).split('/').join('.');
-                var tryingModule = moduleName;
-                while (tryingModule.length) {
-                  if (potentialModule === tryingModule) {
-                    match = 'file';
-                    return;
+                    var folderModule = potentialModule.slice(0, -9);
+                    if ((0, _lodash2.default)(potentialModule, '__init__') && folderModule === tryingModule) {
+                      match = 'folder';
+                      return;
+                    }
+
+                    var relativeModule = potentialModule.split('.').slice(current.length).join('.');
+                    if (relativeModule === tryingModule) {
+                      match = 'file';
+                      return;
+                    }
+
+                    var relativeFolderModule = relativeModule.slice(0, -9);
+                    if ((0, _lodash2.default)(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
+                      match = 'folder';
+                      return;
+                    }
+
+                    tryingModule = tryingModule.split('.').slice(0, -1).join('.');
                   }
-
-                  var folderModule = potentialModule.slice(0, -9);
-                  if ((0, _lodash2.default)(potentialModule, '__init__') && folderModule === tryingModule) {
-                    match = 'folder';
-                    return;
-                  }
-
-                  var relativeModule = potentialModule.split('.').slice(current.length).join('.');
-                  if (relativeModule === tryingModule) {
-                    match = 'file';
-                    return;
-                  }
-
-                  var relativeFolderModule = relativeModule.slice(0, -9);
-                  if ((0, _lodash2.default)(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
-                    match = 'folder';
-                    return;
-                  }
-
-                  tryingModule = tryingModule.split('.').slice(0, -1).join('.');
                 }
               }
-            }
-          })();
+            })();
 
-          Promise.resolve().then(function () {
-            // deciding the url to which we will point (after knowing if it is a relative module)
-            if (match) {
-              var base = 'https://github.com/' + path[1] + '/' + path[2] + '/blob/' + path[4] + '/';
-              if (match === 'file') {
-                return base + filepath;
-              } else if (match === 'folder') {
-                return base.replace('/blob/', '/tree/') + filepath.split('/').slice(0, -1).join('/');
+            Promise.resolve().then(function () {
+              // deciding the url to which we will point (after knowing if it is a relative module)
+              if (match) {
+                var base = '/' + path[1] + '/' + path[2] + '/blob/' + path[4] + '/';
+                if (match === 'file') {
+                  return base + filepath;
+                } else if (match === 'folder') {
+                  return base.replace('/blob/', '/tree/') + filepath.split('/').slice(0, -1).join('/');
+                }
+              } else {
+                // try the "home_page" from PYPI
+                fetch('https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/' + moduleName.split('.')[0] + '/json', { headers: { 'X-Requested-With': 'fetch' } }).then(function (res) {
+                  return res.json();
+                }).then(function (data) {
+                  return data.info.home_page || 'https://pypi.python.org/pypi/' + moduleName.split('.')[0];
+                }
+                // or settle with the PYPI url
+                );
               }
-            } else {
-              // try the "home_page" from PYPI
-              fetch('https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/' + moduleName.split('.')[0] + '/json', { headers: { 'X-Requested-With': 'fetch' } }).then(function (res) {
-                return res.json();
-              }).then(function (data) {
-                return data.info.home_page || 'https://pypi.python.org/pypi/' + moduleName.split('.')[0];
-              }
-              // or settle with the PYPI url
-              );
-            }
-          }).then(function (url) {
-            // inserting in the document
-            if (url) inject(url, elem);
+            }).then(function (url) {
+              // inserting in the document
+              if (url) inject(url, elem);
+            });
           });
-        });
-      }();
+        }();
 
-      if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-    }
+        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+      }
+    })(el);
   });
 }
 
