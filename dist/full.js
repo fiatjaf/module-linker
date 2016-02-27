@@ -106,11 +106,14 @@ function process() {
   (0, _jquery2.default)('.blob-code-inner').each(function (i, elem) {
     var line = elem.innerText.trim();
     var es6import = /import .* from ['"]([^'"]+)['"]/.exec(line);
+    var es6export = /export .* from ['"]([^'"]+)['"]/.exec(line);
     var commonjsrequire = /require *\(['"]([^)]+)['"]\)/.exec(line);
 
     var moduleName;
     if (es6import) {
       moduleName = es6import[1];
+    } else if (es6export) {
+      moduleName = es6export[1];
     } else if (commonjsrequire) {
       moduleName = commonjsrequire[1];
     } else {
@@ -10631,6 +10634,7 @@ function process() {
     if (fromimport || normalimport) {
       var _ret = function () {
         var moduleName = fromimport ? fromimport[1] : normalimport[1];
+        if (moduleName[0] === '.') moduleName = moduleName.slice(1);
 
         if (moduleName in stdlib) {
           inject('https://docs.python.org/3/library/' + moduleName + '.html', elem);
