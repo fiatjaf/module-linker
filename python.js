@@ -24,14 +24,17 @@ export function process () {
 
     if (fromimport || normalimport) {
       let moduleName = fromimport ? fromimport [1] : normalimport [1]
-      if (moduleName[0] === '.') moduleName = moduleName.slice(1)
-
-      if (moduleName in stdlib) {
-        inject(`https://docs.python.org/3/library/${moduleName}.html`, elem)
-        return
-      } else if (moduleName.split('.')[0] in stdlib) {
-        inject(`https://docs.python.org/3/library/${moduleName.split('.')}.html`, elem)
-        return
+      if (moduleName[0] === '.') {
+        // do not search the stdlib when starting with a dot
+        moduleName = moduleName.slice(1)
+      } else {
+        if (moduleName in stdlib) {
+          inject(`https://docs.python.org/3/library/${moduleName}.html`, elem)
+          return
+        } else if (moduleName.split('.')[0] in stdlib) {
+          inject(`https://docs.python.org/3/library/${moduleName.split('.')}.html`, elem)
+          return
+        }
       }
 
       treePromise.then(tree => {
