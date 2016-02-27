@@ -19,7 +19,9 @@ export function process () {
 
         var url
         if (startswith(moduleName, 'github.com/')) {
-          url = 'https://' + moduleName
+          let ref = window.location.pathname.split('/')[4]
+          let p = moduleName.split('/')
+          url = `https://github.com/${p[1]}/${p[2]}/tree/${ref}/${p.slice(3).join('/')}`
         } else if (moduleName.indexOf('.') === -1) {
           url = 'https://golang.org/pkg/' + moduleName
         } else {
