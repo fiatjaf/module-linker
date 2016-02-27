@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import sortIt from 'sort-it'
 import endswith from 'lodash.endswith'
 
 const fetch = window.fetch
@@ -13,8 +14,21 @@ export function process () {
     .then(sha => fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/trees/${sha}?recursive=4`))
     .then(res => res.json())
     .then(data => data.tree)
-    .then(tree => tree.sort((a, b) => a.path.split('/').length - b.path.split('/').length))
-    .then(tree => tree.reverse())
+    .then(tree => tree.filter(b => endswith(b.path, '.py')))
+    .then(tree => tree.map(b => {
+      delete b.url
+      delete b.size
+      delete b.mode
+      delete b.type
+      delete b.sha
+      let p = b.path.split('/')
+      b.pathSize = p.length
+      b.last = p[p.length - 1]
+      return b
+    }))
+    .then(tree => sortIt(tree, ['-pathSize', '-last']))
+    .then(tree => tree.map(b => b.path))
+
   let current = path.slice(5, -1)
 
   $('.blob-code-inner').each((_, el) => {
@@ -38,44 +52,42 @@ export function process () {
           }
         }
 
-        treePromise.then(tree => {
+        treePromise.then(paths => {
           // searching for relative modules
           var match
           var filepath
 
           (() => {
-            for (let i = 0; i < tree.length; i++) {
-              filepath = tree[i].path
+            for (let i = 0; i < paths.length; i++) {
+              filepath = paths[i]
 
-              if (endswith(filepath, '.py')) {
-                let potentialModule = filepath.slice(0, -3).split('/').join('.')
-                let tryingModule = moduleName
-                while (tryingModule.length) {
-                  if (potentialModule === tryingModule) {
-                    match = 'file'
-                    return
-                  }
-
-                  let folderModule = potentialModule.slice(0, -9)
-                  if (endswith(potentialModule, '__init__') && folderModule === tryingModule) {
-                    match = 'folder'
-                    return
-                  }
-
-                  let relativeModule = potentialModule.split('.').slice(current.length).join('.')
-                  if (relativeModule === tryingModule) {
-                    match = 'file'
-                    return
-                  }
-
-                  let relativeFolderModule = relativeModule.slice(0, -9)
-                  if (endswith(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
-                    match = 'folder'
-                    return
-                  }
-
-                  tryingModule = tryingModule.split('.').slice(0, -1).join('.')
+              let potentialModule = filepath.slice(0, -3).split('/').join('.')
+              let tryingModule = moduleName
+              while (tryingModule.length) {
+                if (potentialModule === tryingModule) {
+                  match = 'file'
+                  return
                 }
+
+                let folderModule = potentialModule.slice(0, -9)
+                if (endswith(potentialModule, '__init__') && folderModule === tryingModule) {
+                  match = 'folder'
+                  return
+                }
+
+                let relativeModule = potentialModule.split('.').slice(current.length).join('.')
+                if (relativeModule === tryingModule) {
+                  match = 'file'
+                  return
+                }
+
+                let relativeFolderModule = relativeModule.slice(0, -9)
+                if (endswith(relativeModule, '__init__') && relativeFolderModule === tryingModule) {
+                  match = 'folder'
+                  return
+                }
+
+                tryingModule = tryingModule.split('.').slice(0, -1).join('.')
               }
             }
           })()

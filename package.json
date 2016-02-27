@@ -6,7 +6,8 @@
   "dependencies": {
     "jquery": "^2.2.1",
     "lodash.endswith": "^4.0.0",
-    "lodash.startswith": "^4.0.0"
+    "lodash.startswith": "^4.0.0",
+    "sort-it": "^0.1.0"
   },
   "babel": {
     "presets": [
