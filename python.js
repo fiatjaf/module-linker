@@ -3,7 +3,6 @@ import sortIt from 'sort-it'
 import endswith from 'lodash.endswith'
 
 const fetch = window.fetch
-
 const path = window.location.pathname.split('/')
 
 export function process () {
