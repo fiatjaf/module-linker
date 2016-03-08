@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "GitHub Browser",
   "description": "Lets you click and browse modules inside GitHub source view",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -13,6 +13,7 @@
     "matches": [
       "https://github.com/*/*/blob/*.py",
       "https://github.com/*/*/blob/*.go",
+      "https://github.com/*/*/blob/*.rb",
       "https://github.com/*/*/blob/*.js"
     ],
     "js": ["dist/full.js"]

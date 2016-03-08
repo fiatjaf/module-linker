@@ -1,6 +1,5 @@
 import $ from 'jquery'
-import sortIt from 'sort-it'
-import endswith from 'lodash.endswith'
+import startswith from 'lodash.startswith'
 
 const fetch = window.fetch
 const path = window.location.pathname.split('/')
@@ -13,20 +12,8 @@ export function process () {
     .then(sha => fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/trees/${sha}?recursive=4`))
     .then(res => res.json())
     .then(data => data.tree)
-    .then(tree => tree.filter(b => endswith(b.path, '.rb')))
-    .then(tree => tree.map(b => {
-      delete b.url
-      delete b.size
-      delete b.mode
-      delete b.type
-      delete b.sha
-      let p = b.path.split('/')
-      b.pathSize = p.length
-      b.last = p[p.length - 1]
-      return b
-    }))
-    .then(tree => sortIt(tree, ['-pathSize', '-last']))
-    .then(tree => tree.map(b => b.path))
+    .then(tree => tree.filter(b => startswith(b.path, 'lib/')))
+    .then(tree => tree.map(b => b.path.split('/').slice(1).join('/')))
 
   $('.blob-code-inner').each((i, el) => {
     (function (elem) {
@@ -37,9 +24,10 @@ export function process () {
 
       treePromise.then(paths => {
         for (let i = 0; i < paths.length; i++) {
-          let filepath = paths[i]
-          if (filepath.slice(0, -3) === moduleName) {
-            return moduleName
+          let relativePath = paths[i]
+
+          if (relativePath.slice(0, -3) === moduleName) {
+            return `/${path[1]}/${path[2]}/blob/${path[4]}/lib/` + relativePath
           }
         }
 

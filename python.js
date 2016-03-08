@@ -4,6 +4,7 @@ import endswith from 'lodash.endswith'
 
 const fetch = window.fetch
 const path = window.location.pathname.split('/')
+const current = path.slice(5, -1)
 
 export function process () {
   let treePromise =
@@ -27,8 +28,6 @@ export function process () {
     }))
     .then(tree => sortIt(tree, ['-pathSize', '-last']))
     .then(tree => tree.map(b => b.path))
-
-  let current = path.slice(5, -1)
 
   $('.blob-code-inner').each((_, el) => {
     (function (elem) {
