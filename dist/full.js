@@ -5,6 +5,8 @@ var _python = require('./python');
 
 var _javascript = require('./javascript');
 
+var _ruby = require('./ruby');
+
 var _go = require('./go');
 
 var filetype = window.location.pathname.split('.').slice(-1)[0];
@@ -20,9 +22,11 @@ switch (filetype) {
   case 'go':
     (0, _go.process)();
     break;
+  case 'rb':
+    (0, _ruby.process)();
 }
 
-},{"./go":"/home/fiatjaf/comp/gh-browser/go.js","./javascript":"/home/fiatjaf/comp/gh-browser/javascript.js","./python":"/home/fiatjaf/comp/gh-browser/python.js"}],"/home/fiatjaf/comp/gh-browser/go.js":[function(require,module,exports){
+},{"./go":"/home/fiatjaf/comp/gh-browser/go.js","./javascript":"/home/fiatjaf/comp/gh-browser/javascript.js","./python":"/home/fiatjaf/comp/gh-browser/python.js","./ruby":"/home/fiatjaf/comp/gh-browser/ruby.js"}],"/home/fiatjaf/comp/gh-browser/go.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10655,8 +10659,8 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetch = window.fetch;
-
 var path = window.location.pathname.split('/');
+var current = path.slice(5, -1);
 
 function process() {
   var treePromise = fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/refs/heads/' + path[4]).then(function (res) {
@@ -10692,8 +10696,6 @@ function process() {
       return b.path;
     });
   });
-
-  var current = path.slice(5, -1);
 
   (0, _jquery2.default)('.blob-code-inner').each(function (_, el) {
     (function (elem) {
@@ -10812,4 +10814,76 @@ function inject(url, elem) {
 
 var stdlib = { site: 1, and: 1, int: 1, list: 1, str: 1, bytes: 1, set: 1, dict: 1, string: 1, re: 1, difflib: 1, textwrap: 1, unicodedata: 1, stringprep: 1, readline: 1, rlcompleter: 1, struct: 1, codecs: 1, datetime: 1, calendar: 1, collections: 1, 'collections.abc': 1, heapq: 1, bisect: 1, array: 1, weakref: 1, types: 1, copy: 1, pprint: 1, reprlib: 1, enum: 1, numbers: 1, math: 1, cmath: 1, decimal: 1, fractions: 1, random: 1, statistics: 1, itertools: 1, functools: 1, operator: 1, pathlib: 1, 'os.path': 1, fileinput: 1, stat: 1, filecmp: 1, tempfile: 1, glob: 1, fnmatch: 1, linecache: 1, shutil: 1, macpath: 1, pickle: 1, copyreg: 1, shelve: 1, marshal: 1, dbm: 1, sqlite3: 1, zlib: 1, gzip: 1, bz2: 1, lzma: 1, zipfile: 1, tarfile: 1, csv: 1, configparser: 1, netrc: 1, xdrlib: 1, plistlib: 1, hashlib: 1, hmac: 1, os: 1, io: 1, time: 1, argparse: 1, getopt: 1, logging: 1, 'logging.config': 1, 'logging.handlers': 1, getpass: 1, curses: 1, 'curses.textpad': 1, 'curses.ascii': 1, 'curses.panel': 1, platform: 1, errno: 1, ctypes: 1, threading: 1, multiprocessing: 1, concurrent: 1, 'concurrent.futures': 1, subprocess: 1, sched: 1, queue: 1, dummy_threading: 1, _thread: 1, _dummy_thread: 1, socket: 1, ssl: 1, select: 1, selectors: 1, asyncio: 1, asyncore: 1, asynchat: 1, signal: 1, mmap: 1, email: 1, json: 1, mailcap: 1, mailbox: 1, mimetypes: 1, base64: 1, binhex: 1, binascii: 1, quopri: 1, uu: 1, html: 1, 'html.parser': 1, 'html.entities': 1, 'xml.etree.ElementTree': 1, 'xml.dom': 1, 'xml.dom.minidom': 1, 'xml.dom.pulldom': 1, 'xml.sax': 1, 'xml.sax.handler': 1, 'xml.sax.saxutils': 1, 'xml.sax.xmlreader': 1, 'xml.parsers.expat': 1, webbrowser: 1, cgi: 1, cgitb: 1, wsgiref: 1, urllib: 1, 'urllib.request': 1, 'urllib.response': 1, 'urllib.parse': 1, 'urllib.error': 1, 'urllib.robotparser': 1, http: 1, 'http.client': 1, ftplib: 1, poplib: 1, imaplib: 1, nntplib: 1, smtplib: 1, smtpd: 1, telnetlib: 1, uuid: 1, socketserver: 1, 'http.server': 1, 'http.cookies': 1, 'http.cookiejar': 1, xmlrpc: 1, 'xmlrpc.client': 1, 'xmlrpc.server': 1, ipaddress: 1, audioop: 1, aifc: 1, sunau: 1, wave: 1, chunk: 1, colorsys: 1, imghdr: 1, sndhdr: 1, ossaudiodev: 1, gettext: 1, locale: 1, turtle: 1, cmd: 1, shlex: 1, tkinter: 1, 'tkinter.ttk': 1, 'tkinter.tix': 1, 'tkinter.scrolledtext': 1, typing: 1, pydoc: 1, doctest: 1, unittest: 1, 'unittest.mock': 1, test: 1, 'test.support': 1, bdb: 1, faulthandler: 1, pdb: 1, timeit: 1, trace: 1, tracemalloc: 1, distutils: 1, ensurepip: 1, venv: 1, zipapp: 1, sys: 1, sysconfig: 1, builtins: 1, __main__: 1, warnings: 1, contextlib: 1, abc: 1, atexit: 1, traceback: 1, __future__: 1, gc: 1, inspect: 1, fpectl: 1, code: 1, codeop: 1, zipimport: 1, pkgutil: 1, modulefinder: 1, runpy: 1, importlib: 1, parser: 1, ast: 1, symtable: 1, symbol: 1, token: 1, keyword: 1, tokenize: 1, tabnanny: 1, pyclbr: 1, py_compile: 1, compileall: 1, dis: 1, pickletools: 1, formatter: 1, msilib: 1, msvcrt: 1, winreg: 1, winsound: 1, posix: 1, pwd: 1, spwd: 1, grp: 1, crypt: 1, termios: 1, tty: 1, pty: 1, fcntl: 1, pipes: 1, resource: 1, nis: 1, syslog: 1, optparse: 1, imp: 1 };
 
-},{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.endswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/index.js","sort-it":"/home/fiatjaf/comp/gh-browser/node_modules/sort-it/index.js"}]},{},["/home/fiatjaf/comp/gh-browser/full.js"]);
+},{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.endswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.endswith/index.js","sort-it":"/home/fiatjaf/comp/gh-browser/node_modules/sort-it/index.js"}],"/home/fiatjaf/comp/gh-browser/ruby.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.process = process;
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _lodash = require('lodash.startswith');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetch = window.fetch;
+var path = window.location.pathname.split('/');
+
+function process() {
+  var treePromise = fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/refs/heads/' + path[4]).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return data.object.sha;
+  }).then(function (sha) {
+    return fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/trees/' + sha + '?recursive=4');
+  }).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return data.tree;
+  }).then(function (tree) {
+    return tree.filter(function (b) {
+      return (0, _lodash2.default)(b.path, 'lib/');
+    });
+  }).then(function (tree) {
+    return tree.map(function (b) {
+      return b.path.split('/').slice(1).join('/');
+    });
+  });
+
+  (0, _jquery2.default)('.blob-code-inner').each(function (i, el) {
+    (function (elem) {
+      var line = elem.innerText.trim();
+      var require = /require ["']([\w-_\/]*)["']/.exec(line);
+      if (!require) return;
+      var moduleName = require[1];
+
+      treePromise.then(function (paths) {
+        for (var _i = 0; _i < paths.length; _i++) {
+          var relativePath = paths[_i];
+
+          if (relativePath.slice(0, -3) === moduleName) {
+            return '/' + path[1] + '/' + path[2] + '/blob/' + path[4] + '/lib/' + relativePath;
+          }
+        }
+
+        if (moduleName in stdlib) {
+          return 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html';
+        } else {
+          return 'https://rubygems.org/gems/' + moduleName;
+        }
+      }).then(function (url) {
+        return (0, _jquery2.default)(elem).find('.pl-s').wrap('<a href="' + url + '"></a>');
+      });
+    })(el);
+  });
+}
+
+var stdlib = { abbrev: 1, base64: 1, benchmark: 1, bigdecimal: 1, cgi: 1, cmath: 1, coverage: 1, csv: 1, date: 1, dbm: 1, debug: 1, delegate: 1, digest: 1, drb: 1, e2mmap: 1, English: 1, erb: 1, etc: 1, expect: 1, extmk: 1, fcntl: 1, fiddle: 1, fileutils: 1, find: 1, forwardable: 1, gdbm: 1, getoptlong: 1, 'io/console': 1, 'io/nonblock': 1, 'io/wait': 1, ipaddr: 1, irb: 1, json: 1, logger: 1, mathn: 1, matrix: 1, mkmf: 1, monitor: 1, mutex_m: 1, 'net/ftp': 1, 'net/http': 1, 'net/imap': 1, 'net/pop': 1, 'net/smtp': 1, 'net/telnet': 1, nkf: 1, objspace: 1, observer: 1, 'open-uri': 1, open3: 1, openssl: 1, optparse: 1, ostruct: 1, pathname: 1, pp: 1, prettyprint: 1, prime: 1, profile: 1, profiler: 1, pstore: 1, psych: 1, pty: 1, racc: 1, 'racc/parser': 1, rake: 1, rdoc: 1, readline: 1, resolv: 1, 'resolv-replace': 1, rexml: 1, rinda: 1, ripper: 1, rss: 1, rubygems: 1, scanf: 1, sdbm: 1, securerandom: 1, set: 1, shell: 1, shellwords: 1, singleton: 1, socket: 1, stringio: 1, strscan: 1, sync: 1, syslog: 1, tempfile: 1, thread: 1, thwait: 1, time: 1, timeout: 1, tk: 1, tmpdir: 1, tracer: 1, tsort: 1, un: 1, unicode_normalize: 1, uri: 1, weakref: 1, webrick: 1, win32ole: 1, xmlrpc: 1, yaml: 1, zlib: 1 };
+
+},{"jquery":"/home/fiatjaf/comp/gh-browser/node_modules/jquery/dist/jquery.js","lodash.startswith":"/home/fiatjaf/comp/gh-browser/node_modules/lodash.startswith/index.js"}]},{},["/home/fiatjaf/comp/gh-browser/full.js"]);
