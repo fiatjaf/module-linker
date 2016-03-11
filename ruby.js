@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import startswith from 'lodash.startswith'
 
 const fetch = window.fetch
 const path = window.location.pathname.split('/')
@@ -12,8 +11,16 @@ export function process () {
     .then(sha => fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/trees/${sha}?recursive=4`))
     .then(res => res.json())
     .then(data => data.tree)
-    .then(tree => tree.filter(b => startswith(b.path, 'lib/')))
-    .then(tree => tree.map(b => b.path.split('/').slice(1).join('/')))
+    .then(tree => tree.map(b => {
+      let parts = b.path.split('/')
+      let index = parts.indexOf('lib')
+      if (index === -1) return null
+      return {
+        prefix: parts.slice(0, index).join('/'),
+        suffix: parts.slice(index + 1).join('/')
+      }
+    }))
+    .then(tree => tree.filter(path => path))
 
   $('.blob-code-inner').each((i, el) => {
     (function (elem) {
@@ -24,10 +31,10 @@ export function process () {
 
       treePromise.then(paths => {
         for (let i = 0; i < paths.length; i++) {
-          let relativePath = paths[i]
+          let {prefix, suffix} = paths[i]
 
-          if (relativePath.slice(0, -3) === moduleName) {
-            return `/${path[1]}/${path[2]}/blob/${path[4]}/lib/` + relativePath
+          if (suffix.slice(0, -3) === moduleName) {
+            return `/${path[1]}/${path[2]}/blob/${path[4]}/${prefix}/lib/${suffix}`
           }
         }
 
