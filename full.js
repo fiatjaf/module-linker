@@ -11,6 +11,7 @@ switch (filetype) {
     break
   case 'js':
   case 'ts':
+  case 'coffee':
     javascript()
     break
   case 'go':

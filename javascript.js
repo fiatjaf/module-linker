@@ -6,17 +6,18 @@ const stdlib = {assert: 1, buffer: 1, addons: 1, child_process: 1, cluster: 1, c
 export function process () {
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
-    let es6import = /import .* from ['"]([^'"]+)['"]/.exec(line)
-    let es6export = /export .* from ['"]([^'"]+)['"]/.exec(line)
-    let commonjsrequire = /require *\(['"]([^)]+)['"]\)/.exec(line)
-
     var moduleName
-    if (es6import) {
-      moduleName = es6import[1]
-    } else if (es6export) {
-      moduleName = es6export[1]
-    } else if (commonjsrequire) {
-      moduleName = commonjsrequire[1]
+
+    let names = [
+      /import .* from ['"]([^'"]+)['"]/.exec(line),
+      /export .* from ['"]([^'"]+)['"]/.exec(line),
+      /require *\(['"]([^)]+)['"]\)/.exec(line),
+      /require *['"]([^)]+)['"]/.exec(line)
+    ]
+      .filter(x => x)
+      .map(regex => regex[1])
+    if (names.length) {
+      moduleName = names[0]
     } else {
       return
     }
