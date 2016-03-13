@@ -3,10 +3,11 @@ import sortIt from 'sort-it'
 import endswith from 'lodash.endswith'
 
 const fetch = window.fetch
-const path = window.location.pathname.split('/')
-const current = path.slice(5, -1)
 
 export function process () {
+  const path = window.location.pathname.split('/')
+  const current = path.slice(5, -1)
+
   let treePromise =
     fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/refs/heads/${path[4]}`)
     .then(res => res.json())

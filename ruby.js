@@ -1,9 +1,10 @@
 import $ from 'jquery'
 
 const fetch = window.fetch
-const path = window.location.pathname.split('/')
 
 export function process () {
+  const path = window.location.pathname.split('/')
+
   let treePromise =
     fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/refs/heads/${path[4]}`)
     .then(res => res.json())
