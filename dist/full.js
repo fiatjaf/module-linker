@@ -9,23 +9,32 @@ var _ruby = require('./ruby');
 
 var _go = require('./go');
 
-var filetype = window.location.pathname.split('.').slice(-1)[0];
+/* global chrome */
 
-switch (filetype) {
-  case 'py':
-    (0, _python.process)();
-    break;
-  case 'js':
-  case 'ts':
-  case 'coffee':
-    (0, _javascript.process)();
-    break;
-  case 'go':
-    (0, _go.process)();
-    break;
-  case 'rb':
-    (0, _ruby.process)();
+function main() {
+  var filetype = window.location.pathname.split('.').slice(-1)[0];
+
+  switch (filetype) {
+    case 'py':
+      (0, _python.process)();
+      break;
+    case 'js':
+    case 'ts':
+    case 'coffee':
+      (0, _javascript.process)();
+      break;
+    case 'go':
+      (0, _go.process)();
+      break;
+    case 'rb':
+      (0, _ruby.process)();
+  }
 }
+
+main();
+chrome.runtime.onMessage.addListener(function () {
+  main();
+});
 
 },{"./go":"/home/fiatjaf/comp/gh-browser/go.js","./javascript":"/home/fiatjaf/comp/gh-browser/javascript.js","./python":"/home/fiatjaf/comp/gh-browser/python.js","./ruby":"/home/fiatjaf/comp/gh-browser/ruby.js"}],"/home/fiatjaf/comp/gh-browser/go.js":[function(require,module,exports){
 'use strict';
@@ -112,7 +121,7 @@ function process() {
     var line = elem.innerText.trim();
     var moduleName;
 
-    var names = [/import .* from ['"]([^'"]+)['"]/.exec(line), /export .* from ['"]([^'"]+)['"]/.exec(line), /require *\(['"]([^)]+)['"]\)/.exec(line), /require *['"]([^)]+)['"]/.exec(line)].filter(function (x) {
+    var names = [/import .* from ['"]([^'"]+)['"]/.exec(line), /import ['"]([^'"]+)['"]/.exec(line), /export .* from ['"]([^'"]+)['"]/.exec(line), /require *\(['"]([^)]+)['"]\)/.exec(line), /require *['"]([^)]+)['"]/.exec(line)].filter(function (x) {
       return x;
     }).map(function (regex) {
       return regex[1];
@@ -10658,10 +10667,11 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetch = window.fetch;
-var path = window.location.pathname.split('/');
-var current = path.slice(5, -1);
 
 function process() {
+  var path = window.location.pathname.split('/');
+  var current = path.slice(5, -1);
+
   var treePromise = fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/refs/heads/' + path[4]).then(function (res) {
     return res.json();
   }).then(function (data) {
@@ -10773,7 +10783,7 @@ function process() {
                 }
               } else {
                 // try the "home_page" from PYPI
-                fetch('https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/' + moduleName.split('.')[0] + '/json', { headers: { 'X-Requested-With': 'fetch' } }).then(function (res) {
+                fetch('https://pypi.python.org/pypi/' + moduleName.split('.')[0] + '/json', { headers: { 'X-Requested-With': 'fetch' } }).then(function (res) {
                   return res.json();
                 }).then(function (data) {
                   return data.info.home_page || 'https://pypi.python.org/pypi/' + moduleName.split('.')[0];
@@ -10828,9 +10838,10 @@ var _jquery2 = _interopRequireDefault(_jquery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetch = window.fetch;
-var path = window.location.pathname.split('/');
 
 function process() {
+  var path = window.location.pathname.split('/');
+
   var treePromise = fetch('https://api.github.com/repos/' + path[1] + '/' + path[2] + '/git/refs/heads/' + path[4]).then(function (res) {
     return res.json();
   }).then(function (data) {
