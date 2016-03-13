@@ -1,24 +1,27 @@
 <!doctype html>
 
 <title>GitHub File Browser Chrome Extension</title>
-<style>* { font-family: monospace }</style>
+<link rel="shortcut icon" href=icon48.png>
+<link rel=stylesheet href=style.css>
 
-<h1>GitHub File Browser</h1>
-<p>(name suggestions accepted)</p>
+<header>
+  <h1>GitHub Module Browser</h1>
+  <p>Works for Python, Go, Ruby and Javascript.</p>
+</header>
 
-<div id=preview></div>
+<nav></nav>
 
-<p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn/publish-accepted?hl=pt-BR>install from Chrome Web Store</a></p>
-<p><a href=https://eager.io/app/gh-browser/install?initialUrl=https://github.com/fiatjaf/pgjson/blob/master/index.js>preview on Eager</a></p>
-<p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a></p>
+<main>
+  <section>
+    <ul>
+      <li><article><img width=500px src=ruby.gif></article></li>
+      <li><article><iframe width=500px height=375px src=https://www.youtube.com/embed/Npg2wwKHTn0 frameborder=0 allowfullscreen></iframe></article></li>
+      <li><article><img width=500px src=go.gif></article></li>
+    <ul>
+  </section>
+</main>
 
-<script src="https://preview.eager.io/embed.js"></script>
-<script>
-var preview = new EagerPreview({
-  frameSrc: 'https://github.com/fiatjaf/summadb/blob/master/handle/handlers.go',
-  el: document.querySelector('#preview'),
-  appId: 'gh-browser',
-  options: {}
-})
-preview.render()
-</script>
+<aside>
+  <p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn/publish-accepted?hl=pt-BR>install from Chrome Web Store</a></p>
+  <p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a></p>
+</aside>

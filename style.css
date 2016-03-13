@@ -1,0 +1,19 @@
+* { font-family: monospace }
+
+body {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+main > section > ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+main > section > ul li {
+  padding: 0;
+  margin: 0;
+}
+
