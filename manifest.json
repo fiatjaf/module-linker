@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "GitHub Module Browser",
   "description": "Lets you click and browse modules inside GitHub source view",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -16,7 +16,7 @@
     "js": ["dist/full.js"]
   }],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["dist/background.js"],
     "persistent": false
   },
   "permissions": [

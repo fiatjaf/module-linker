@@ -28,7 +28,7 @@
   },
   "scripts": {
     "live": "ls *.js | entr fish -c 'browserifyinc full.js -t babelify --outfile dist/full.js; and echo \"done!\"'",
-    "build": "mkdirp dist && browserifyinc full.js -t babelify --outfile dist/full.js",
-    "pack": "rm -fr tmp/ && npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/"
+    "build": "mkdirp dist && browserifyinc full.js -t babelify --outfile dist/full.js && cp background.js dist/",
+    "pack": "rm -fr tmp/ && npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/*"
   }
 }
