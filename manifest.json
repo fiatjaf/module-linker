@@ -21,6 +21,8 @@
   }],
   "permissions": [
     "https://github.com/*/*/blob/*",
+    "https://pypi.python.org/pypi/*",
+    "https://api.github.com/repos/*",
     "activeTab"
   ]
 }

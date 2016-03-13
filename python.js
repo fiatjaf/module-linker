@@ -103,7 +103,7 @@ export function process () {
               }
             } else {
               // try the "home_page" from PYPI
-              fetch(`https://cors-anywhere.herokuapp.com/https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {headers: {'X-Requested-With': 'fetch'}})
+              fetch(`https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {headers: {'X-Requested-With': 'fetch'}})
               .then(res => res.json())
               .then(data =>
                 data.info.home_page ||
