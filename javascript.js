@@ -10,6 +10,7 @@ export function process () {
 
     let names = [
       /import .* from ['"]([^'"]+)['"]/.exec(line),
+      /import ['"]([^'"]+)['"]/.exec(line),
       /export .* from ['"]([^'"]+)['"]/.exec(line),
       /require *\(['"]([^)]+)['"]\)/.exec(line),
       /require *['"]([^)]+)['"]/.exec(line)
