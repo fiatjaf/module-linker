@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "GitHub Module Browser",
+  "description": "Lets you click and browse modules inside GitHub source view",
+  "version": "1.4.3",
+  "author": "Giovanni T. Parra",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://github.com/*"
+    ],
+    "js": ["dist/full.js"]
+  }],
+  "background": {
+    "scripts": ["dist/background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "https://github.com/*/*/blob/*",
+    "https://pypi.python.org/pypi/*",
+    "https://api.github.com/repos/*",
+    "activeTab",
+    "webNavigation"
+  ]
+}

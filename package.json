@@ -1,0 +1,34 @@
+{
+  "name": "gh-browser",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "lodash.endswith": "^4.0.0",
+    "lodash.startswith": "^4.0.0",
+    "sort-it": "^0.1.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ],
+    "plugins": [
+      "transform-object-assign"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.4.5",
+    "babel-plugin-transform-object-assign": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "11.0.1",
+    "browserify-incremental": "^3.0.1",
+    "mkdirp": "^0.5.1"
+  },
+  "scripts": {
+    "live": "ls *.js | entr fish -c 'browserifyinc full.js -t babelify --outfile dist/full.js; and echo \"done!\"'",
+    "build": "mkdirp dist && browserifyinc full.js -t babelify --outfile dist/full.js && cp background.js dist/",
+    "pack": "rm -fr tmp/ && npm run build && mkdirp tmp && cp -r dist tmp/ && cp icon128.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/*"
+  }
+}
