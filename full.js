@@ -24,7 +24,7 @@ function main () {
     case 'rb':
       ruby()
     case 'php':
-      ruby()
+      php()
   }
 }
 
