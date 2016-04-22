@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import startswith from 'lodash.startswith'
 import endswith from 'lodash.endswith'
 
 // @To be implemented with native modules or libraries
