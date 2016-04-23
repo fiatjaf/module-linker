@@ -4,6 +4,7 @@ import {process as python} from './python'
 import {process as javascript} from './javascript'
 import {process as ruby} from './ruby'
 import {process as go} from './go'
+import {process as php} from './php'
 
 function main () {
   let filetype = window.location.pathname.split('.').slice(-1)[0]
@@ -22,6 +23,8 @@ function main () {
       break
     case 'rb':
       ruby()
+    case 'php':
+      php()
   }
 }
 
