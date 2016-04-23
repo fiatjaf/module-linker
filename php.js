@@ -12,8 +12,8 @@ export function process () {
     let names = [
       /require.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line),
       /require_once.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line),
-      /import.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line),
-      /import_once.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line)
+      /include.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line),
+      /include_once.[\(]{0,}['"]([^'"]+)['"][\)]{0,}/.exec(line)
     ]
       .filter(x => x)
       .map(regex => regex[1])
