@@ -10,11 +10,11 @@ export function process () {
     var moduleName
 
     let names = [
-      /import .* from ['"]([^'"]+)['"]/.exec(line),
-      /import ['"]([^'"]+)['"]/.exec(line),
-      /export .* from ['"]([^'"]+)['"]/.exec(line),
-      /require *\(['"]([^)]+)['"]\)/.exec(line),
-      /require *['"]([^)]+)['"]/.exec(line)
+      /import .* from ['"`]([^'"`]+)['"`]/.exec(line),
+      /import ['"`]([^'"`]+)['"`]/.exec(line),
+      /export .* from ['"`]([^'"`]+)['"`]/.exec(line),
+      /require *\(['"`]([^)]+)['"`]\)/.exec(line),
+      /require *['"`]([^)]+)['"`]/.exec(line)
     ]
       .filter(x => x)
       .map(regex => regex[1])
