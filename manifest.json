@@ -1,12 +1,13 @@
 {
   "manifest_version": 2,
   "name": "GitHub Module Browser",
-  "description": "Lets you click and browse modules inside GitHub source view",
-  "version": "1.4.3",
+  "description": "Point and click to browse imported modules directly from GitHub",
+  "version": "1.4.4",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
+    "64": "icon64.png",
     "128": "icon128.png"
   },
   "content_scripts": [{
