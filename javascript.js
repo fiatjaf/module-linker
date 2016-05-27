@@ -29,7 +29,7 @@ export function process () {
       if (endswith(moduleName, '.js') || endswith(moduleName, '.coffee') || endswith(moduleName, '.ts')) {
         url = moduleName
       } else {
-        url = moduleName + '.js'
+        url = moduleName + '.' + window.filetype // normally === '.js', but can be '.ts' or '.coffee'
       }
     } else if (moduleName in stdlib) {
       url = 'https://nodejs.org/api/' + moduleName + '.html'

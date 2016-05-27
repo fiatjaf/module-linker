@@ -1,4 +1,4 @@
-/* global chrome */
+/* global chrome, window */
 
 import {process as python} from './python'
 import {process as javascript} from './javascript'
@@ -6,9 +6,9 @@ import {process as ruby} from './ruby'
 import {process as go} from './go'
 
 function main () {
-  let filetype = window.location.pathname.split('.').slice(-1)[0]
+  window.filetype = window.location.pathname.split('.').slice(-1)[0]
 
-  switch (filetype) {
+  switch (window.filetype) {
     case 'py':
       python()
       break
