@@ -34,9 +34,11 @@ export function process () {
     } else if (moduleName in stdlib) {
       url = 'https://nodejs.org/api/' + moduleName + '.html'
     } else {
-      url = 'https://npmjs.com/package/' + startswith(moduleName, '@')
-        ? moduleName.split('/').slice(0, 2).join('/')
-        : moduleName.split('/')[0]
+      url = 'https://npmjs.com/package/' + (
+        startswith(moduleName, '@')
+          ? moduleName.split('/').slice(0, 2).join('/')
+          : moduleName.split('/')[0]
+        )
     }
 
     $(elem).find('.pl-s').wrap(`<a href="${url}"></a>`)
