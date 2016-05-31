@@ -47,9 +47,9 @@ export function processLine (elem, line) {
       )
   }
 
-  $(elem).find('.pl-s').each((_, link) => {
-    link = $(link)
-    if (link.parent().tagName === 'A') return
+  $(elem).find('.pl-s').each((_, linkedElem) => {
+    let link = $(linkedElem)
+    if (linkedElem.parentNode.tagName === 'A') return
     if (link.text().slice(1, -1) !== moduleName) return
 
     link.wrap(`<a href="${url}"></a>`)
