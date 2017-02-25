@@ -32,7 +32,8 @@ export function processLine (elem, line) {
 
   var url
   if (startswith(moduleName, '.')) {
-    if (endswith(moduleName, '.js') || endswith(moduleName, '.coffee') || endswith(moduleName, '.ts')) {
+    if (endswith(moduleName, '.js') || endswith(moduleName, '.coffee') || endswith(moduleName, '.ts') ||
+        endswith(moduleName, '.jsx') || endswith(moduleName, '.es')) {
       url = moduleName
     } else {
       url = moduleName + '.' + window.filetype // normally === '.js', but can be '.ts' or '.coffee'
