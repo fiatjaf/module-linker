@@ -103,14 +103,22 @@ export function process () {
                        filepath.split('/').slice(0, -1).join('/')
               }
             } else {
-              // try the "home_page" from PYPI
-              fetch(`https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {headers: {'X-Requested-With': 'fetch'}})
-              .then(res => res.json())
-              .then(data =>
-                data.info.home_page ||
-                `https://pypi.python.org/pypi/${moduleName.split('.')[0]}`
-                // or settle with the PYPI url
-              )
+              // try the githublinker proxy
+              return fetch(`https://githublinker.herokuapp.com/q/pypi/${moduleName.split('.')[0]}`)
+              .then(r => r.json())
+              .then(({url}) => url)
+              .catch(() => {
+                // then try the "home_page" from PYPI
+                return fetch(`https://pypi.python.org/pypi/${moduleName.split('.')[0]}/json`, {
+                  headers: {'X-Requested-With': 'fetch'}
+                })
+                .then(r => r.json())
+                .then(data =>
+                  data.info.home_page ||
+                  // finally settle with the PYPI url
+                  `https://pypi.python.org/pypi/${moduleName.split('.')[0]}`
+                )
+              })
             }
           })
           .then(url => {

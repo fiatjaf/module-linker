@@ -42,7 +42,10 @@ export function process () {
         if (moduleName in stdlib) {
           return 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html'
         } else {
-          return 'https://rubygems.org/gems/' + moduleName
+          return fetch(`https://githublinker.herokuapp.com/q/rubygems/${moduleName}`)
+            .then(r => r.json())
+            .then(({url}) => url)
+            .catch(() => 'https://rubygems.org/gems/' + moduleName)
         }
       })
       .then(url =>
