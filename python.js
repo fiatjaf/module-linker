@@ -1,10 +1,10 @@
-import $ from 'jquery'
-import sortIt from 'sort-it'
-import endswith from 'lodash.endswith'
+const $ = require('jquery')
+const sortIt = require('sort-it')
+const endswith = require('lodash.endswith')
 
 const fetch = window.fetch
 
-export function process () {
+module.exports.process = function process () {
   const path = window.location.pathname.split('/')
   const current = path.slice(5, -1)
 

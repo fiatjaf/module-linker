@@ -1,9 +1,9 @@
-import $ from 'jquery'
+const $ = require('jquery')
 
-import {processLine as lineJS} from './javascript'
-import {processLines as linesGo} from './go'
+const lineJS = require('./javascript').processLine
+const linesGo = require('./go').processLines
 
-export function process () {
+module.exports.process = function process () {
   $('.highlight-source-js').each((_, elem) => {
     elem.innerText.trim()
       .split('\n')

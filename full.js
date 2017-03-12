@@ -1,10 +1,10 @@
 /* global chrome, window */
 
-import {process as python} from './python'
-import {process as javascript} from './javascript'
-import {process as ruby} from './ruby'
-import {process as go} from './go'
-import {process as md} from './md'
+const python = require('./python').process
+const javascript = require('./javascript').process
+const ruby = require('./ruby').process
+const go = require('./go').process
+const md = require('./md').process
 
 function main () {
   let spath = window.location.pathname.split('.')

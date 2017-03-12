@@ -1,8 +1,8 @@
-import $ from 'jquery'
-import startswith from 'lodash.startswith'
-import endswith from 'lodash.endswith'
+const $ = require('jquery')
+const startswith = require('lodash.startswith')
+const endswith = require('lodash.endswith')
 
-export function process () {
+module.exports.process = function process () {
   let block = $('.blob-code-inner')
   let lines = block
     .map((_, elem) => elem.innerText.trim())
@@ -11,7 +11,9 @@ export function process () {
   processLines(block, lines)
 }
 
-export function processLines (block, lines) {
+module.exports.processLines = processLines
+
+function processLines (block, lines) {
   var importing = false
   var multiLineImport = false
 

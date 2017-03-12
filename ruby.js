@@ -1,8 +1,8 @@
-import $ from 'jquery'
+const $ = require('jquery')
 
 const fetch = window.fetch
 
-export function process () {
+module.exports.process = function process () {
   const path = window.location.pathname.split('/')
 
   let treePromise =
