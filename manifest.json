@@ -20,12 +20,14 @@
     "scripts": ["dist/background.js"],
     "persistent": false
   },
+  "options_page": "options.html",
   "permissions": [
     "https://github.com/*/*/blob/*",
     "https://pypi.python.org/pypi/*",
     "https://api.github.com/repos/*",
     "https://githublinker.herokuapp.com/q/*/*",
     "activeTab",
-    "webNavigation"
+    "webNavigation",
+    "storage"
   ]
 }

@@ -32,6 +32,6 @@
   "scripts": {
     "watch": "ls *.js | entr browserifyinc -vd full.js -o dist/full.js",
     "build": "mkdir -p dist && browserifyinc full.js --outfile dist/full.js && cp background.js dist/",
-    "pack": "rm -fr tmp/ && npm run build && mkdir -p tmp && cp -r dist tmp/ && cp icon128.png icon64.png icon48.png icon16.png manifest.json tmp/ && zip -r archive.zip package.zip tmp/*"
+    "pack": "rm -fr tmp/ && npm run build && mkdir -p tmp && cp -r dist vendor tmp/ && cp icon128.png icon64.png icon48.png icon16.png manifest.json options.html tmp/ && zip -r archive.zip package.zip tmp/*"
   }
 }

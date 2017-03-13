@@ -1,3 +1,33 @@
+/* global chrome */
+
+const fetch = window.fetch
+
+var waitToken = new Promise((resolve, reject) => {
+  chrome.storage.sync.get('token', ({token}) => {
+    if (chrome.runtime.lastError) {
+      reject(chrome.runtime.lastError.message)
+    } else {
+      resolve(token)
+    }
+  })
+})
+
+module.exports.gh = function (path) {
+  return waitToken
+  .then(token =>
+    fetch(`https://api.github.com/${path}`, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'github.com/fiatjaf/module-linker',
+        'Authorization': `token ${token}`
+      }
+    })
+    .then(r => {
+      return r.json()
+    })
+  )
+}
+
 module.exports.pathdata = function () {
   let path = location.pathname.split('/')
   return {

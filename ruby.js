@@ -1,15 +1,17 @@
 const $ = window.jQuery
 const fetch = window.fetch
 
+const gh = require('./helpers').gh
+const pathdata = require('./helpers').pathdata
+const bloburl = require('./helpers').bloburl
+
 module.exports.process = function process () {
-  const path = window.location.pathname.split('/')
+  let { user, repo, ref } = pathdata()
 
   let treePromise =
-    fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/refs/heads/${path[4]}`)
-    .then(res => res.json())
+    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
     .then(data => data.object.sha)
-    .then(sha => fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/trees/${sha}?recursive=4`))
-    .then(res => res.json())
+    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
     .then(data => data.tree)
     .then(tree => tree.map(b => {
       let parts = b.path.split('/')
@@ -34,7 +36,8 @@ module.exports.process = function process () {
           let {prefix, suffix} = paths[i]
 
           if (suffix.slice(0, -3) === moduleName) {
-            return `/${path[1]}/${path[2]}/blob/${path[4]}/${prefix}/lib/${suffix}`
+            let {user, repo, ref} = pathdata()
+            return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
           }
         }
 

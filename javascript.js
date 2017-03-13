@@ -4,6 +4,7 @@ const endswith = require('lodash.endswith')
 const resolve = require('resolve-pathname')
 const fetch = window.fetch
 
+const gh = require('./helpers').gh
 const pathdata = require('./helpers').pathdata
 const bloburl = require('./helpers').bloburl
 
@@ -13,11 +14,9 @@ module.exports.process = function process () {
   let { user, repo, ref, current } = pathdata()
 
   let treePromise =
-    fetch(`https://api.github.com/repos/${user}/${repo}/git/refs/heads/${ref}`)
-    .then(res => res.json())
+    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
     .then(data => data.object.sha)
-    .then(sha => fetch(`https://api.github.com/repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
-    .then(res => res.json())
+    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
     .then(data => data.tree.map(b => b.path))
     .then(paths => paths.filter(path => path.match(/index\.\w+$/)))
 

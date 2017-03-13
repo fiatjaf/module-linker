@@ -3,16 +3,18 @@ const sortIt = require('sort-it')
 const endswith = require('lodash.endswith')
 const fetch = window.fetch
 
+const gh = require('./helpers').gh
+const pathdata = require('./helpers').pathdata
+const bloburl = require('./helpers').bloburl
+
 module.exports.process = function process () {
-  const path = window.location.pathname.split('/')
-  const current = path.slice(5, -1)
+  let { user, repo, ref, current } = pathdata()
+  current = current.slice(0, -1)
 
   let treePromise =
-    fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/refs/heads/${path[4]}`)
-    .then(res => res.json())
+    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
     .then(data => data.object.sha)
-    .then(sha => fetch(`https://api.github.com/repos/${path[1]}/${path[2]}/git/trees/${sha}?recursive=4`))
-    .then(res => res.json())
+    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
     .then(data => data.tree)
     .then(tree => tree.filter(b => endswith(b.path, '.py')))
     .then(tree => tree.map(b => {
@@ -94,7 +96,9 @@ module.exports.process = function process () {
           .then(() => {
             // deciding the url to which we will point (after knowing if it is a relative module)
             if (match) {
-              let base = `/${path[1]}/${path[2]}/blob/${path[4]}/`
+              let {user, repo, ref} = pathdata()
+              let base = bloburl(user, repo, ref, '')
+
               if (match === 'file') {
                 return base + filepath
               } else if (match === 'folder') {
