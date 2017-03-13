@@ -5,6 +5,7 @@ const $ = window.jQuery
 const python = require('./languages/python').process
 const javascript = require('./languages/javascript').process
 const ruby = require('./languages/ruby').process
+const json = require('./languages/json').process
 const go = require('./languages/go').process
 const md = require('./languages/md').process
 
@@ -25,6 +26,9 @@ function main () {
     case 'ts':
     case 'coffee':
       javascript()
+      break
+    case 'json':
+      json()
       break
     case 'go':
       go()

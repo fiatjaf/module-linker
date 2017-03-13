@@ -78,16 +78,7 @@ function processLine (elem, line, treePromise, currentPath) {
       return 'https://nodejs.org/api/' + moduleName + '.html'
     } else {
       // is an npm module.
-      return fetch(`https://githublinker.herokuapp.com/q/npm/${moduleName}`)
-        .then(r => r.json())
-        .then(({url}) => url)
-        .catch(() =>
-          'https://npmjs.com/package/' + (
-            startswith(moduleName, '@')
-              ? moduleName.split('/').slice(0, 2).join('/')
-              : moduleName.split('/')[0]
-            )
-        )
+      return npmurl(moduleName)
     }
   })
   .then(url => {
@@ -99,4 +90,18 @@ function processLine (elem, line, treePromise, currentPath) {
       link.wrap(`<a class="module-linker" href="${url}"></a>`)
     })
   })
+}
+
+module.exports.npmurl = npmurl
+function npmurl (moduleName) {
+  return fetch(`https://githublinker.herokuapp.com/q/npm/${moduleName}`)
+    .then(r => r.json())
+    .then(({url}) => url)
+    .catch(() =>
+      'https://npmjs.com/package/' + (
+        startswith(moduleName, '@')
+          ? moduleName.split('/').slice(0, 2).join('/')
+          : moduleName.split('/')[0]
+        )
+    )
 }
