@@ -1,4 +1,4 @@
-const $ = require('jquery')
+const $ = window.jQuery
 
 const lineJS = require('./javascript').processLine
 const linesGo = require('./go').processLines

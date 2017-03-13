@@ -14,7 +14,7 @@
     "matches": [
       "https://github.com/*/*"
     ],
-    "js": ["dist/full.js"]
+    "js": ["vendor/jquery.js", "vendor/jquery.pjax.js", "dist/full.js"]
   }],
   "background": {
     "scripts": ["dist/background.js"],

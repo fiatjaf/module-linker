@@ -1,4 +1,4 @@
-const $ = require('jquery')
+const $ = window.jQuery
 const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 
@@ -39,7 +39,7 @@ function processLines (block, lines) {
         } else {
           url = 'https://godoc.org/' + moduleName
         }
-        link.wrap(`<a href="${url}"></a>`)
+        link.wrap(`<a class="module-linker" href="${url}"></a>`)
 
         // single line import
         if (!multiLineImport) importing = false

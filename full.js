@@ -1,4 +1,6 @@
-/* global chrome, window */
+/* global chrome */
+
+const $ = window.jQuery
 
 const python = require('./python').process
 const javascript = require('./javascript').process
@@ -30,6 +32,8 @@ function main () {
     case 'rb':
       ruby()
   }
+
+  $(document).pjax('a.module-linker', '#js-repo-pjax-container')
 }
 
 main()

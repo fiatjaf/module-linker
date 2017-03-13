@@ -1,4 +1,4 @@
-const $ = require('jquery')
+const $ = window.jQuery
 const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 const resolve = require('resolve-pathname')
@@ -97,7 +97,7 @@ function processLine (elem, line, treePromise, currentPath) {
       if (linkedElem.parentNode.tagName === 'A') return
       if (link.text().slice(1, -1) !== moduleName) return
 
-      link.wrap(`<a href="${url}"></a>`)
+      link.wrap(`<a class="module-linker" href="${url}"></a>`)
     })
   })
 }

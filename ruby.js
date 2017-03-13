@@ -1,5 +1,4 @@
-const $ = require('jquery')
-
+const $ = window.jQuery
 const fetch = window.fetch
 
 module.exports.process = function process () {
@@ -49,7 +48,7 @@ module.exports.process = function process () {
         }
       })
       .then(url =>
-        $(elem).find('.pl-s').wrap(`<a href="${url}"></a>`)
+        $(elem).find('.pl-s').wrap(`<a class="module-linker" href="${url}"></a>`)
       )
     })(el)
   })

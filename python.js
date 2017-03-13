@@ -1,7 +1,6 @@
-const $ = require('jquery')
+const $ = window.jQuery
 const sortIt = require('sort-it')
 const endswith = require('lodash.endswith')
-
 const fetch = window.fetch
 
 module.exports.process = function process () {
@@ -140,7 +139,7 @@ function inject (url, elem) {
       toReplace = parent.contents()[i + 1]
     }
   })
-  $(`<a href="${url}"></a>`)
+  $(`<a class="module-linker" href="${url}"></a>`)
     .append(toReplace.textContent.trim())
     .insertAfter(stmt.eq(0))
   $(' ').insertAfter(stmt)

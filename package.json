@@ -1,10 +1,9 @@
 {
-  "name": "gh-browser",
+  "name": "module-linker",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "jquery": "^2.2.1",
     "lodash.endswith": "^4.0.0",
     "lodash.startswith": "^4.0.0",
     "resolve-pathname": "^2.0.2",
