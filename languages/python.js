@@ -3,9 +3,9 @@ const sortIt = require('sort-it')
 const endswith = require('lodash.endswith')
 const fetch = window.fetch
 
-const gh = require('./helpers').gh
-const pathdata = require('./helpers').pathdata
-const bloburl = require('./helpers').bloburl
+const gh = require('../helpers').gh
+const pathdata = require('../helpers').pathdata
+const bloburl = require('../helpers').bloburl
 
 module.exports.process = function process () {
   let { user, repo, ref, current } = pathdata()
