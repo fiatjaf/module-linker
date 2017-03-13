@@ -1,0 +1,27 @@
+a.module-linker {
+  transition: color 200ms linear;
+}
+a.module-linker::after {
+  content: ' ';
+  background: #8BC49B;
+  transition: color 300ms linear;
+  border-radius: 85px;
+  display: inline-block;
+  margin-left: 3px;
+  height: 6px;
+  width: 6px;
+  position: relative;
+  top: 6px;
+}
+a.module-linker:hover {
+  text-decoration: none;
+  color: #4EC46F;
+  transition: color 200ms linear;
+}
+a.module-linker:hover * {
+  color: inherit;
+}
+a.module-linker:hover::after {
+  background: #4EC46F;
+  transition: color 300ms linear;
+}
