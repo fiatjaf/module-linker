@@ -2,18 +2,50 @@ const $ = window.jQuery
 const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 
-module.exports.process = function process () {
-  let block = $('.blob-code-inner')
-  let lines = block
-    .map((_, elem) => elem.innerText.trim())
-    .get()
+const pathdata = require('../helpers').pathdata
+const treeurl = require('../helpers').treeurl
 
-  processLines(block, lines)
+module.exports.process = function process () {
+  var importing = false
+  var multiLineImport = false
+
+  $('.blob-code-inner').each((_, elem) => {
+    elem = $(elem)
+    let line = elem.text().trim()
+
+    if (startswith(line, 'import')) importing = true
+    if (startswith(line, 'import (')) multiLineImport = true
+
+    if (importing && line.match(/"[^"]+"/)) {
+      let link = elem.find('.pl-s')
+        .filter((_, linkElem) => linkElem.parentNode.tagName !== 'A')
+        .eq(0)
+
+      if (link.length) {
+        let moduleName = link.text().slice(1, -1)
+        let url = gourl(moduleName)
+        link.wrap(`<a class="module-linker" href="${url}"></a>`)
+
+        // single line import
+        if (!multiLineImport) importing = false
+      }
+    }
+
+    if (endswith(line, ')')) {
+      importing = false
+      multiLineImport = false
+    }
+  })
 }
 
-module.exports.processLines = processLines
+module.exports.processBlock = processBlock
+function processBlock (block) {
+  /* for processing blocks in .md files. */
 
-function processLines (block, lines) {
+  let lines = block[0].innerText
+    .trim()
+    .split('\n')
+
   var importing = false
   var multiLineImport = false
 
@@ -28,17 +60,7 @@ function processLines (block, lines) {
 
       if (link.length) {
         let moduleName = link.text().slice(1, -1)
-        let ref = window.location.pathname.split('/')[4] // github branch we're in
-
-        var url
-        if (startswith(moduleName, 'github.com/') && ref) {
-          let p = moduleName.split('/')
-          url = `/${p[1]}/${p[2]}/tree/${ref}/${p.slice(3).join('/')}`
-        } else if (moduleName.indexOf('.') === -1) {
-          url = 'https://golang.org/pkg/' + moduleName
-        } else {
-          url = 'https://godoc.org/' + moduleName
-        }
+        let url = gourl(moduleName)
         link.wrap(`<a class="module-linker" href="${url}"></a>`)
 
         // single line import
@@ -51,4 +73,23 @@ function processLines (block, lines) {
       multiLineImport = false
     }
   })
+}
+
+function gourl (moduleName) {
+  let {user, repo, ref} = pathdata()
+  if (startswith(moduleName, 'github.com/')) {
+    let p = moduleName.split('/')
+
+    if (p.length === 3) {
+      // module is the repo root.
+      return `https://${moduleName}`
+    } else {
+      // module is a directory inside a GitHub repo.
+      return treeurl(user, repo, ref, p.slice(3).join('/'))
+    }
+  } else if (moduleName.indexOf('.') === -1) {
+    return 'https://golang.org/pkg/' + moduleName
+  } else {
+    return 'https://godoc.org/' + moduleName
+  }
 }

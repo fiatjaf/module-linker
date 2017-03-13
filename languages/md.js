@@ -1,7 +1,7 @@
 const $ = window.jQuery
 
 const lineJS = require('./javascript').processLine
-const linesGo = require('./go').processLines
+const blockGo = require('./go').processBlock
 
 module.exports.process = function process () {
   $('.highlight-source-js').each((_, elem) => {
@@ -14,11 +14,7 @@ module.exports.process = function process () {
 
   $('.highlight-source-go').each((_, elem) => {
     let block = $(elem)
-    let lines = block[0].innerText
-      .trim()
-      .split('\n')
-
-    linesGo(block, lines)
+    blockGo(block)
   })
 }
 
