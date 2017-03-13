@@ -18,6 +18,8 @@ function main () {
       python()
       break
     case 'js':
+    case 'jsx':
+    case 'es':
     case 'ts':
     case 'coffee':
       javascript()
