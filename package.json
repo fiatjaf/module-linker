@@ -8,6 +8,7 @@
     "lodash.startswith": "^4.0.0",
     "resolve-pathname": "^2.0.2",
     "sort-it": "^0.1.0",
+    "string-replace-async": "^1.2.0",
     "xtend": "^4.0.1"
   },
   "browserify": {
