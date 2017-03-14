@@ -3,7 +3,6 @@ const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 
 const createLink = require('../helpers').createLink
-const pathdata = require('../helpers').pathdata
 const treeurl = require('../helpers').treeurl
 
 module.exports.process = function process () {
@@ -77,7 +76,7 @@ function processBlock (block) {
 }
 
 function gourl (moduleName) {
-  let {user, repo, ref} = pathdata()
+  let {user, repo, ref} = window.pathdata
   if (startswith(moduleName, 'github.com/')) {
     let p = moduleName.split('/')
 

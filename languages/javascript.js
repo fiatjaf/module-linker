@@ -6,13 +6,10 @@ const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
-const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
 
-const stdlib = {assert: 1, buffer: 1, addons: 1, child_process: 1, cluster: 1, console: 1, crypto: 1, debugger: 1, dns: 1, domain: 1, errors: 1, events: 1, fs: 1, globals: 1, http: 1, https: 1, modules: 1, net: 1, os: 1, path: 1, process: 1, punycode: 1, querystring: 1, readline: 1, repl: 1, stream: 1, string_decoder: 1, timers: 1, tls: 1, tty: 1, dgram: 1, url: 1, util: 1, v8: 1, vm: 1, zlib: 1}
-
 module.exports.process = function process () {
-  let { user, repo, ref, current } = pathdata()
+  let { user, repo, ref, current } = window.pathdata
 
   let treePromise =
     gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
@@ -62,7 +59,7 @@ function processLine (elem, line, treePromise, currentPath) {
               let path = paths[i]
               let resolved = resolve(moduleName, currentPath)
               if (path.split('/').slice(0, -1).join('/') === resolved) {
-                let {user, repo, ref} = pathdata()
+                let { user, repo, ref } = window.pathdata
                 return bloburl(user, repo, ref, path)
               }
             }
@@ -100,3 +97,5 @@ function npmurl (moduleName) {
         )
     )
 }
+
+const stdlib = {assert: 1, buffer: 1, addons: 1, child_process: 1, cluster: 1, console: 1, crypto: 1, debugger: 1, dns: 1, domain: 1, errors: 1, events: 1, fs: 1, globals: 1, http: 1, https: 1, modules: 1, net: 1, os: 1, path: 1, process: 1, punycode: 1, querystring: 1, readline: 1, repl: 1, stream: 1, string_decoder: 1, timers: 1, tls: 1, tty: 1, dgram: 1, url: 1, util: 1, v8: 1, vm: 1, zlib: 1}

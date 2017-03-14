@@ -5,12 +5,12 @@ const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
-const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
 const treeurl = require('../helpers').treeurl
 
 module.exports.process = function process () {
-  let { user, repo, ref, current } = pathdata()
+  let { user, repo, ref, current } = window.pathdata
+
   current = current.slice(0, -1)
 
   let treePromise =
@@ -105,7 +105,7 @@ module.exports.process = function process () {
 
       if (match) {
         // deciding the url to which we will point (after knowing if it is a relative module).
-        let {user, repo, ref} = pathdata()
+        let { user, repo, ref } = window.pathdata
 
         if (match === 'file') {
           return [

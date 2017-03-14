@@ -3,7 +3,6 @@ const resolve = require('resolve-pathname')
 const replaceAsync = require('string-replace-async')
 const fetch = window.fetch
 
-const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
 
 const normalImportMatcher = /([\w\/_]+)( *,| *$)/g
@@ -38,7 +37,7 @@ module.exports.process = function process () {
             if (url) {
               return url
             } else {
-              let {user, repo, ref, current} = pathdata()
+              let {user, repo, ref, current} = window.pathdata
               let relative = resolve(moduleName, current.join('/'))
               return bloburl(user, repo, ref, relative) + '.nim'
             }

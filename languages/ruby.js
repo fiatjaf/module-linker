@@ -3,11 +3,10 @@ const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
-const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
 
 module.exports.process = function process () {
-  let { user, repo, ref } = pathdata()
+  let { user, repo, ref } = window.pathdata
 
   let treePromise =
     gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
@@ -37,7 +36,6 @@ module.exports.process = function process () {
           let {prefix, suffix} = paths[i]
 
           if (suffix.slice(0, -3) === moduleName) {
-            let {user, repo, ref} = pathdata()
             return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
           }
         }

@@ -6,13 +6,13 @@ const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
-const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
 
 var cache = {}
-let {user, repo, ref, current} = pathdata()
 
 module.exports.process = function process () {
+  let {user, repo, ref, current} = window.pathdata
+
   let treePromise =
     gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
     .then(data => data.object.sha)
@@ -39,8 +39,10 @@ module.exports.process = function process () {
 function handleMod (lineElem) {
   if ($(lineElem).find('.module-linker').length) return
 
+
   let moduleName = lineElem.innerText.match(/mod ([\w_]+)/)[1]
 
+  let {user, repo, ref, current} = window.pathdata
   let relative = resolve(moduleName, current.join('/'))
   let url = bloburl(user, repo, ref, relative) + '.rs'
 
@@ -53,8 +55,9 @@ function handleMod (lineElem) {
 function handleUse (lineElem, treePromise) {
   if ($(lineElem).find('.module-linker').length) return
 
-  var declaredModules = []
+  let {user, repo, ref, current} = window.pathdata
 
+  var declaredModules = []
   try {
     // single module, like `use std::io` or `use response::{Body, Response}`
     let declaration = lineElem.innerText.match(/use +([\w:_]+)/)[1]

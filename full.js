@@ -21,6 +21,14 @@ function main () {
   let spath = window.location.pathname.split('.')
   window.filetype = spath.length > 1 ? spath.slice(-1)[0] : 'md'
 
+  let path = location.pathname.split('/')
+  window.pathdata = {
+    user: path[1],
+    repo: path[2],
+    ref: path[4] || 'master',
+    current: path[4] ? path.slice(5) : ''
+  }
+
   switch (window.filetype) {
     case 'md':
       md()
