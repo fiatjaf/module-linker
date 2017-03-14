@@ -14,6 +14,10 @@ const go = require('./languages/go').process
 const md = require('./languages/md').process
 
 function main () {
+  // this global check will prevent us from running process() multiple times.
+  if ($('#module-linker-done').length) return
+  $('#js-repo-pjax-container').append($('<span id="module-linker-done">'))
+
   let spath = window.location.pathname.split('.')
   window.filetype = spath.length > 1 ? spath.slice(-1)[0] : 'md'
 
