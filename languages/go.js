@@ -2,6 +2,7 @@ const $ = window.jQuery
 const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 
+const createLink = require('../helpers').createLink
 const pathdata = require('../helpers').pathdata
 const treeurl = require('../helpers').treeurl
 
@@ -24,7 +25,7 @@ module.exports.process = function process () {
       if (link.length) {
         let moduleName = link.text().slice(1, -1)
         let url = gourl(moduleName)
-        link.wrap(`<a class="module-linker" href="${url}"></a>`)
+        createLink(link.get(0), moduleName, url)
 
         // single line import
         if (!multiLineImport) importing = false
@@ -61,7 +62,7 @@ function processBlock (block) {
       if (link.length) {
         let moduleName = link.text().slice(1, -1)
         let url = gourl(moduleName)
-        link.wrap(`<a class="module-linker" href="${url}"></a>`)
+        createLink(link.get(0), moduleName, url)
 
         // single line import
         if (!multiLineImport) importing = false

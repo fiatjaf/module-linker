@@ -1,5 +1,6 @@
 const $ = window.jQuery
 
+const createLink = require('../helpers').createLink
 const cratesurl = require('./rust').cratesurl
 
 module.exports.process = function process () {
@@ -28,15 +29,10 @@ function cargotoml () {
     }
 
     if (depsOpen) {
-      let link = elem.find('.pl-smi').eq(0)
-      let moduleName = link.text().trim()
-
+      let moduleName = elem.find('.pl-smi').eq(0).text().trim()
       cratesurl(moduleName)
         .then(url => {
-          if (link.parent().get(0).tagName === 'A') return
-          if (link.text() !== moduleName) return
-
-          link.wrap(`<a class="module-linker" href="${url}">`)
+          createLink(elem.get(0), moduleName, url)
         })
         .catch(() => {})
     }

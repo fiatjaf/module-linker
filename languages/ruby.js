@@ -1,6 +1,7 @@
 const $ = window.jQuery
 const fetch = window.fetch
 
+const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
 const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
@@ -50,9 +51,9 @@ module.exports.process = function process () {
             .catch(() => 'https://rubygems.org/gems/' + moduleName)
         }
       })
-      .then(url =>
-        $(elem).find('.pl-s').wrap(`<a class="module-linker" href="${url}"></a>`)
-      )
+      .then(url => {
+        createLink(elem, moduleName, url)
+      })
     })(el)
   })
 }

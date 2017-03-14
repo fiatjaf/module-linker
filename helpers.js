@@ -47,3 +47,10 @@ module.exports.treeurl = function (user, repo, ref, path) {
   path = path[0] === '/' ? path.slice(1) : path
   return `https://github.com/${user}/${repo}/tree/${ref}/${path}`
 }
+
+module.exports.createLink = function createLink (lineElem, moduleName, url) {
+  lineElem.innerHTML = lineElem.innerHTML.replace(
+    moduleName,
+    `<a class="module-linker" href="${url}">${moduleName}</a>`
+  )
+}

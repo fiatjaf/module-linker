@@ -1,5 +1,7 @@
 const $ = window.jQuery
 
+const createLink = require('../helpers').createLink
+
 module.exports.process = function process () {
   if (location.pathname.split('/').slice(-1)[0].match(/stack[\d.-]*\.yaml/)) {
     stackyaml()
@@ -23,10 +25,7 @@ function stackyaml () {
       let moduleName = link.text().trim()
 
       let url = `https://hackage.haskell.org/package/${moduleName}`
-      if (link.parent().get(0).tagName === 'A') return
-      if (link.text() !== moduleName) return
-
-      link.wrap(`<a class="module-linker" href="${url}"></a>`)
+      createLink(elem.get(0), moduleName, url)
     }
 
     if (!line.match(/^- /)) {

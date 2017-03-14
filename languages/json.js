@@ -3,6 +3,8 @@ const $ = window.jQuery
 const npmurl = require('./javascript').npmurl
 const composerurl = require('./php').composerurl
 
+const createLink = require('../helpers').createLink
+
 module.exports.process = function process () {
   switch (location.pathname.split('/').slice(-1)[0]) {
     case 'composer.json':
@@ -62,10 +64,7 @@ function lineWithUrlFetcher (elem, urlfetcher) {
 
   urlfetcher(moduleName)
     .then(url => {
-      if (link.parent().get(0).tagName === 'A') return
-      if (link.text().slice(1, -1) !== moduleName) return
-
-      link.wrap(`<a class="module-linker" href="${url}"></a>`)
+      createLink(link.get(0), moduleName, url)
     })
     .catch(() => {})
 }

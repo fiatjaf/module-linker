@@ -4,6 +4,7 @@ const endswith = require('lodash.endswith')
 const resolve = require('resolve-pathname')
 const fetch = window.fetch
 
+const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
 const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
@@ -82,13 +83,7 @@ function processLine (elem, line, treePromise, currentPath) {
     }
   })
   .then(url => {
-    $(elem).find('.pl-s').each((_, linkedElem) => {
-      let link = $(linkedElem)
-      if (linkedElem.parentNode.tagName === 'A') return
-      if (link.text().slice(1, -1) !== moduleName) return
-
-      link.wrap(`<a class="module-linker" href="${url}"></a>`)
-    })
+    createLink(elem, moduleName, url)
   })
 }
 

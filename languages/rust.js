@@ -4,6 +4,7 @@ const endswith = require('lodash.endswith')
 const startswith = require('lodash.startswith')
 const fetch = window.fetch
 
+const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
 const pathdata = require('../helpers').pathdata
 const bloburl = require('../helpers').bloburl
@@ -99,7 +100,12 @@ function handleUse (lineElem, treePromise) {
 
       // check the cache.
       if (cache[absModulePath]) {
-        createLink(modulePath, cache[absModulePath])
+        createLink(
+          lineElem,
+          /* replace only the last word in the HTML (after the last '::') */
+          modulePath.slice(-1)[0],
+          cache[absModulePath]
+        )
       }
 
       // otherwise look for the module path in the list of files of the repo.
@@ -110,7 +116,12 @@ function handleUse (lineElem, treePromise) {
             if (absModulePath + '.rs' === path || absModulePath + '/mod.rs' === path) {
               let url = bloburl(user, repo, ref, path)
               cache[absModulePath] = url // save to cache.
-              createLink(modulePath, url)
+              createLink(
+                lineElem,
+                /* replace only the last word in the HTML (after the last '::') */
+                modulePath.slice(-1)[0],
+                url
+              )
               return
             }
           }
@@ -119,21 +130,9 @@ function handleUse (lineElem, treePromise) {
           cratesurl(modulePath[0])
             .then(url => {
               cache[absModulePath] = url // save to cache
-              createLink([modulePath[0]], url)
+              createLink(lineElem, modulePath[0], url)
             })
         })
-
-      function createLink (modulePath, url) {
-        // replace only the last word in the HTML (after the last '::')
-        // (also, the previous words must have been replaced by their own
-        //  links to parents of the current module)
-        let lastPart = modulePath.slice(-1)[0]
-
-        lineElem.innerHTML = lineElem.innerHTML.replace(
-          lastPart,
-          `<a class="module-linker" href="${url}">${lastPart}</a>`
-        )
-      }
     }
   })
 }
