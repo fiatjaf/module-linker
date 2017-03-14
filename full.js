@@ -8,6 +8,7 @@ const ruby = require('./languages/ruby').process
 const json = require('./languages/json').process
 const yaml = require('./languages/yaml').process
 const toml = require('./languages/toml').process
+const rust = require('./languages/rust').process
 const nim = require('./languages/nim').process
 const go = require('./languages/go').process
 const md = require('./languages/md').process
@@ -38,6 +39,9 @@ function main () {
       break
     case 'toml':
       toml()
+      break
+    case 'rs':
+      rust()
       break
     case 'nim':
       nim()
