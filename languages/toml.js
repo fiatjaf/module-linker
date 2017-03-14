@@ -1,7 +1,6 @@
 const $ = window.jQuery
 
-const npmurl = require('./javascript').npmurl
-const composerurl = require('./php').composerurl
+const cratesurl = require('./rust').cratesurl
 
 module.exports.process = function process () {
   switch (location.pathname.split('/').slice(-1)[0]) {
@@ -18,33 +17,28 @@ function cargotoml () {
     elem = $(elem)
     let line = elem.text().trim()
 
-    if (line.match('[dependencies]') || line.match('[dev-dependencies]')) {
+    if (line === '[dependencies]' || line === '[dev-dependencies]') {
       depsOpen = true
+      return
     }
 
     if (line === '') {
       depsOpen = false
+      return
     }
 
     if (depsOpen) {
-      let match = line.match(/([\w-_]) *= */))  {
-      if (match) {
-        lineWithUrlFetcher(elem, npmurl)
-      }
+      let link = elem.find('.pl-smi').eq(0)
+      let moduleName = link.text().trim()
+
+      cratesurl(moduleName)
+        .then(url => {
+          if (link.parent().get(0).tagName === 'A') return
+          if (link.text() !== moduleName) return
+
+          link.wrap(`<a class="module-linker" href="${url}">`)
+        })
+        .catch(() => {})
     }
   })
-}
-
-function lineWithUrlFetcher (elem, urlfetcher) {
-  let link = elem.find('.pl-s').eq(0)
-  let moduleName = link.text().trim().slice(1, -1)
-
-  urlfetcher(moduleName)
-    .then(url => {
-      if (link.parent().get(0).tagName === 'A') return
-      if (link.text().slice(1, -1) !== moduleName) return
-
-      link.wrap(`<a class="module-linker" href="${url}"></a>`)
-    })
-    .catch(() => {})
 }
