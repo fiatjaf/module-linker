@@ -1,12 +1,13 @@
 const $ = window.jQuery
 const startswith = require('lodash.startswith')
-const endswith = require('lodash.endswith')
 const resolve = require('resolve-pathname')
 const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
+
+const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'es', 'es6']
 
 module.exports.process = function process () {
   let { user, repo, ref, current } = window.pathdata
@@ -16,7 +17,6 @@ module.exports.process = function process () {
     .then(data => data.object.sha)
     .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
     .then(data => data.tree.map(b => b.path))
-    .then(paths => paths.filter(path => path.match(/index\.\w+$/)))
 
   $('.blob-code-inner').each((_, elem) => {
     let line = elem.innerText.trim()
@@ -49,16 +49,16 @@ function processLine (elem, line, treePromise, currentPath) {
   .then(() => {
     if (startswith(moduleName, '.')) {
       // is a local file.
-      if (endswith(moduleName, '.js') || endswith(moduleName, '.coffee') || endswith(moduleName, '.ts') ||
-          endswith(moduleName, '.jsx') || endswith(moduleName, '.es' || endswith(moduleName, '.json'))) {
-        return moduleName
+      if (extensions.indexOf(moduleName.split('.').slice(-1)[0]) !== -1) {
+        return moduleName // the url is exactly this relative path.
       } else {
         return treePromise
           .then(paths => {
             for (let i = 0; i < paths.length; i++) {
               let path = paths[i]
               let resolved = resolve(moduleName, currentPath)
-              if (path.split('/').slice(0, -1).join('/') === resolved) {
+              if (path.split('/').slice(0, -1).join('/') === resolved ||
+                  path.split('.').slice(0, -1).join('.') === resolved) {
                 let { user, repo, ref } = window.pathdata
                 return bloburl(user, repo, ref, path)
               }
