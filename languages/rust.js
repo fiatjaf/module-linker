@@ -8,8 +8,6 @@ const createLink = require('../helpers').createLink
 const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
 
-var cache = {}
-
 module.exports.process = function process () {
   let {user, repo, ref, current} = window.pathdata
 
@@ -87,6 +85,7 @@ function handleUse (lineElem, treePromise) {
     }
   }
 
+  var alreadyDidExternalFetchingForThisLine = false
   declaredModules.forEach(modulePath => {
     if (modulePath.length === 2 && modulePath[0] === 'std') {
       lineElem.innerHTML = lineElem.innerHTML.replace(
@@ -101,16 +100,6 @@ function handleUse (lineElem, treePromise) {
       // the module path, delimited by ::, resembles the directory structure.
       let absModulePath = resolve(modulePath.join('/'), current.join('/'))
 
-      // check the cache.
-      if (cache[absModulePath]) {
-        createLink(
-          lineElem,
-          /* replace only the last word in the HTML (after the last '::') */
-          modulePath.slice(-1)[0],
-          cache[absModulePath]
-        )
-      }
-
       // otherwise look for the module path in the list of files of the repo.
       treePromise
         .then(paths => {
@@ -118,7 +107,6 @@ function handleUse (lineElem, treePromise) {
             let path = paths[i]
             if (absModulePath + '.rs' === path || absModulePath + '/mod.rs' === path) {
               let url = bloburl(user, repo, ref, path)
-              cache[absModulePath] = url // save to cache.
               createLink(
                 lineElem,
                 /* replace only the last word in the HTML (after the last '::') */
@@ -130,20 +118,26 @@ function handleUse (lineElem, treePromise) {
           }
 
           // no compatibility in our file tree -- let's try external modules then
+          if (alreadyDidExternalFetchingForThisLine) return
           cratesurl(modulePath[0])
-            .then(url => {
-              cache[absModulePath] = url // save to cache
-              createLink(lineElem, modulePath[0], url)
-            })
+          .then(url => {
+            createLink(lineElem, modulePath[0], url)
+          })
+          alreadyDidExternalFetchingForThisLine = true
         })
     }
   })
 }
 
+var waiting = {} // a cache of promises to rust external modules
 module.exports.cratesurl = cratesurl
 function cratesurl (moduleName) {
-  return fetch(`https://githublinker.herokuapp.com/q/crates/${moduleName}`)
-    .then(r => r.json())
-    .then(({url}) => url)
-    .catch(() => `https://crates.io/crates/${moduleName}`)
+  if (!waiting[moduleName]) {
+    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/crates/${moduleName}`)
+      .then(r => r.json())
+      .then(({url}) => url)
+      .catch(() => `https://crates.io/crates/${moduleName}`)
+  }
+
+  return waiting[moduleName]
 }
