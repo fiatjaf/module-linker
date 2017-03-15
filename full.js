@@ -11,7 +11,7 @@ const toml = require('./languages/toml').process
 const rust = require('./languages/rust').process
 const nim = require('./languages/nim').process
 const go = require('./languages/go').process
-const md = require('./languages/md').process
+const markdown = require('./languages/markdown').process
 
 function main () {
   // this global check will prevent us from running process() multiple times.
@@ -31,7 +31,9 @@ function main () {
 
   switch (window.filetype) {
     case 'md':
-      md()
+    case 'mdwn':
+    case 'markdown':
+      markdown()
       break
     case 'py':
       python()
@@ -47,6 +49,7 @@ function main () {
       json()
       break
     case 'yaml':
+    case 'yml':
       yaml()
       break
     case 'toml':

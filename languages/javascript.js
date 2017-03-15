@@ -4,6 +4,7 @@ const resolve = require('resolve-pathname')
 const fetch = window.fetch
 
 const createLink = require('../helpers').createLink
+const htmlWithLink = require('../helpers').htmlWithLink
 const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
 
@@ -26,7 +27,7 @@ module.exports.process = function process () {
 
 module.exports.processLine = processLine
 
-function processLine (elem, line, treePromise, currentPath) {
+function processLine (elem, line, treePromise, currentPath, lineIndex) {
   var moduleName
 
   let names = [
@@ -53,6 +54,7 @@ function processLine (elem, line, treePromise, currentPath) {
         return moduleName // the url is exactly this relative path.
       } else {
         return treePromise
+        ? treePromise
           .then(paths => {
             for (let i = 0; i < paths.length; i++) {
               let path = paths[i]
@@ -70,6 +72,8 @@ function processLine (elem, line, treePromise, currentPath) {
             // normally === '.js', but can be '.ts' or '.coffee'.
             return moduleName + '.' + window.filetype
           })
+        : null // if there's no treePromise it is because processLine is being called from elsewhere.
+               // (probably markdown.js) and presumably we don't want relative paths in this case.
       }
     } else if (moduleName in stdlib) {
       // is not local, is a file from the stdlib.
@@ -80,6 +84,16 @@ function processLine (elem, line, treePromise, currentPath) {
     }
   })
   .then(url => {
+    if (typeof lineIndex !== 'undefined') {
+      // lineIndex is passed from markdown.js, meaning we must replace
+      // only in that line -- in this case `elem` is the whole code block,
+      // not, as normally, a single line.
+      let lines = elem.innerHTML.split('\n')
+      lines[lineIndex] = htmlWithLink(lines[lineIndex], moduleName, url)
+      elem.innerHTML = lines.join('\n')
+      return
+    }
+
     createLink(elem, moduleName, url)
   })
 }

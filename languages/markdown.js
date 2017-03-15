@@ -7,8 +7,8 @@ module.exports.process = function process () {
   $('.highlight-source-js').each((_, elem) => {
     elem.innerText.trim()
       .split('\n')
-      .forEach(line => {
-        lineJS(elem, line)
+      .forEach((line, i) => {
+        lineJS(elem, line, null, null, i)
       })
   })
 
