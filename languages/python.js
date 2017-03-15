@@ -1,5 +1,4 @@
 const $ = window.jQuery
-const sortIt = require('sort-it')
 const endswith = require('lodash.endswith')
 const fetch = window.fetch
 
@@ -19,18 +18,16 @@ module.exports.process = function process () {
     .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
     .then(data => data.tree)
     .then(tree => tree.filter(b => endswith(b.path, '.py')))
-    .then(tree => tree.map(b => {
-      delete b.url
-      delete b.size
-      delete b.mode
-      delete b.type
-      delete b.sha
-      let p = b.path.split('/')
-      b.pathSize = p.length
-      b.last = p[p.length - 1]
-      return b
-    }))
-    .then(tree => sortIt(tree, ['-pathSize', '-last']))
+    .then(tree =>
+      tree.sort((blobA, blobB) => {
+        let partsA = blobA.path.split('/')
+        let partsB = blobB.path.split('/')
+
+        if (partsA.length === partsB.length) {
+          return partsA[partsA.length - 1] === '__init__.py' ? 1 : -1
+        } else return partsB.length - partsA.length
+      })
+    )
     .then(tree => tree.map(b => b.path))
 
   $('.blob-code-inner').each((_, elem) => {
