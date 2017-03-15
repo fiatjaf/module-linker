@@ -24,7 +24,7 @@ module.exports.process = function process () {
       if (link.length) {
         let moduleName = link.text().slice(1, -1)
         let url = gourl(moduleName)
-        createLink(link.get(0), moduleName, url)
+        createLink(link.get(0), moduleName, url, true)
 
         // single line import
         if (!multiLineImport) importing = false
@@ -76,7 +76,9 @@ function processBlock (block) {
   // now we apply everything:
   for (let moduleName in modules) {
     let url = modules[moduleName]
-    createLink(block.get(0), moduleName, url)
+    createLink(block.get(0), moduleName, url, false)
+    // we indeed want backwards=false here because it is safer to do
+    // frontwards replacement if we're dealing with the entire block.
   }
 }
 

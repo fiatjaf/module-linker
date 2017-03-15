@@ -38,15 +38,20 @@ module.exports.treeurl = function (user, repo, ref, path) {
   return `https://github.com/${user}/${repo}/tree/${ref}/${path}`
 }
 
-module.exports.createLink = function createLink (elem, moduleName, url) {
+module.exports.createLink = function createLink (elem, moduleName, url, backwards = false) {
   if (!moduleName || !url) return
-  elem.innerHTML = module.exports.htmlWithLink(elem.innerHTML, moduleName, url)
+  elem.innerHTML = module.exports.htmlWithLink(elem.innerHTML, moduleName, url, backwards)
 }
 
-module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url) {
+module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, backwards = false) {
   let link = `<a class="module-linker" href="${url}">${moduleName}</a>`
-  let index = baseHTML.lastIndexOf(moduleName)
-  return baseHTML.slice(0, index) +
-    link +
-    baseHTML.slice(index + moduleName.length)
+
+  if (backwards) {
+    let index = baseHTML.lastIndexOf(moduleName)
+    return baseHTML.slice(0, index) +
+      link +
+      baseHTML.slice(index + moduleName.length)
+  } else {
+    return baseHTML.replace(moduleName, link)
+  }
 }

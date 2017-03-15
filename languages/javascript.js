@@ -94,7 +94,7 @@ function processLine (elem, line, treePromise, currentPath, lineIndex) {
       return
     }
 
-    createLink(elem, moduleName, url)
+    createLink(elem, moduleName, url, true)
   })
 }
 
