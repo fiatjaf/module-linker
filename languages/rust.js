@@ -27,6 +27,9 @@ module.exports.process = function process () {
       case 'mod':
         handleMod(elem.parentNode)
         break
+      case 'crate':
+        handleExternCrate(elem.parentNode)
+        break
       case 'use':
         handleUse(elem.parentNode, treePromise)
         break
@@ -35,24 +38,24 @@ module.exports.process = function process () {
 }
 
 function handleMod (lineElem) {
-  if ($(lineElem).find('.module-linker').length) return
-
-
-  let moduleName = lineElem.innerText.match(/mod ([\w_]+)/)[1]
+  let moduleName = lineElem.innerText.match(/mod +([\w_]+)/)[1]
 
   let {user, repo, ref, current} = window.pathdata
   let relative = resolve(moduleName, current.join('/'))
   let url = bloburl(user, repo, ref, relative) + '.rs'
 
-  lineElem.innerHTML = lineElem.innerHTML.replace(
-    moduleName,
-    `<a class="module-linker" href="${url}">${moduleName}</a>`
-  )
+  createLink(lineElem, moduleName, url)
+}
+
+function handleExternCrate (lineElem) {
+  try {
+    let moduleName = lineElem.innerText.match(/extern +crate +([\w_]+)/)[1]
+    cratesurl(moduleName)
+      .then(url => { createLink(lineElem, moduleName, url) })
+  } catch (e) {}
 }
 
 function handleUse (lineElem, treePromise) {
-  if ($(lineElem).find('.module-linker').length) return
-
   let {user, repo, ref, current} = window.pathdata
 
   var declaredModules = []
@@ -88,10 +91,7 @@ function handleUse (lineElem, treePromise) {
   var alreadyDidExternalFetchingForThisLine = false
   declaredModules.forEach(modulePath => {
     if (modulePath.length === 2 && modulePath[0] === 'std') {
-      lineElem.innerHTML = lineElem.innerHTML.replace(
-        modulePath[1],
-        `<a class="module-linker" href="https://doc.rust-lang.org/std/${modulePath[1]}/">${modulePath[1]}</a>`
-      )
+      createLink(lineElem, modulePath[1], `https://doc.rust-lang.org/std/${modulePath[1]}/`)
     } else if (modulePath[0] === 'self') {
       return
     } else if (modulePath.length !== 2 && modulePath[0] === 'std') {
@@ -120,9 +120,7 @@ function handleUse (lineElem, treePromise) {
           // no compatibility in our file tree -- let's try external modules then
           if (alreadyDidExternalFetchingForThisLine) return
           cratesurl(modulePath[0])
-          .then(url => {
-            createLink(lineElem, modulePath[0], url)
-          })
+            .then(url => { createLink(lineElem, modulePath[0], url) })
           alreadyDidExternalFetchingForThisLine = true
         })
     }
