@@ -38,10 +38,10 @@ module.exports.treeurl = function (user, repo, ref, path) {
   return `https://github.com/${user}/${repo}/tree/${ref}/${path}`
 }
 
-module.exports.createLink = function createLink (lineElem, moduleName, url) {
+module.exports.createLink = function createLink (elem, moduleName, url) {
   if (!moduleName) return // blank module names do happen (in Python, when there's `from . import x`).
 
-  lineElem.innerHTML = lineElem.innerHTML.replace(
+  elem.innerHTML = elem.innerHTML.replace(
     moduleName,
     `<a class="module-linker" href="${url}">${moduleName}</a>`
   )

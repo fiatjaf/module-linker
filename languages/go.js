@@ -41,10 +41,11 @@ module.exports.process = function process () {
 module.exports.processBlock = processBlock
 function processBlock (block) {
   /* for processing blocks in .md files. */
+  var modules = {}
 
-  let lines = block[0].innerText
-    .trim()
+  let lines = block.text()
     .split('\n')
+    .map(line => line.trim())
 
   var importing = false
   var multiLineImport = false
@@ -54,14 +55,12 @@ function processBlock (block) {
     if (startswith(line, 'import (')) multiLineImport = true
 
     if (importing) {
-      let link = block.find('.pl-s')
-        .filter((_, linkElem) => linkElem.parentNode.tagName !== 'A')
-        .eq(0)
+      let match = line.match(/"([\w.\/]+)"$/)
 
-      if (link.length) {
-        let moduleName = link.text().slice(1, -1)
+      if (match) {
+        let moduleName = match[1]
         let url = gourl(moduleName)
-        createLink(link.get(0), moduleName, url)
+        modules[moduleName] = url // store everything here first, to eliminate duplicates.
 
         // single line import
         if (!multiLineImport) importing = false
@@ -73,6 +72,12 @@ function processBlock (block) {
       multiLineImport = false
     }
   })
+
+  // now we apply everything:
+  for (let moduleName in modules) {
+    let url = modules[moduleName]
+    createLink(block.get(0), moduleName, url)
+  }
 }
 
 function gourl (moduleName) {
