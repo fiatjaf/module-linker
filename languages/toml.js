@@ -1,4 +1,5 @@
 const $ = window.jQuery
+const startswith = require('lodash.startswith')
 
 const createLink = require('../helpers').createLink
 const cratesurl = require('./rust').cratesurl
@@ -23,7 +24,7 @@ function cargotoml () {
       return
     }
 
-    if (line === '') {
+    if (startswith(line, '[')) {
       depsOpen = false
       return
     }
