@@ -41,8 +41,10 @@ module.exports.treeurl = function (user, repo, ref, path) {
 module.exports.createLink = function createLink (elem, moduleName, url) {
   if (!moduleName) return // blank module names do happen (in Python, when there's `from . import x`).
 
-  elem.innerHTML = elem.innerHTML.replace(
-    moduleName,
-    `<a class="module-linker" href="${url}">${moduleName}</a>`
-  )
+  let link = `<a class="module-linker" href="${url}">${moduleName}</a>`
+
+  let index = elem.innerHTML.lastIndexOf(moduleName)
+  elem.innerHTML = elem.innerHTML.slice(0, index) +
+    link +
+    elem.innerHTML.slice(index + moduleName.length)
 }
