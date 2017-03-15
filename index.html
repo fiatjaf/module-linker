@@ -1,35 +1,66 @@
 <!doctype html>
 
-<title>GitHub File Browser Chrome Extension</title>
-<link rel="shortcut icon" href=icon48.png>
+<title>Module Linker, the Chrome Extension that improves your life!</title>
+<link rel="shortcut icon" href=https://raw.githubusercontent.com/fiatjaf/module-linker/4a6a4f44/icon48.png>
 <link rel=stylesheet href=style.css>
-<meta property="og:image" content=icon128.png>
+<meta property="og:image" content=https://raw.githubusercontent.com/fiatjaf/module-linker/4a6a4f44/icon128.png>
 
-<header>
-  <h1>GitHub Module Browser</h1>
-  <aside>
-    <img src=icon48.png>
-    <a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn><img src=chrome-button.png></a>
-    <p>Supports (currently) Python, Go, Ruby and Javascript.</p>
-  </aside>
-</header>
+<h1>Module Linker, a Chrome Extension for best browsing source code</h1>
+<div>
+  <img src=https://raw.githubusercontent.com/fiatjaf/module-linker/4a6a4f44/icon128.png>
+</div>
+<div>
+  <a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>
+    <img src=chrome-button.png>
+  </a>
+</div>
 
-<nav></nav>
+<p><b>Module Linker</b> adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.</p>
 
-<main>
-  <section>
-    <ul>
-      <li><article><img width=500px src=go.gif></article></li>
-      <li><article><img width=500px src=ruby.gif></article></li>
-      <li><article><iframe width=500px height=375px src=https://www.youtube.com/embed/Npg2wwKHTn0 frameborder=0 allowfullscreen></iframe></article></li>
-    <ul>
-  </section>
-</main>
+Ruby
+<img title=Ruby src=screenshot-ruby.png>
+Javascript
+<img title=Javascript src=screenshot-es6.png>
+Rust
+<img title=Rust src=screenshot-rust.png>
+Golang
+<img title=Golang src=screenshot-go.png>
+markdown
+<img title=markdown src=screenshot-md-go.png>
+Python
+<img title=Python src=screenshot-python.png>
+Cargo (Rust)
+<img title="Cargo (Rust)" src=screenshot-cargo.png>
+Javascript
+<img title=Javascript src=screenshot-javascript.png>
+Composer (PHP)
+<img title="Composer (PHP)" src=screenshot-composer.png>
+Nim
+<img title=Nim src=screenshot-nim.png>
+markdown
+<img title=markdown src=screenshot-md-javascript.png>
+Stack (Haskell)
+<img title="Stack (Haskell)" src=screenshot-stack.png>
 
-<aside>
-  <p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
-  <p><a href=https://github.com/fiatjaf/gh-browser>source code on GitHub</a> (contributions accepted, thank you!)</p>
-</aside>
+<p>Languages and files supported:</p>
+
+<ul>
+ <li>Python</li>
+ <li>PHP (external packages listed on composer.json files)</li>
+ <li>Nim</li>
+ <li>Go (.go files and Go snippets in README.md)</li>
+ <li>Rust (.rs files and Cargo.toml)</li>
+ <li>Ruby</li>
+ <li>Javascript (.js, .jsx, .coffee, .ts, package.json files and JS snippets in README.md)</li>
+ <li>Haskell (external packages listed on stack.yaml files)</li>
+</li>
+
+<p>Unlike <a href=http://octolinker.github.io/ target=_blank>Octolinker</a>, <b>Module Linker</b> creates real &lt;a href="..."&gt; links, so there are no problems with middle-clicks, Ctrl-clicks etc.</p>
+
+<p>Also, links load without reloading the page, so ultra-fast (like normal GitHub links).</p>
+
+<p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
+<p><a href=https://github.com/fiatjaf/module-linker>source code on GitHub</a></p>
 
 <script>;(function (d, s, c) {
   var x, h, n = Date.now()

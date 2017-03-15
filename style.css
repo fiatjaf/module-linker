@@ -1,19 +1,15 @@
-* { font-family: monospace }
-
 body {
   margin: auto;
-  width: 50%;
+  width: 900px;
   text-align: center;
+  font-size: 200%;
 }
 
-main > section > ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+img[src^=screenshot] {
+  display: inline;
+  width: 100%;
+  border: 7px solid #333;
+  margin-bottom: 20px;
 }
 
-main > section > ul li {
-  padding: 0;
-  margin: 0;
-}
-
+ul, p { text-align: justify; }
