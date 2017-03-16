@@ -2,33 +2,27 @@ const $ = window.jQuery
 const endswith = require('lodash.endswith')
 const fetch = window.fetch
 
+const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
-const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
 const treeurl = require('../helpers').treeurl
 
+function treeProcess (tree) {
+  return tree
+    .filter(path => endswith(path, '.py'))
+    .sort((pathA, pathB) => {
+      let partsA = pathA.split('/')
+      let partsB = pathB.split('/')
+
+      if (partsA.length === partsB.length) {
+        return partsA[partsA.length - 1] === '__init__.py' ? 1 : -1
+      } else return partsB.length - partsA.length
+    })
+}
+
 module.exports.process = function process () {
-  let { user, repo, ref, current } = window.pathdata
-
+  let {current } = window.pathdata
   current = current.slice(0, -1)
-
-  let treePromise =
-    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-    .then(data => data.object.sha)
-    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
-    .then(data => data.tree)
-    .then(tree => tree.filter(b => endswith(b.path, '.py')))
-    .then(tree =>
-      tree.sort((blobA, blobB) => {
-        let partsA = blobA.path.split('/')
-        let partsB = blobB.path.split('/')
-
-        if (partsA.length === partsB.length) {
-          return partsA[partsA.length - 1] === '__init__.py' ? 1 : -1
-        } else return partsB.length - partsA.length
-      })
-    )
-    .then(tree => tree.map(b => b.path))
 
   $('.blob-code-inner').each((_, elem) => {
     let line = elem.innerText.trim()
@@ -54,7 +48,7 @@ module.exports.process = function process () {
       }
     }
 
-    treePromise.then(paths => {
+    treePromise(treeProcess).then(paths => {
       // searching for relative modules.
       var match
       var filepath

@@ -8,7 +8,7 @@ module.exports.process = function process () {
     elem.innerText.trim()
       .split('\n')
       .forEach((line, i) => {
-        lineJS(elem, line, null, null, i)
+        lineJS(elem, line, null, i)
       })
   })
 

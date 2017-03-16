@@ -12,7 +12,7 @@ var waitToken = new Promise((resolve, reject) => {
   })
 })
 
-module.exports.gh = function (path) {
+function gh (path) {
   return waitToken
   .then(token =>
     fetch(`https://api.github.com/${path}`, {
@@ -26,6 +26,28 @@ module.exports.gh = function (path) {
       return r.json()
     })
   )
+}
+
+var treePromiseCache = {}
+module.exports.treePromise = function (postProcess) {
+  let { user, repo, ref } = window.pathdata
+  let key = `${user}:${repo}:${ref}`
+
+  if (!treePromiseCache[key]) {
+    let treePromise =
+      gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
+      .then(data => data.object.sha)
+      .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
+      .then(data => data.tree.map(blob => blob.path))
+
+    if (postProcess) {
+      treePromise = treePromise.then(postProcess)
+    }
+
+    treePromiseCache[key] = treePromise
+  }
+
+  return treePromiseCache[key]
 }
 
 module.exports.bloburl = function (user, repo, ref, path) {

@@ -1,28 +1,25 @@
 const $ = window.jQuery
 const fetch = window.fetch
 
+const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
-const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
+
+function treeProcess (tree) {
+  return tree.map(path => {
+    let parts = path.split('/')
+    let index = parts.indexOf('lib')
+    if (index === -1) return null
+    return {
+      prefix: parts.slice(0, index).join('/'),
+      suffix: parts.slice(index + 1).join('/')
+    }
+  })
+  .filter(path => path)
+}
 
 module.exports.process = function process () {
   let { user, repo, ref } = window.pathdata
-
-  let treePromise =
-    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-    .then(data => data.object.sha)
-    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
-    .then(data => data.tree)
-    .then(tree => tree.map(b => {
-      let parts = b.path.split('/')
-      let index = parts.indexOf('lib')
-      if (index === -1) return null
-      return {
-        prefix: parts.slice(0, index).join('/'),
-        suffix: parts.slice(index + 1).join('/')
-      }
-    }))
-    .then(tree => tree.filter(path => path))
 
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
@@ -30,7 +27,7 @@ module.exports.process = function process () {
     if (!require) return
     let moduleName = require[1]
 
-    treePromise.then(paths => {
+    treePromise(treeProcess).then(paths => {
       for (let i = 0; i < paths.length; i++) {
         let {prefix, suffix} = paths[i]
 

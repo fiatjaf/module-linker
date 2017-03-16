@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Point and click to browse imported modules directly from GitHub",
-  "version": "1.6.12",
+  "version": "1.7.0",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",

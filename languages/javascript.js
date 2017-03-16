@@ -3,31 +3,25 @@ const startswith = require('lodash.startswith')
 const resolve = require('resolve-pathname')
 const fetch = window.fetch
 
+const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const htmlWithLink = require('../helpers').htmlWithLink
-const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
 
 const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'es', 'es6']
 
 module.exports.process = function process () {
-  let { user, repo, ref, current } = window.pathdata
-
-  let treePromise =
-    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-    .then(data => data.object.sha)
-    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
-    .then(data => data.tree.map(b => b.path))
+  let { current } = window.pathdata
 
   $('.blob-code-inner').each((_, elem) => {
     let line = elem.innerText.trim()
-    processLine(elem, line, treePromise, current.join('/'))
+    processLine(elem, line, current.join('/'))
   })
 }
 
 module.exports.processLine = processLine
 
-function processLine (elem, line, treePromise, currentPath, lineIndex) {
+function processLine (elem, line, currentPath, lineIndex) {
   var moduleName
 
   let names = [
@@ -53,8 +47,8 @@ function processLine (elem, line, treePromise, currentPath, lineIndex) {
       if (extensions.indexOf(moduleName.split('.').slice(-1)[0]) !== -1) {
         return moduleName // the url is exactly this relative path.
       } else {
-        return treePromise
-        ? treePromise
+        return typeof lineIndex === 'undefined'
+        ? treePromise()
           .then(paths => {
             for (let i = 0; i < paths.length; i++) {
               let path = paths[i]
@@ -72,8 +66,8 @@ function processLine (elem, line, treePromise, currentPath, lineIndex) {
             // normally === '.js', but can be '.ts' or '.coffee'.
             return moduleName + '.' + window.filetype
           })
-        : null // if there's no treePromise it is because processLine is being called from elsewhere.
-               // (probably markdown.js) and presumably we don't want relative paths in this case.
+        : null // if there is a lineIndex it is because processLine is being called from
+               // markdown.js. and we don't want relative paths in this case.
       }
     } else if (moduleName in stdlib) {
       // is not local, is a file from the stdlib.

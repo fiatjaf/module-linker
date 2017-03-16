@@ -4,24 +4,18 @@ const endswith = require('lodash.endswith')
 const startswith = require('lodash.startswith')
 const fetch = window.fetch
 
+const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
-const gh = require('../helpers').gh
 const bloburl = require('../helpers').bloburl
 
+function treeProcess (tree) {
+  let {current} = window.pathdata
+
+  return tree
+    .filter(path => startswith(path, current.slice(0, -1).join('/')) && endswith(path, '.rs'))
+}
+
 module.exports.process = function process () {
-  let {user, repo, ref, current} = window.pathdata
-
-  let treePromise =
-    gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-    .then(data => data.object.sha)
-    .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
-    .then(data => data.tree.map(b => b.path))
-    .then(paths =>
-      paths.filter(path =>
-        startswith(path, current.slice(0, -1).join('/')) && endswith(path, '.rs')
-      )
-    )
-
   $('.blob-code-inner > .pl-k').each((_, elem) => {
     switch (elem.innerText) {
       case 'mod':
@@ -31,7 +25,7 @@ module.exports.process = function process () {
         handleExternCrate(elem.parentNode)
         break
       case 'use':
-        handleUse(elem.parentNode, treePromise)
+        handleUse(elem.parentNode)
         break
     }
   })
@@ -55,7 +49,7 @@ function handleExternCrate (lineElem) {
   } catch (e) {}
 }
 
-function handleUse (lineElem, treePromise) {
+function handleUse (lineElem) {
   let {user, repo, ref, current} = window.pathdata
 
   var declaredModules = []
@@ -101,7 +95,7 @@ function handleUse (lineElem, treePromise) {
       let absModulePath = resolve(modulePath.join('/'), current.join('/'))
 
       // otherwise look for the module path in the list of files of the repo.
-      treePromise
+      treePromise(treeProcess)
         .then(paths => {
           for (let i = 0; i < paths.length; i++) {
             let path = paths[i]
