@@ -1,6 +1,9 @@
+* { box-sizing: border-box }
+
 body {
   margin: auto;
   width: 900px;
+  max-width: 100%;
   text-align: center;
   font-size: 200%;
 }
@@ -13,3 +16,9 @@ img[src^=screenshot] {
 }
 
 ul, p { text-align: justify; }
+
+a {
+  color: #158cba;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
