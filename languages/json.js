@@ -23,7 +23,8 @@ function composerjson () {
     elem = $(elem)
     let line = elem.text().trim()
 
-    if (line.match('"require"') || line.match('"require-dev"')) {
+    if (line.match(/"require"/) || line.match(/"require-dev"/) ||
+        line.match(/"suggest"/) || line.match(/"replace"/) || line.match(/"conflict"/)) {
       depsOpen = true
     }
 
@@ -44,7 +45,8 @@ function packagejson () {
     elem = $(elem)
     let line = elem.text().trim()
 
-    if (line.match('"dependencies"') || line.match('"devDependencies"')) {
+    if (line.match(/"dependencies"/) || line.match(/"devDependencies"/) ||
+        line.match(/"peerDependencies"/) || line.match(/"optionalDependencies"/)) {
       depsOpen = true
     }
 
