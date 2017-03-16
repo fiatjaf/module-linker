@@ -24,38 +24,58 @@ module.exports.process = function process () {
     }))
     .then(tree => tree.filter(path => path))
 
-  $('.blob-code-inner').each((i, el) => {
-    (function (elem) {
-      let line = elem.innerText.trim()
-      let require = /require ["']([\w-_\/]*)["']/.exec(line)
-      if (!require) return
-      let moduleName = require[1]
+  $('.blob-code-inner').each((i, elem) => {
+    let line = elem.innerText.trim()
+    let require = /require ["']([\w-_\/]*)["']/.exec(line)
+    if (!require) return
+    let moduleName = require[1]
 
-      treePromise.then(paths => {
-        for (let i = 0; i < paths.length; i++) {
-          let {prefix, suffix} = paths[i]
+    treePromise.then(paths => {
+      for (let i = 0; i < paths.length; i++) {
+        let {prefix, suffix} = paths[i]
 
-          if (suffix.slice(0, -3) === moduleName) {
-            return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
-          }
+        if (suffix.slice(0, -3) === moduleName) {
+          return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
         }
+      }
 
-        if (moduleName in stdlib) {
-          return 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html'
-        } else {
-          return rubygemsurl(moduleName)
-        }
-      })
-      .then(url => {
-        createLink(elem, moduleName, url)
-      })
-    })(el)
+      if (moduleName in stdlib) {
+        return 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html'
+      } else {
+        moduleName = moduleName.split('/')[0]
+        return rubygemsurl(moduleName)
+      }
+    })
+    .then(url => {
+      createLink(elem, moduleName, url)
+    })
+  })
+}
+
+module.exports.processGemfile = function process () {
+  $('.blob-code-inner').each((i, elem) => {
+    let line = elem.innerText.trim()
+    let gem = /gem ["']([\w-_]*)["']/.exec(line)
+    let github = /github: ["']([\w-_\/]*)["']/.exec(line)
+
+    if (gem) {
+      let moduleName = gem[1]
+      rubygemsurl(moduleName)
+      .then(url => { createLink(elem, moduleName, url) })
+      .catch(() => {})
+    }
+
+    if (github) {
+      let path = github[1]
+      createLink(elem, path, `https://github.com/${path}`)
+    }
   })
 }
 
 var waiting = {} // a cache of promises to ruby external modules
 module.exports.rubygemsurl = rubygemsurl
 function rubygemsurl (moduleName) {
+  moduleName = moduleName.split('/')[0]
   if (!waiting[moduleName]) {
     waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/rubygems/${moduleName}`)
       .then(r => r.json())

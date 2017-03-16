@@ -5,6 +5,7 @@ const $ = window.jQuery
 const python = require('./languages/python').process
 const javascript = require('./languages/javascript').process
 const ruby = require('./languages/ruby').process
+const gemfile = require('./languages/ruby').processGemfile
 const json = require('./languages/json').process
 const yaml = require('./languages/yaml').process
 const toml = require('./languages/toml').process
@@ -18,23 +19,21 @@ function main () {
   if ($('#module-linker-done').length) return
   $('#js-repo-pjax-container').append($('<span id="module-linker-done">'))
 
-  let spath = window.location.pathname.split('.')
-  window.filetype = spath.length > 1 ? spath.slice(-1)[0] : 'md'
-
   let path = location.pathname.split('/')
   window.pathdata = {
     user: path[1],
     repo: path[2],
     ref: path[4] || 'master',
-    current: path[4] ? path.slice(5) : ''
+    current: path[4] ? path.slice(5) : '',
+    last: path.slice(-1)[0]
   }
 
+  let spath = window.pathdata.last.split('.')
+  window.filetype = spath.length > 1
+    ? spath.slice(-1)[0]
+    : window.pathdata.last
+
   switch (window.filetype) {
-    case 'md':
-    case 'mdwn':
-    case 'markdown':
-      markdown()
-      break
     case 'py':
       python()
       break
@@ -65,7 +64,18 @@ function main () {
       go()
       break
     case 'rb':
+    case 'gemspec':
+    case 'Rakefile':
       ruby()
+      break
+    case 'Gemfile':
+      gemfile()
+      break
+    case 'md':
+    case 'mdwn':
+    case 'markdown':
+    default:
+      markdown()
   }
 
   $(document).pjax('a.module-linker', '#js-repo-pjax-container')
