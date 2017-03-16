@@ -102,16 +102,12 @@ var waiting = {} // a cache of promises to javascript external modules
 module.exports.npmurl = npmurl
 function npmurl (moduleName) {
   if (!waiting[moduleName]) {
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/npm/${moduleName}`)
-      .then(r => r.json())
-      .then(({url}) => url)
-      .catch(() =>
-        'https://npmjs.com/package/' + (
-          startswith(moduleName, '@')
-            ? moduleName.split('/').slice(0, 2).join('/')
-            : moduleName.split('/')[0]
-          )
-      )
+    waiting[moduleName] = startswith(moduleName, '@')
+      ? Promise.resolve(`https://npmjs.com/package/${moduleName}`)
+      : fetch(`https://githublinker.herokuapp.com/q/npm/${moduleName}`)
+        .then(r => r.json())
+        .then(({url}) => url)
+        .catch(() => `https://npmjs.com/package/${moduleName}`)
   }
 
   return waiting[moduleName]
