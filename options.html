@@ -1,9 +1,45 @@
 <!doctype html>
 
 <title>Module Linker</title>
+<style>
+* {
+  font-size: 120%;
+  box-sizing: border-box;
+}
+body {
+  margin: auto;
+  width: 800px;
+  max-width: 97%;
+}
+header {
+  text-align: center;
+}
+input {
+  width: 100%;
+  padding: 5px;
+}
+footer {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+@media (max-height: 600px) {
+  footer { display: none }
+}
+</style>
 
-<p>get a personal GitHub API token at <a target=_blank href=https://github.com/settings/tokens>https://github.com/settings/tokens</a> and paste it here:</p>
+<header><img src=/icon128.png><h3>Module Linker</h3></header>
+
+<p>we need a GitHub token!</p>
+<p>this extension talks to the GitHub API for resolving relative paths and although it works a little without a token, GitHub starts limitting it very soon and this extension stops being useful for that purpose.</p>
+<p>you can get a personal GitHub API token at <a target=_blank href=https://github.com/settings/tokens>https://github.com/settings/tokens</a>, then just paste it here:</p>
 <input id=token placeholder="your GitHub API token">
 <p id=message></p>
+
+<br>
+<br>
+<footer><a href=https://github.com/fiatjaf/module-linker>https://github.com/fiatjaf/module-linker</a></footer>
 
 <script src=options.js></script>

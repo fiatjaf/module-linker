@@ -1,18 +1,41 @@
 /* global chrome */
 
+var currentToken
+
+function message (text) {
+  document.getElementById('message').innerHTML = text
+}
+
 chrome.storage.sync.get('token', ({token}) => {
+  if (chrome.runtime.lastError) {
+    message(chrome.runtime.lastError.message)
+    return
+  }
   if (document.getElementById('token').value === '' && token) {
     document.getElementById('token').value = token
+    currentToken = token
+  } else {
+    message('please input a token, otherwise this extension may (and probably will) fail to resolve relative module paths (maybe other unpredictable issues will happen also).')
   }
 })
 
 document.getElementById('token').addEventListener('input', function (e) {
-  document.getElementById('message').innerHTML = ''
+  message('')
 })
 
 document.getElementById('token').addEventListener('blur', function (e) {
   if (!e.target.value) {
-    document.getElementById('message').innerHTML = ''
+    if (currentToken) {
+      chrome.storage.sync.set({token: null}, () => {
+        if (chrome.runtime.lastError) {
+          message(chrome.runtime.lastError.message)
+          return
+        }
+        message('token removed.')
+      })
+    }
+
+    return
   }
 
   window.fetch('https://api.github.com/user', {
@@ -20,20 +43,24 @@ document.getElementById('token').addEventListener('blur', function (e) {
   })
   .then(r => r.json())
   .catch(() => {
-    document.getElementById('message').innerHTML = 'failed to verify token validity. do you have an internet connection?<br>nevermind, it will be saved anyway.'
+    message('failed to verify token validity. do you have an internet connection?<br>nevermind, it will be saved anyway.')
+    currentToken = e.target.value
     return new Promise((resolve, reject) => setTimeout(resolve, 4000))
   })
   .then(user => {
     if (user.login) {
+      currentToken = e.target.value
       chrome.storage.sync.set({token: e.target.value}, () => {
         if (chrome.runtime.lastError) {
-          document.getElementById('message').innerHTML = chrome.runtime.lastError.message
-        } else {
-          document.getElementById('message').innerHTML = 'hello, ' + user.login + '! your token is now saved!'
+          message(chrome.runtime.lastError.message)
+          return
         }
+        message('hello, ' + user.login + '! your token is now saved!')
       })
     } else {
-      document.getElementById('message').innerHTML = 'this is not a valid token, so we will not save it.'
+      message('this is not a valid token, so we will not save it.')
     }
   })
 })
+
+chrome.storage.sync.set({seenOptions: true})
