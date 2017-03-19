@@ -1,6 +1,6 @@
-const got = require('got')
+'use strict'
 
-const request = url => got(url).then(r => r.body)
+const request = require('request-promise@1.0.2')
 const cheerio = require('cheerio')
 
 function fetch (registry, module) {
@@ -101,17 +101,17 @@ function fetch (registry, module) {
     })
 }
 
-const qs = require('qs')
+module.exports = function (ctx, cb) {
+  let registry = ctx.data.r
+  let module = ctx.data.m
 
-exports.endpoint = function (request, response) {
-  let {r, m} = qs.parse(request.url.split('?')[1])
-
-  fetch(r, m)
+  fetch(registry, module)
     .then(data => {
-      response.end(JSON.stringify(data))
+      if (data.desc) {
+        data.desc = data.desc.slice(0, 250)
+      }
+      return data
     })
-    .catch(e => {
-      response.statusCode = 500
-      response.end(e.message)
-    })
+    .then(data => cb(null, data))
+    .catch(e => cb(e))
 }

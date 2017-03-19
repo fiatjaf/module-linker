@@ -1,0 +1,16 @@
+{
+  "name": "external-resolver",
+  "version": "1.0.1",
+  "description": "https://github.com/fiatjaf/module-linker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "got": "^6.7.1",
+    "micro": "^7.1.0",
+    "qs": "^6.4.0"
+  }
+}

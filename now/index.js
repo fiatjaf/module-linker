@@ -101,17 +101,12 @@ function fetch (registry, module) {
     })
 }
 
+const micro = require('micro')
 const qs = require('qs')
 
-exports.endpoint = function (request, response) {
+const server = micro(async (request, response) => {
   let {r, m} = qs.parse(request.url.split('?')[1])
+  return fetch(r, m)
+})
 
-  fetch(r, m)
-    .then(data => {
-      response.end(JSON.stringify(data))
-    })
-    .catch(e => {
-      response.statusCode = 500
-      response.end(e.message)
-    })
-}
+server.listen(process.env.PORT || 3000)

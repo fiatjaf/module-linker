@@ -1,22 +1,11 @@
 const got = require('got')
-const json = url => got(url).then(r => JSON.parse(r.body))
 
-/**
-* Your function call
-* @param {Object} params Execution parameters
-*   Members
-*   - {Array} args Arguments passed to function
-*   - {Object} kwargs Keyword arguments (key-value pairs) passed to function
-*   - {String} remoteAddress The IPv4 or IPv6 address of the caller
-*
-* @param {Function} callback Execute this to end the function call
-*   Arguments
-*   - {Error} error The error to show if function fails
-*   - {Any} returnValue JSON serializable (or Buffer) return value
-*/
+const request = url => got(url).then(r => r.body)
+const cheerio = require('cheerio')
 
-module.exports = (params, cb) => {
-  let {r: registry, m: module} = params.kwargs
+function fetch (registry, module) {
+  const json = url => request(url).then(JSON.parse)
+  const html = url => request(url).then(cheerio.load)
 
   var w
 
@@ -31,7 +20,8 @@ module.exports = (params, cb) => {
     case 'rubygems':
       w = json(`https://rubygems.org/api/v1/gems/${module}.json`)
         .then(info => ({
-          url: info.source_code_uri || info.homepage_uri || info.project_url,
+          url: info.source_code_uri || info.homepage_uri ||
+               info.project_url || `https://rubygems.org/gems/${module}`,
           docs: info.documentation_uri,
           desc: info.info
         }))
@@ -61,17 +51,75 @@ module.exports = (params, cb) => {
           desc: info.crate.description || info.categories.length && info.categories[0].description
         }))
       break
+    case 'dart':
+      w = json(`http://pub.dartlang.org/api/packages/${module}`)
+        .then(info => ({
+          url: info.latest.pubspec.homepage || `https://pub.dartlang.org/packages/${module}`,
+          docs: info.latest.pubspec.documentation,
+          desc: info.latest.pubspec.description
+        }))
+      break
+    case 'julia':
+      w = request(`https://raw.githubusercontent.com/JuliaLang/METADATA.jl/metadata-v2/${module}/url`)
+        .then(url => ({url: url.trim().replace('git://', 'https://')}))
+        .catch(() =>
+          html('http://pkg.julialang.org')
+            .then($ =>
+              $('.pkgnamedesc a')
+                .map((i, a) => console.log(i, a) || a)
+                .filter((_, a) => $(a).text() === module)
+                .map((_, a) => ({
+                  url: $(a).attr('href'),
+                  desc: $(a).parent().parent().find('h4').text()
+                }))
+                .get(0)
+            )
+        )
+      break
+    case 'hackage':
+      w = html(`https://hackage.haskell.org/package/${module}`)
+        .then($ => {
+          let url = $('a[href*="github.com"]').attr('href')
+          if (url) return {url: url.replace('git://', 'https://')}
+          return {url: `https://hackage.haskell.org/package/$${module}`}
+        })
+      break
+    case 'crystal':
+      w = request(`https://jsonbin.org/fiatjaf/crystal/${module}`)
+        .then(url => ({url: url}))
+      break
     default:
       w = Promise.reject(new Error('no registry found with that name.'))
   }
 
-  w
+  return w
     .then(data => {
       if (data.desc) {
         data.desc = data.desc.slice(0, 250)
       }
       return data
     })
+}
+
+/**
+* Your function call
+* @param {Object} params Execution parameters
+*   Members
+*   - {Array} args Arguments passed to function
+*   - {Object} kwargs Keyword arguments (key-value pairs) passed to function
+*   - {String} remoteAddress The IPv4 or IPv6 address of the caller
+*
+* @param {Function} callback Execute this to end the function call
+*   Arguments
+*   - {Error} error The error to show if function fails
+*   - {Any} returnValue JSON serializable (or Buffer) return value
+*/
+
+
+module.exports = (params, cb) => {
+  let {r, m} = params.kwargs
+
+  fetch(r, m)
     .then(data => cb(null, data))
     .catch(e => cb(e))
 }
