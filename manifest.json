@@ -26,6 +26,9 @@
     "https://github.com/*/*/blob/*",
     "https://api.github.com/repos/*",
     "https://githublinker.herokuapp.com/q/*/*",
+    "https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver",
+    "https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master",
+    "https://fiatjaf.stdlib.com/external-resolver",
     "activeTab",
     "webNavigation",
     "storage"
