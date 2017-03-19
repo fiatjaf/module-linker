@@ -6,6 +6,7 @@ const python = require('./languages/python').process
 const javascript = require('./languages/javascript').process
 const ruby = require('./languages/ruby').process
 const gemfile = require('./languages/ruby').processGemfile
+const clojure = require('./languages/clojure').process
 const json = require('./languages/json').process
 const yaml = require('./languages/yaml').process
 const toml = require('./languages/toml').process
@@ -50,6 +51,12 @@ function main () {
     case 'yaml':
     case 'yml':
       yaml()
+      break
+    case 'clj':
+    case 'cljs':
+    case 'cljc':
+    case 'edn':
+      clojure()
       break
     case 'toml':
       toml()
