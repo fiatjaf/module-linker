@@ -7,6 +7,8 @@
     "m": "name of the module."
   },
   "http": {
-    "headers": {}
+    "headers": {
+      "Content-Type": "application/json"
+    }
   }
 }

@@ -1,4 +1,5 @@
-/* Import dependencies, declare constants */
+const got = require('got')
+const json = url => got(url).then(r => JSON.parse(r.body))
 
 /**
 * Your function call
@@ -13,10 +14,6 @@
 *   - {Error} error The error to show if function fails
 *   - {Any} returnValue JSON serializable (or Buffer) return value
 */
-
-const got = require('got')
-
-const json = url => got(url).then(r => JSON.parse(r.body))
 
 module.exports = (params, cb) => {
   let {r: registry, m: module} = params.kwargs

@@ -1,6 +1,6 @@
 {
   "name": "external-resolver",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Service",
   "author": "fiatjaf <fiatjaf@gmail.com>",
   "main": "f/main/index.js",
