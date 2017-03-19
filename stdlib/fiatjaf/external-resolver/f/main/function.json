@@ -1,0 +1,12 @@
+{
+  "name": "main",
+  "description": "resolves external modules for module-linker",
+  "args": [],
+  "kwargs": {
+    "r": "name of the registry / language.",
+    "m": "name of the module."
+  },
+  "http": {
+    "headers": {}
+  }
+}
