@@ -83,7 +83,7 @@ function processLine (elem, line, currentPath, lineIndex) {
       // only in that line -- in this case `elem` is the whole code block,
       // not, as normally, a single line.
       let lines = elem.innerHTML.split('\n')
-      lines[lineIndex] = htmlWithLink(lines[lineIndex], moduleName, url)
+      lines[lineIndex] = htmlWithLink(lines[lineIndex], moduleName, url, true)
       elem.innerHTML = lines.join('\n')
       return
     }
