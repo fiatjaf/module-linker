@@ -79,13 +79,20 @@ module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, 
 }
 
 module.exports.external = function externalResolver (registry, module) {
-  let url = [
-    `https://githublinker.herokuapp.com/q/${registry}/${module}`,
+  var urls = [
+    `https://external-resolver-omtwhvdzdn.now.sh?r=${registry}&m=${module}`,
     `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver?r=${registry}&m=${module}`,
     `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master?r=${registry}&m=${module}`,
     `https://fiatjaf.stdlib.com/external-resolver/?r=${registry}&m=${module}`
-  ][parseInt(Math.random() * 4)]
+  ]
 
-  return fetch(url)
+  return Promise.resolve()
+    .then(() => /* try once */
+      fetch(urls.splice(parseInt(Math.random() * urls.length), 1))
+    )
+    .then(r => r.json())
+    .catch(() => /* try a second time */
+      fetch(urls.splice(parseInt(Math.random() * urls.length), 1))
+    )
     .then(r => r.json())
 }
