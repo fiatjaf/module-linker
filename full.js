@@ -78,7 +78,7 @@ function main () {
       markdown()
   }
 
-  $(document).pjax('a.module-linker', '#js-repo-pjax-container')
+  $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 6000})
 }
 
 main()
