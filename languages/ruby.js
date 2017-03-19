@@ -1,6 +1,6 @@
 const $ = window.jQuery
-const fetch = window.fetch
 
+const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
@@ -74,8 +74,7 @@ module.exports.rubygemsurl = rubygemsurl
 function rubygemsurl (moduleName) {
   moduleName = moduleName.split('/')[0]
   if (!waiting[moduleName]) {
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/rubygems/${moduleName}`)
-      .then(r => r.json())
+    waiting[moduleName] = external('rubygems', moduleName)
       .then(({url}) => url)
       .catch(() => 'https://rubygems.org/gems/' + moduleName)
   }

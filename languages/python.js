@@ -1,7 +1,7 @@
 const $ = window.jQuery
 const endswith = require('lodash.endswith')
-const fetch = window.fetch
 
+const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
@@ -128,21 +128,13 @@ function pypiurl (moduleName) {
   moduleName = moduleName.split('.')[0] // ignore module subpaths for external modules.
 
   if (!waiting[moduleName]) {
-    // try the githublinker proxy:
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/pypi/${moduleName}`)
-      .then(r => r.json())
+    // try to get an url from an external resolver
+    waiting[moduleName] = external('pypi', moduleName)
       .then(({url}) => [moduleName, url])
-      .catch(() => {
-        // then try the "home_page" field from PYPI JSON API
-        return fetch(`https://pypi.python.org/pypi/${moduleName}/json`, {
-          headers: {'X-Requested-With': 'fetch'}
-        })
-          .then(r => r.json())
-          .then(data => [
-            moduleName, data.info.home_page ||
-              `https://pypi.python.org/pypi/${moduleName}` // finally settle with the PYPI url
-          ])
-      })
+      .catch(() => [
+        // finally settle with the PYPI url
+        moduleName, `https://pypi.python.org/pypi/${moduleName}`
+      ])
   }
 
   return waiting[moduleName]

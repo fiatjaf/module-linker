@@ -77,3 +77,13 @@ module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, 
     return baseHTML.replace(moduleName, link)
   }
 }
+
+module.exports.external = function externalResolver (registry, module) {
+  let url = [
+    `https://githublinker.herokuapp.com/q/${registry}/${module}`,
+    `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver?r=${registry}&m=${module}`
+  ][parseInt(Math.random() * 2)]
+
+  return fetch(url)
+    .then(r => r.json())
+}

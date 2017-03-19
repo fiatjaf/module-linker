@@ -1,4 +1,4 @@
-const fetch = window.fetch
+const external = require('../helpers').external
 
 var waiting = {} // a cache of promises to php external modules
 module.exports.composerurl = composerurl
@@ -10,8 +10,7 @@ function composerurl (moduleName) {
   }
 
   if (!waiting[moduleName]) {
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/composer/${moduleName}`)
-      .then(r => r.json())
+    waiting[moduleName] = external('composer', moduleName)
       .then(({url}) => url)
       .catch(() => `https://packagist.org/packages/${moduleName}`)
   }

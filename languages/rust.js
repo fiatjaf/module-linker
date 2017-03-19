@@ -2,8 +2,8 @@ const $ = window.jQuery
 const resolve = require('resolve-pathname')
 const endswith = require('lodash.endswith')
 const startswith = require('lodash.startswith')
-const fetch = window.fetch
 
+const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
@@ -125,8 +125,7 @@ var waiting = {} // a cache of promises to rust external modules
 module.exports.cratesurl = cratesurl
 function cratesurl (moduleName) {
   if (!waiting[moduleName]) {
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/crates/${moduleName}`)
-      .then(r => r.json())
+    waiting[moduleName] = external('crates', moduleName)
       .then(({url}) => url)
       .catch(() => `https://crates.io/crates/${moduleName}`)
   }

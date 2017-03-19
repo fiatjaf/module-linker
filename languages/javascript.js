@@ -1,8 +1,8 @@
 const $ = window.jQuery
 const startswith = require('lodash.startswith')
 const resolve = require('resolve-pathname')
-const fetch = window.fetch
 
+const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const htmlWithLink = require('../helpers').htmlWithLink
@@ -96,8 +96,7 @@ var waiting = {} // a cache of promises to javascript external modules
 module.exports.npmurl = npmurl
 function npmurl (moduleName) {
   if (!waiting[moduleName]) {
-    waiting[moduleName] = fetch(`https://githublinker.herokuapp.com/q/npm/${moduleName}`)
-      .then(r => r.json())
+    waiting[moduleName] = external('npm', moduleName)
       .then(({url}) => url)
       .catch(() =>
         'https://npmjs.com/package/' + (
