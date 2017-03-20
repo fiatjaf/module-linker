@@ -1,6 +1,7 @@
 const $ = window.jQuery
 
 const lineJS = require('./javascript').processLine
+const lineDart = require('./dart').processLine
 const blockGo = require('./go').processBlock
 
 module.exports.process = function process () {
@@ -9,6 +10,14 @@ module.exports.process = function process () {
       .split('\n')
       .forEach((line, i) => {
         lineJS(elem, line, null, i)
+      })
+  })
+
+  $('.highlight-source-dart').each((_, elem) => {
+    elem.innerText.trim()
+      .split('\n')
+      .forEach((line, i) => {
+        lineDart(elem, line, null, i)
       })
   })
 
