@@ -10,6 +10,7 @@ const json = require('./languages/json').process
 const yaml = require('./languages/yaml').process
 const toml = require('./languages/toml').process
 const rust = require('./languages/rust').process
+const dart = require('./languages/dart').process
 const nim = require('./languages/nim').process
 const go = require('./languages/go').process
 const markdown = require('./languages/markdown').process
@@ -53,6 +54,9 @@ function main () {
       break
     case 'toml':
       toml()
+      break
+    case 'dart':
+      dart()
       break
     case 'rs':
       rust()
