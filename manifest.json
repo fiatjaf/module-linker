@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Point and click to browse imported modules directly from GitHub",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -29,6 +29,7 @@
     "https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver",
     "https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master",
     "https://fiatjaf.stdlib.com/external-resolver",
+    "https://external-resolver.now.sh/",
     "activeTab",
     "webNavigation",
     "storage"
