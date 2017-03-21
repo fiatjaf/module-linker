@@ -15,49 +15,108 @@
   </a>
 </div>
 
-<p><b>Module Linker</b> adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.</p>
-
-Ruby
-<img title=Ruby src=screenshot-ruby.png>
-Javascript
-<img title=Javascript src=screenshot-es6.png>
-Rust
-<img title=Rust src=screenshot-rust.png>
-Golang
-<img title=Golang src=screenshot-go.png>
-markdown
-<img title=markdown src=screenshot-md-go.png>
-Python
-<img title=Python src=screenshot-python.png>
-Cargo (Rust)
-<img title="Cargo (Rust)" src=screenshot-cargo.png>
-Javascript
-<img title=Javascript src=screenshot-javascript.png>
-Composer (PHP)
-<img title="Composer (PHP)" src=screenshot-composer.png>
-Nim
-<img title=Nim src=screenshot-nim.png>
-markdown
-<img title=markdown src=screenshot-md-javascript.png>
-Stack (Haskell)
-<img title="Stack (Haskell)" src=screenshot-stack.png>
-
-<p>Languages and files supported:</p>
-
-<ul>
- <li>Python</li>
- <li>PHP (external packages listed on composer.json files)</li>
- <li>Nim</li>
- <li>Go (.go files and Go snippets in README.md)</li>
- <li>Rust (.rs files and Cargo.toml)</li>
- <li>Ruby (.rb files, Rakefile and Gemfile)</li>
- <li>Javascript (.js, .jsx, .coffee, .ts, package.json files and JS snippets in README.md)</li>
- <li>Haskell (external packages listed on stack.yaml files)</li>
-</li>
-
-<p>Unlike <a href=http://octolinker.github.io/ target=_blank>Octolinker</a>, <b>Module Linker</b> creates real &lt;a href="..."&gt; links, so there are no problems with middle-clicks, Ctrl-clicks etc.</p>
-
-<p>Also, links load without reloading the page, so ultra-fast (like normal GitHub links).</p>
+<main id=top>
+  <p><b>Module Linker</b> adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.</p>
+  
+  <p>Languages and files supported (click to see screenshots):</p>
+  
+  <ul>
+   <li><a href=#/python>Python</a></li>
+   <li><a href=#/php>PHP (external packages listed on composer.json files)</a></li>
+   <li><a href=#/nim>Nim</a></li>
+   <li><a href=#/dart>Dart (.dart and pubspec.yaml)</a></li>
+   <li><a href=#/rust>Rust (.rs files and Cargo.toml)</a></li>
+   <li><a href=#/javascript>Javascript (.js, .jsx, .coffee, .ts, package.json files)</a></li>
+   <li><a href=#/ruby>Ruby (.rb files, Rakefile and Gemfile)</a></li>
+   <li><a href=#/crystal>Crystal (.cr and shard.yml files)</a></li>
+   <li><a href=#/julia>Julia</a></li>
+   <li><a href=#/>Go</a></li>
+   <li><a href=#/haskell>Haskell (external packages listed on stack.yaml files)</a></li>
+   <li><a href=#/elm>Elm (dependencies on elm-package.json)</a></li>
+  </li>
+  
+  <article id=/python>
+    <h1>Python</h1>
+    <img src=screenshot/python-stdlib.png>
+    <img src=screenshot/python-relative.png>
+    <img src=screenshot/python-external.png>
+  </article>
+  
+  <article id=/nim>
+    <h1>Nim</h1>
+    <img src=screenshot/nim-external.png>
+    <img src=screenshot/nim-relative.png>
+  </article>
+  
+  <article id=/dart>
+    <h1>Dart</h1>
+    <img src=screenshot/dart-stdlib.png>
+    <img src=screenshot/dart-pubspec.png>
+    <img src=screenshot/dart-relative.png>
+  </article>
+  
+  <article id=/javascript>
+    <h1>Javascript</h1>
+    <img src=screenshot/javascript-relative.png>
+    <img src=screenshot/javascript-packagejson.png>
+    <img src=screenshot/javascript-es6.png>
+  </article>
+  
+  <article id=/rust>
+    <h1>Rust</h1>
+    <img src=screenshot/rust-external.png>
+    <img src=screenshot/rust-stdlib.png>
+    <img src=screenshot/rust-cargotoml.png>
+  </article>
+  
+  <article id=/crystal>
+    <h1>Crystal</h1>
+    <img src=screenshot/crystal-stdlib.png>
+    <img src=screenshot/crystal-shardyml.png>
+    <img src=screenshot/crystal-relative.png>
+  </article>
+  
+  <article id=/ruby>
+    <h1>Ruby</h1>
+    <img src=screenshot/ruby-external.png>
+    <img src=screenshot/ruby-relative.png>
+    <img src=screenshot/ruby-gemfile.png>
+  </article>
+  
+  <article id=/php>
+    <h1>PHP</h1>
+    <img src=screenshot/php-composerjson.png>
+  </article>
+  
+  <article id=/elm>
+    <h1>Elm</h1>
+    <img src=screenshot/elm-elmpackagejson.png>
+  </article>
+  
+  <article id=/go>
+    <h1>Go</h1>
+    <img src=screenshot/go-stdlib.png>
+    <img src=screenshot/go-relative.png>
+    <img src=screenshot/go-external.png>
+  </article>
+  
+  <article id=/haskell>
+    <h1>Haskell</h1>
+    <img src=screenshot/haskell-stackyaml.png>
+  </article>
+  
+  <article id=/julia>
+    <h1>Julia</h1>
+    <img src=screenshot/julia-relative.png>
+    <img src=screenshot/julia-external.png>
+  </article>
+  
+  <p><a href=#top class=to-top>see other supported languages</a></p>
+  
+  <p>Unlike <a href=http://octolinker.github.io/ target=_blank>Octolinker</a>, <b>Module Linker</b> creates real &lt;a href="..."&gt; links, so there are no problems with middle-clicks, Ctrl-clicks etc.</p>
+  
+  <p>Also, links load without reloading the page, so ultra-fast (like normal GitHub links).</p>
+</main>
 
 <p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
 <p><a href=https://github.com/fiatjaf/module-linker>source code on GitHub</a></p>
@@ -78,10 +137,3 @@ Stack (Haskell)
   }
   tc()
 })(document, localStorage, 'mzfzx9');</script>
-
-<script>
-['ruby', 'go', 'javascript', 'nim', 'rust'].forEach(lang => {
-  var img = document.querySelector('img[src*="' + lang + '"]')
-  img.src = img.src.replace('screenshot', 'screencast').replace('png', 'gif')
-})
-</script>

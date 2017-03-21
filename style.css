@@ -8,7 +8,13 @@ body {
   font-size: 200%;
 }
 
-img[src^=screenshot] {
+article {
+  display: none;
+}
+article:target {
+  display: block;
+}
+article img {
   display: inline;
   width: 100%;
   border: 7px solid #333;
@@ -22,3 +28,11 @@ a {
   text-decoration: none;
 }
 a:hover { text-decoration: underline; }
+a:active { color: #f42040; }
+
+#top a.to-top {
+  display: none;
+}
+#top:not(:target) a.to-top {
+  display: initial;
+}
