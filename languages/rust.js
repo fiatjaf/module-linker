@@ -94,7 +94,7 @@ function handleUse (lineElem) {
           kind: 'stdlib'
         }
       )
-    } else if (modulePath[0] === 'self') {
+    } else if (modulePath[0] === 'self' || modulePath[0] === 'super') {
       return
     } else if (modulePath.length !== 2 && modulePath[0] === 'std') {
       return
