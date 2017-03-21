@@ -15,7 +15,7 @@
       "https://github.com/*/*"
     ],
     "js": ["vendor/jquery.js", "vendor/jquery.pjax.js", "dist/full.js"],
-    "css": ["links.css", "vendor/balloon.css"]
+    "css": ["vendor/wenk.css", "links.css"]
   }],
   "background": {
     "scripts": ["dist/background.js"],
