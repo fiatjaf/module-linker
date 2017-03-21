@@ -72,7 +72,10 @@ function externalurl (moduleName) {
         for (let i = 0; i < packages.length; i++) {
           let pack = packages[i]
           if (pack.name === moduleName) {
-            return pack.url
+            return {
+              url: pack.url,
+              desc: pack.description
+            }
           }
         }
       })
