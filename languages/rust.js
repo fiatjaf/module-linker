@@ -121,13 +121,7 @@ function handleUse (lineElem) {
   })
 }
 
-var waiting = {} // a cache of promises to rust external modules
 module.exports.cratesurl = cratesurl
 function cratesurl (moduleName) {
-  if (!waiting[moduleName]) {
-    waiting[moduleName] = external('crates', moduleName)
-      .catch(() => `https://crates.io/crates/${moduleName}`)
-  }
-
-  return waiting[moduleName]
+  return external('crates', moduleName).catch(() => `https://crates.io/crates/${moduleName}`)
 }

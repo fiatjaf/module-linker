@@ -42,15 +42,9 @@ module.exports.processRequire = function () {
   })
 }
 
-var waiting = {} // a cache of promises to ruby external modules
 module.exports.juliaurl = juliaurl
 function juliaurl (moduleName) {
-  if (!waiting[moduleName]) {
-    waiting[moduleName] = external('julia', moduleName)
-      .catch(() => '')
-  }
-
-  return waiting[moduleName]
+  return external('julia', moduleName).catch(() => '')
 }
 
 const Base = Promise.resolve('http://docs.julialang.org/en/stable/stdlib/base/')

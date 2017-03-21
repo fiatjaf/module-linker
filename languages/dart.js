@@ -77,13 +77,8 @@ function processLine (elem, line, currentPath, lineIndex) {
   })
 }
 
-var waiting = {} // a cache of promises to javascript external modules
 module.exports.darturl = darturl
 function darturl (moduleName) {
-  if (!waiting[moduleName]) {
-    waiting[moduleName] = external('dart', moduleName)
-      .catch(() => `https://pub.dartlang.org/packages/${moduleName}`)
-  }
-
-  return waiting[moduleName]
+  return external('dart', moduleName)
+    .catch(() => `https://pub.dartlang.org/packages/${moduleName}`)
 }

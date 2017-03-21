@@ -88,21 +88,26 @@ const exturls = [
   `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver`,
   `https://fiatjaf.stdlib.com/external-resolver/`,
   `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master`
-]
+] // all these urls work by just appending the same querystring to them.
+var waitingCache = {} // a cache of promises to external modules.
 module.exports.external = function externalResolver (registry, module) {
+  let key = `${registry}::${module}`
+  if (waitingCache[key]) return waitingCache[key]
+
   let exidx = excount % exturls.length
   let url = exturls[exidx] + `?r=${registry}&m=${module}`
-  let wait = (excount - exidx) * 100
+  let dl = (excount - exidx) * 100
 
-  let res = delay(wait)
+  let res = delay(dl)
     .then(() => fetch(url))
     .then(r => {
       if (r.status > 299) throw new Error(`${registry}/${module} request failed.`)
       return r.json()
     })
 
-  excount++
+  excount++ // this will cause the delay to increase after each call to the same backend
   setTimeout(() => { excount = 0 }, 15000 /* reset after 15 seconds */)
 
-  return res
+  waitingCache[key] = res
+  return waitingCache[key]
 }

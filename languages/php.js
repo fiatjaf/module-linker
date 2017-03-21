@@ -1,6 +1,5 @@
 const external = require('../helpers').external
 
-var waiting = {} // a cache of promises to php external modules
 module.exports.composerurl = composerurl
 function composerurl (moduleName) {
   if (moduleName.split('/').length === 1) {
@@ -9,10 +8,6 @@ function composerurl (moduleName) {
     return Promise.reject()
   }
 
-  if (!waiting[moduleName]) {
-    waiting[moduleName] = external('composer', moduleName)
-      .catch(() => `https://packagist.org/packages/${moduleName}`)
-  }
-
-  return waiting[moduleName]
+  return external('composer', moduleName)
+    .catch(() => `https://packagist.org/packages/${moduleName}`)
 }
