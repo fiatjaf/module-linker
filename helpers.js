@@ -1,5 +1,6 @@
 /* global chrome */
 
+const $ = window.jQuery
 const fetch = window.fetch
 const delay = require('delay')
 
@@ -61,16 +62,31 @@ module.exports.treeurl = function (user, repo, ref, path) {
   return `https://github.com/${user}/${repo}/tree/${ref}/${path}`
 }
 
-module.exports.createLink = function createLink (elem, moduleName, url, backwards = false) {
+module.exports.createLink = function (elem, moduleName, url, backwards = false) {
   if (!moduleName || !url) return
   elem.innerHTML = module.exports.htmlWithLink(elem.innerHTML, moduleName, url, backwards)
 }
 
-module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, backwards = false) {
-  var link = `<a class="module-linker" href="${url.url || url}">${moduleName}</a>`
-  if (url.desc) {
-    link = `<span data-wenk ="${url.desc}" data-wenk-pos="right" class="wenk-length--medium">${link}</span>`
+module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = false) {
+  var link = $('<a>')
+    .addClass('module-linker')
+    .attr('href', url.url || url)
+    .text(moduleName)
+
+  if (url.kind) {
+    // stdlib, external, maybe
+    link = link.addClass(url.kind)
   }
+
+  if (url.desc) {
+    link = $('<span>')
+      .attr('data-wenk', url.desc)
+      .attr('data-wenk-pos', 'right')
+      .addClass('wenk-length--medium')
+      .append(link)
+  }
+
+  link = link.get(0).outerHTML
 
   if (backwards) {
     let index = baseHTML.lastIndexOf(moduleName)
@@ -103,6 +119,10 @@ module.exports.external = function externalResolver (registry, module) {
     .then(r => {
       if (r.status > 299) throw new Error(`${registry}/${module} request failed.`)
       return r.json()
+    })
+    .then(info => {
+      info.kind = 'external'
+      return info
     })
 
   excount++ // this will cause the delay to increase after each call to the same backend

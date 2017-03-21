@@ -85,7 +85,15 @@ function handleUse (lineElem) {
   var alreadyDidExternalFetchingForThisLine = false
   declaredModules.forEach(modulePath => {
     if (modulePath.length === 2 && modulePath[0] === 'std') {
-      createLink(lineElem, modulePath[1], `https://doc.rust-lang.org/std/${modulePath[1]}/`)
+      // is from the stdlib
+      createLink(
+        lineElem,
+        modulePath[1],
+        {
+          url: `https://doc.rust-lang.org/std/${modulePath[1]}/`,
+          kind: 'stdlib'
+        }
+      )
     } else if (modulePath[0] === 'self') {
       return
     } else if (modulePath.length !== 2 && modulePath[0] === 'std') {
@@ -123,5 +131,9 @@ function handleUse (lineElem) {
 
 module.exports.cratesurl = cratesurl
 function cratesurl (moduleName) {
-  return external('crates', moduleName).catch(() => `https://crates.io/crates/${moduleName}`)
+  return external('crates', moduleName)
+    .catch(() => ({
+      url: `https://crates.io/crates/${moduleName}`,
+      kind: 'maybe'
+    }))
 }

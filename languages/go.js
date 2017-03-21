@@ -83,20 +83,33 @@ function processBlock (block) {
 }
 
 function gourl (moduleName) {
-  let {user, repo, ref} = window.pathdata
   if (startswith(moduleName, 'github.com/')) {
-    let p = moduleName.split('/')
+    let {user, repo} = window.pathdata
+    let [_, moduleUser, moduleRepo, ...extrapath] = moduleName.split('/')
+    let isSameRepo = moduleUser === user && moduleRepo === repo
 
-    if (p.length === 3) {
+    if (extrapath.length === 0) {
       // module is the repo root.
-      return `https://${moduleName}`
+      return {
+        url: `https://${moduleName}`,
+        kind: isSameRepo ? '' : 'external'
+      }
     } else {
       // module is a directory inside a GitHub repo.
-      return treeurl(user, repo, ref, p.slice(3).join('/'))
+      return {
+        url: treeurl(moduleUser, moduleRepo, 'master', extrapath.join('/')),
+        kind: isSameRepo ? '' : 'external'
+      }
     }
   } else if (moduleName.indexOf('.') === -1) {
-    return 'https://golang.org/pkg/' + moduleName
+    return {
+      url: 'https://golang.org/pkg/' + moduleName,
+      kind: 'stdlib'
+    }
   } else {
-    return 'https://godoc.org/' + moduleName
+    return {
+      url: 'https://godoc.org/' + moduleName,
+      kind: 'external'
+    }
   }
 }

@@ -47,7 +47,10 @@ function processLine (elem, line, currentPath, lineIndex) {
           .split('_')
           .map(w => w[0].toUpperCase() + w.slice(1))
           .join('')
-      return `https://crystal-lang.org/api/${camel}.html`
+      return {
+        url: `https://crystal-lang.org/api/${camel}.html`,
+        kind: 'stdlib'
+      }
     } else {
       // probably an external shard
       return crystalurl(moduleName)

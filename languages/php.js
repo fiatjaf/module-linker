@@ -9,5 +9,8 @@ function composerurl (moduleName) {
   }
 
   return external('composer', moduleName)
-    .catch(() => `https://packagist.org/packages/${moduleName}`)
+    .catch(() => ({
+      url: `https://packagist.org/packages/${moduleName}`,
+      kind: 'maybe'
+    }))
 }

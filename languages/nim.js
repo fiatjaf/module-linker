@@ -47,7 +47,13 @@ module.exports.process = function process () {
       Promise.all(matches.map(moduleName => {
         // first try the stdlib
         if (moduleName in stdlib) {
-          return [moduleName, `https://nim-lang.org/docs/${moduleName}.html`]
+          return [
+            moduleName,
+            {
+              url: `https://nim-lang.org/docs/${moduleName}.html`,
+              kind: 'stdlib'
+            }
+          ]
         }
 
         // then try the nimble package list
@@ -100,7 +106,8 @@ function externalurl (moduleName) {
         if (pack.name === moduleName) {
           return {
             url: pack.url,
-            desc: pack.description
+            desc: pack.description,
+            kind: 'external'
           }
         }
       }

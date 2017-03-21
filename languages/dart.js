@@ -42,19 +42,22 @@ function processLine (elem, line, currentPath, lineIndex) {
       let [name, ...extra] = importedpath.split('/')
       let extrapath = extra.join('/')
       return darturl(name)
-        .then(url => {
+        .then(info => {
           if (extrapath) {
-            let gh = url.match(/https?:\/\/github.com\/([^\/]+)\/([^\/]+)/)
+            let gh = info.url.match(/https?:\/\/github.com\/([^\/]+)\/([^\/]+)/)
             if (gh) {
-              return `https://github.com/${gh[1]}/${gh[2]}/blob/master/lib/${extrapath}`
+              info.url = `https://github.com/${gh[1]}/${gh[2]}/blob/master/lib/${extrapath}`
             }
           }
-          return url
+          return info
         })
     } else if (startswith(moduleName, 'dart:')) {
       // is from the stdlib
       let [_, name] = moduleName.split(':')
-      return `https://api.dartlang.org/stable/dart-${name}/dart-${name}-library.html`
+      return {
+        url: `https://api.dartlang.org/stable/dart-${name}/dart-${name}-library.html`,
+        kind: 'stdlib'
+      }
     } else {
       // is probably local
       let {user, repo, ref, current} = window.pathdata
@@ -80,5 +83,8 @@ function processLine (elem, line, currentPath, lineIndex) {
 module.exports.darturl = darturl
 function darturl (moduleName) {
   return external('dart', moduleName)
-    .catch(() => `https://pub.dartlang.org/packages/${moduleName}`)
+    .catch(() => ({
+      url: `https://pub.dartlang.org/packages/${moduleName}`,
+      kind: 'maybe'
+    }))
 }

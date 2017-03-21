@@ -104,7 +104,10 @@ function elmpackagejson () {
       lineWithUrlFetcher(
         elem,
         (moduleName) =>
-          Promise.resolve(`http://package.elm-lang.org/packages/${moduleName}/latest`)
+          Promise.resolve({
+            url: `http://package.elm-lang.org/packages/${moduleName}/latest`,
+            kind: 'external'
+          })
       )
     }
 

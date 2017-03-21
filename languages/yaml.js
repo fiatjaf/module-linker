@@ -36,8 +36,10 @@ function stackyaml () {
       let link = elem.find('.pl-s').eq(0)
       let moduleName = link.text().trim()
 
-      let url = `https://hackage.haskell.org/package/${moduleName}`
-      createLink(elem.get(0), moduleName, url)
+      createLink(elem.get(0), moduleName, {
+        url: `https://hackage.haskell.org/package/${moduleName}`,
+        kind: 'external'
+      })
     }
 
     if (!line.match(/^- /)) {
@@ -64,8 +66,7 @@ function pubspecyaml () {
       let moduleName = link.text().trim()
 
       darturl(moduleName)
-        .catch(() => url => `pub.dartlang.org/api/packages/${moduleName}`)
-        .then(url => createLink(link.get(0), moduleName, url))
+        .then(info => createLink(link.get(0), moduleName, info))
     }
 
     if (!rawline.match(/^ /)) {
@@ -91,7 +92,10 @@ function shardyml () {
       let link = elem.find('.pl-s').eq(0)
       let repo = link.text().trim()
 
-      createLink(link.get(0), repo, `https://github.com/${repo}`)
+      createLink(link.get(0), repo, {
+        url: `https://github.com/${repo}`,
+        kind: 'external'
+      })
     }
 
     if (!rawline.match(/^ /)) {

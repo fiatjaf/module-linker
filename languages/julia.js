@@ -47,4 +47,7 @@ function juliaurl (moduleName) {
   return external('julia', moduleName).catch(() => '')
 }
 
-const Base = Promise.resolve('http://docs.julialang.org/en/stable/stdlib/base/')
+const Base = Promise.resolve({
+  url: 'http://docs.julialang.org/en/stable/stdlib/base/',
+  kind: 'stdlib'
+})
