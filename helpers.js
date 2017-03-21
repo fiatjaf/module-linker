@@ -96,8 +96,10 @@ module.exports.external = function externalResolver (registry, module) {
 
   let res = delay(wait)
     .then(() => fetch(url))
-    .then(r => r.json())
-    .then(x => console.log(x) || x)
+    .then(r => {
+      if (r.status > 299) throw new Error(`${registry}/${module} request failed.`)
+      return r.json()
+    })
 
   excount++
   setTimeout(() => { excount = 0 }, 15000 /* reset after 15 seconds */)
