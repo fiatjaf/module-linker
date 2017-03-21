@@ -30,7 +30,7 @@ function processLine (elem, line, currentPath, lineIndex) {
     if (startswith(moduleName, '.')) {
       // is local package.
       let {user, repo, ref, current} = window.pathdata
-      if (moduleName.split('/').slice(-1)[0] === '*') {
+      if (moduleName.split('/').slice(-1)[0][0] === '*') {
         // somehow a wildcard require is possible, so let's redirect to the tree
         let path = resolve(moduleName.split('/').slice(0, -1).join('/'), current.join('/'))
         return treeurl(user, repo, ref, path)
