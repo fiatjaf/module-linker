@@ -67,7 +67,10 @@ module.exports.createLink = function createLink (elem, moduleName, url, backward
 }
 
 module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, backwards = false) {
-  let link = `<a class="module-linker" href="${url}">${moduleName}</a>`
+  var link = `<a class="module-linker" href="${url.url || url}">${moduleName}</a>`
+  if (url.desc) {
+    link = `<span data-balloon="${url.desc}" data-balloon-pos="right" data-balloon-length="medium">${link}</span>`
+  }
 
   if (backwards) {
     let index = baseHTML.lastIndexOf(moduleName)
