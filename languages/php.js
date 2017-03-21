@@ -11,7 +11,6 @@ function composerurl (moduleName) {
 
   if (!waiting[moduleName]) {
     waiting[moduleName] = external('composer', moduleName)
-      .then(({url}) => url)
       .catch(() => `https://packagist.org/packages/${moduleName}`)
   }
 

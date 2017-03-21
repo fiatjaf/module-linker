@@ -75,7 +75,6 @@ function rubygemsurl (moduleName) {
   moduleName = moduleName.split('/')[0]
   if (!waiting[moduleName]) {
     waiting[moduleName] = external('rubygems', moduleName)
-      .then(({url}) => url)
       .catch(() => 'https://rubygems.org/gems/' + moduleName)
   }
 
