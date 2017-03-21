@@ -8,6 +8,7 @@ const ruby = require('./languages/ruby').process
 const gemfile = require('./languages/ruby').processGemfile
 const julia = require('./languages/julia').process
 const juliarequire = require('./languages/julia').processRequire
+const crystal = require('./languages/crystal').process
 const json = require('./languages/json').process
 const yaml = require('./languages/yaml').process
 const toml = require('./languages/toml').process
@@ -65,6 +66,9 @@ function main () {
       break
     case 'nim':
       nim()
+      break
+    case 'cr':
+      crystal()
       break
     case 'go':
       go()

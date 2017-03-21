@@ -5,14 +5,17 @@ const darturl = require('./dart').darturl
 const createLink = require('../helpers').createLink
 
 module.exports.process = function process () {
-  if (window.pathdata.last.match(/stack[\d.-]*\.yaml/)) {
-    stackyaml()
-  } else {
-    switch (window.pathdata.last) {
-      case 'pubspec.yaml':
-        pubspecyaml()
-        break
-    }
+  let name = window.pathdata.last.match(/[^.]+/)[0]
+  switch (name) {
+    case 'stack':
+      stackyaml()
+      break
+    case 'pubspec':
+      pubspecyaml()
+      break
+    case 'shard':
+      shardyml()
+      break
   }
 }
 
@@ -63,6 +66,32 @@ function pubspecyaml () {
       darturl(moduleName)
         .catch(() => url => `pub.dartlang.org/api/packages/${moduleName}`)
         .then(url => createLink(link.get(0), moduleName, url))
+    }
+
+    if (!rawline.match(/^ /)) {
+      depsOpen = false
+    }
+  })
+}
+
+function shardyml () {
+  // crystal
+  var depsOpen = false
+
+  $('.blob-code-inner').each((_, elem) => {
+    elem = $(elem)
+    let rawline = elem.text()
+
+    if (rawline.match(/^dependencies:/)) {
+      depsOpen = true
+      return
+    }
+
+    if (depsOpen && rawline.match(/\bgithub:/)) {
+      let link = elem.find('.pl-s').eq(0)
+      let repo = link.text().trim()
+
+      createLink(link.get(0), repo, `https://github.com/${repo}`)
     }
 
     if (!rawline.match(/^ /)) {
