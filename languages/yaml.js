@@ -83,7 +83,7 @@ function shardyml () {
     elem = $(elem)
     let rawline = elem.text()
 
-    if (rawline.match(/^dependencies:/)) {
+    if (rawline.match(/^dependencies:/) || rawline.match(/^development_dependencies:/)) {
       depsOpen = true
       return
     }
