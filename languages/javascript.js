@@ -77,6 +77,9 @@ function processLine (elem, line, currentPath, lineIndex) {
       }
     } else {
       // is an npm module.
+      moduleName = startswith(moduleName, '@') // remove everything after the slash, but account for namespaced modules
+        ? moduleName.split('/').slice(0, 2).join('/')
+        : moduleName.split('/')[0]
       return npmurl(moduleName)
     }
   })
@@ -103,11 +106,7 @@ function npmurl (moduleName) {
       return info
     })
     .catch(() => ({
-      url: 'https://npmjs.com/package/' + (
-        startswith(moduleName, '@')
-          ? moduleName.split('/').slice(0, 2).join('/')
-          : moduleName.split('/')[0]
-        ),
+      url: `https://npmjs.com/package/${moduleName}`,
       kind: 'maybe'
     }))
 }
