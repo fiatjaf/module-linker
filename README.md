@@ -1,6 +1,6 @@
-![module linker logo](https://cdn.rawgit.com/fiatjaf/module-linker/adbd7168/icon.png)
-
 # Module Linker
+
+![module linker logo](https://cdn.rawgit.com/fiatjaf/module-linker/adbd7168/icon128.png)
 
 Module Linker adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.
 
