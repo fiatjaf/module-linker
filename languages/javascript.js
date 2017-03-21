@@ -98,6 +98,10 @@ function processLine (elem, line, currentPath, lineIndex) {
 module.exports.npmurl = npmurl
 function npmurl (moduleName) {
   return external('npm', moduleName)
+    .then(info => {
+      info.url = info.url.replace('git://', 'https://')
+      return info
+    })
     .catch(() => ({
       url: 'https://npmjs.com/package/' + (
         startswith(moduleName, '@')
