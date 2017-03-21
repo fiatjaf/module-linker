@@ -100,5 +100,7 @@ module.exports.external = function externalResolver (registry, module) {
     .then(x => console.log(x) || x)
 
   excount++
+  setTimeout(() => { excount = 0 }, 15000 /* reset after 15 seconds */)
+
   return res
 }
