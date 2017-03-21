@@ -1,6 +1,7 @@
 /* global chrome */
 
 const fetch = window.fetch
+const delay = require('delay')
 
 var waitToken = new Promise((resolve, reject) => {
   chrome.storage.sync.get('token', ({token}) => {
@@ -66,7 +67,10 @@ module.exports.createLink = function createLink (elem, moduleName, url, backward
 }
 
 module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, backwards = false) {
-  let link = `<a class="module-linker" href="${url}">${moduleName}</a>`
+  var link = `<a class="module-linker" href="${url.url || url}">${moduleName}</a>`
+  if (url.desc) {
+    link = `<span data-wenk ="${url.desc}" data-wenk-pos="right" class="wenk-length--medium">${link}</span>`
+  }
 
   if (backwards) {
     let index = baseHTML.lastIndexOf(moduleName)
@@ -78,21 +82,23 @@ module.exports.htmlWithLink = function htmlWithLink (baseHTML, moduleName, url, 
   }
 }
 
+var excount = 0
+const exturls = [
+  `https://external-resolver.now.sh`,
+  `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver`,
+  `https://fiatjaf.stdlib.com/external-resolver/`,
+  `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master`
+]
 module.exports.external = function externalResolver (registry, module) {
-  var urls = [
-    `https://external-resolver-omtwhvdzdn.now.sh?r=${registry}&m=${module}`,
-    `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver?r=${registry}&m=${module}`,
-    `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master?r=${registry}&m=${module}`,
-    `https://fiatjaf.stdlib.com/external-resolver/?r=${registry}&m=${module}`
-  ]
+  let exidx = excount % exturls.length
+  let url = exturls[exidx] + `?r=${registry}&m=${module}`
+  let wait = (excount - exidx) * 100
 
-  return Promise.resolve()
-    .then(() => /* try once */
-      fetch(urls.splice(parseInt(Math.random() * urls.length), 1))
-    )
+  let res = delay(wait)
+    .then(() => fetch(url))
     .then(r => r.json())
-    .catch(() => /* try a second time */
-      fetch(urls.splice(parseInt(Math.random() * urls.length), 1))
-    )
-    .then(r => r.json())
+    .then(x => console.log(x) || x)
+
+  excount++
+  return res
 }

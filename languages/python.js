@@ -130,7 +130,7 @@ function pypiurl (moduleName) {
   if (!waiting[moduleName]) {
     // try to get an url from an external resolver
     waiting[moduleName] = external('pypi', moduleName)
-      .then(({url}) => [moduleName, url])
+      .then(info => [moduleName, info])
       .catch(() => [
         // finally settle with the PYPI url
         moduleName, `https://pypi.python.org/pypi/${moduleName}`

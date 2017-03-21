@@ -126,7 +126,6 @@ module.exports.cratesurl = cratesurl
 function cratesurl (moduleName) {
   if (!waiting[moduleName]) {
     waiting[moduleName] = external('crates', moduleName)
-      .then(({url}) => url)
       .catch(() => `https://crates.io/crates/${moduleName}`)
   }
 

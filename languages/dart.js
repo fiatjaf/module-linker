@@ -82,7 +82,6 @@ module.exports.darturl = darturl
 function darturl (moduleName) {
   if (!waiting[moduleName]) {
     waiting[moduleName] = external('dart', moduleName)
-      .then(({url}) => url)
       .catch(() => `https://pub.dartlang.org/packages/${moduleName}`)
   }
 

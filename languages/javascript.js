@@ -97,7 +97,6 @@ module.exports.npmurl = npmurl
 function npmurl (moduleName) {
   if (!waiting[moduleName]) {
     waiting[moduleName] = external('npm', moduleName)
-      .then(({url}) => url)
       .catch(() =>
         'https://npmjs.com/package/' + (
           startswith(moduleName, '@')
