@@ -33,7 +33,7 @@
    <li><a href=#/go>Go</a></li>
    <li><a href=#/haskell>Haskell (external packages listed on stack.yaml files)</a></li>
    <li><a href=#/elm>Elm (dependencies on elm-package.json)</a></li>
-  </li>
+  </ul>
   
   <article id=/python>
     <h1>Python</h1>
@@ -121,7 +121,8 @@
 <p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>install from Chrome Web Store</a></p>
 <p><a href=https://github.com/fiatjaf/module-linker>source code on GitHub</a></p>
 
-<script>;(function (d, s, c) {
+<script>
+(function (d, s, c) {
   var x, h, n = Date.now()
   tc = function (p) {
     m = s.getItem('_tcx') > n ? s.getItem('_tch') : 'remela-pelanca'
@@ -136,4 +137,11 @@
     x.send()
   }
   tc()
-})(document, localStorage, 'mzfzx9');</script>
+})(document, localStorage, 'mzfzx9')
+
+document.querySelector('ul').addEventListener('click', function (e) {
+  if (e.target.tagName) {
+    window.tc && tc(1)
+  }
+})
+</script>
