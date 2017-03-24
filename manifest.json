@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Module Linker",
-  "description": "Point and click to browse imported modules directly from GitHub",
-  "version": "1.9.2",
+  "description": "Add direct links to imported modules on GitHub source code.",
+  "version": "1.9.3",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -21,7 +21,11 @@
     "scripts": ["dist/background.js"],
     "persistent": false
   },
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
   "permissions": [
     "https://github.com/*/*/blob/*",
     "https://api.github.com/repos/*",
