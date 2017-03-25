@@ -55,7 +55,7 @@ function processBlock (block) {
     if (startswith(line, 'import (')) multiLineImport = true
 
     if (importing) {
-      let match = line.match(/"([\w.\/]+)"$/)
+      let match = line.match(/"([^"]+)"$/)
 
       if (match) {
         let moduleName = match[1]
