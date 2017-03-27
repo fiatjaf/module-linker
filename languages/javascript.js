@@ -7,6 +7,7 @@ const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const htmlWithLink = require('../helpers').htmlWithLink
 const bloburl = require('../helpers').bloburl
+const treeurl = require('../helpers').treeurl
 
 const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'es', 'es6']
 
@@ -62,9 +63,16 @@ function processLine (elem, line, currentPath, lineIndex) {
             throw new Error('fallback.')
           })
           .catch(() => {
-            // fallback to appending the same filetype as the file in which we are now.
-            // normally === '.js', but can be '.ts' or '.coffee'.
-            return {url: moduleName + '.' + window.filetype, kind: 'maybe'}
+            // fallback: navigate to the directory in which this required file might be
+            // sometimes packages require their own root directory and there's nothing there,
+            // but CommonJS looks into package.json and redirects them to the "main" file.
+            // we're not going to do that, but in this cases it is sensible that we serve the
+            // root directory instead.
+            let {user, repo, ref} = window.pathdata
+            return {
+              url: treeurl(user, repo, ref, resolve(moduleName, currentPath)),
+              kind: 'maybe'
+            }
           })
         : null // if there is a lineIndex it is because processLine is being called from
                // markdown.js. and we don't want relative paths in this case.
