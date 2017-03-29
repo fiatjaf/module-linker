@@ -13,7 +13,7 @@ module.exports.process = function process () {
   $('.blob-code-inner').each((_, elem) => {
     let line = elem.innerText.trim()
 
-    if (line.match(/^import\b/)) {
+    if (line.match(/^import\b/) || line.match(/^include\b/)) {
       importing = true
       hasImported = false
     }
@@ -38,6 +38,7 @@ module.exports.process = function process () {
           matches = m
             .map(n => n.match(/[\w\/_]+/)[0] /* remove comma and spaces */)
             .filter(n => n !== 'import')
+            .filter(n => n !== 'include')
         }
       }
 
