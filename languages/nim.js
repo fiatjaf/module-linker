@@ -1,8 +1,11 @@
 const $ = window.jQuery
 const resolve = require('resolve-pathname')
+const endswith = require('lodash.endswith')
 const fetch = window.fetch
 
 const htmlWithLink = require('../helpers').htmlWithLink
+const treePromise = require('../helpers').treePromise
+const treeurl = require('../helpers').treeurl
 const bloburl = require('../helpers').bloburl
 
 module.exports.process = function process () {
@@ -16,12 +19,12 @@ module.exports.process = function process () {
     if (line.match(/^import\b/) || line.match(/^include\b/)) {
       importing = true
       hasImported = false
-    }
 
-    if (line.match(/^from /)) {
-      importing = true
-      from_import = true
-      hasImported = false
+      if (line.match(/^from /)) {
+        importing = true
+        from_import = true
+        hasImported = false
+      }
     }
 
     if (importing) {
@@ -33,10 +36,10 @@ module.exports.process = function process () {
           matches = [m[1]]
         }
       } else {
-        let m = line.match(/([\w\/_]+)( *,| *$)/g)
+        let m = line.match(/("?[\w\/._]+"?)( +as +[\w_]+| *,| *$)/g)
         if (m) {
           matches = m
-            .map(n => n.match(/[\w\/_]+/)[0] /* remove comma and spaces */)
+            .map(n => n.match(/"?[\w\/._]+"?/)[0] /* remove comma and spaces */)
             .filter(n => n !== 'import')
             .filter(n => n !== 'include')
         }
@@ -46,30 +49,73 @@ module.exports.process = function process () {
 
       hasImported = true
       Promise.all(matches.map(moduleName => {
-        let [moduleFirstName] = moduleName.split('/')
+        var names
+        if (moduleName[0] === '"') {
+          // name has quotes, like "src/path/template.tmpl" or "src/handle"
+          names = moduleName.slice(1, -1).split('/')
+        } else {
+          // name has no quotes, so its parts can be separated by '.' or '/'
+          names = moduleName.indexOf('/') !== -1 ? moduleName.split('/') : moduleName.split('.')
+        }
+        let firstName = names[0]
 
         // first try the stdlib
-        if (moduleFirstName in stdlib) {
+        if (firstName in stdlib) {
           return [
-            moduleFirstName,
+            firstName,
             {
-              url: `https://nim-lang.org/docs/${moduleFirstName}.html`,
+              url: `https://nim-lang.org/docs/${firstName}.html`,
               kind: 'stdlib'
             }
           ]
         }
 
-        // then try the nimble package list
-        return externalurl(moduleFirstName)
-        .then(info => {
-          if (info) return [moduleFirstName, info]
+        // then try a relative path
+        return treePromise()
+          .then(paths => {
+            let {user, repo, ref, current} = window.pathdata
+            let moduleAsPath = names.join('/')
+            let extension = moduleAsPath.indexOf('.') !== -1 ? '' : '.nim'
 
-          // if none found, assume it is a local path
-          let {user, repo, ref, current} = window.pathdata
-          let relative = resolve(moduleName, current.join('/'))
-          return [moduleName, bloburl(user, repo, ref, relative) + '.nim']
-        })
+            var idx
+
+            // trey relative to local module
+            let relative = resolve(moduleAsPath, current.join('/')) + extension
+            idx = paths.indexOf(relative)
+            if (idx !== -1) {
+              return [moduleName, bloburl(user, repo, ref, paths[idx])]
+            }
+
+            // try relative to root
+            idx = paths.indexOf(moduleAsPath + extension)
+            if (idx !== -1) {
+              return [moduleName, bloburl(user, repo, ref, paths[idx])]
+            }
+
+            // fallback to search anywhere
+            for (let i = 0; i < paths.length; i++) {
+              let path = paths[i]
+              let modulepattern = new RegExp(`\b${moduleAsPath.replace('/', '\\/')}\b`)
+              if (modulepattern.exec(path)) {
+                // found something
+                if (endswith(path, moduleAsPath + extension)) {
+                  // it is a file
+                  return [moduleName, bloburl(user, repo, ref, path)]
+                } else {
+                  // it is probably a directory
+                  return [moduleName, treeurl(user, repo, ref, path.split('/').slice(0, -1).join('/'))]
+                }
+              }
+            }
+
+            // found nothing, let's try the nimble package list
+            return externalurl(firstName)
+            .then(info => {
+              if (info) return [firstName, info]
+            })
+          })
       }))
+      .then(results => results.filter(x => x))
       .then(results => {
         // results is an array of [moduleName, url] for all modules in this line, in order
         // since we may have multiple modules in the same line we must use extra-caution when
@@ -91,9 +137,10 @@ module.exports.process = function process () {
 
         elem.innerHTML = resultingHTML + elem.innerHTML.slice(baseIndex)
       })
+      .catch(() => null)
     }
 
-    if (importing && hasImported && line.match(/\w$/) /* line ending without a comma */) {
+    if (importing && hasImported && line.match(/[^,]$/) /* line ending without a comma */) {
       importing = false
       from_import = false
     }
