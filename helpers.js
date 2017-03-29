@@ -36,10 +36,25 @@ module.exports.treePromise = function (postProcess) {
   let key = `${user}:${repo}:${ref}`
 
   if (!treePromiseCache[key]) {
-    let treePromise =
-      gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-      .then(data => data.object.sha)
-      .then(sha => gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`))
+    let treePromise = Promise.resolve()
+      .then(() => {
+        if (ref.length >= 40) {
+          return ref // ref is the commit sha itself
+        }
+
+        // try to fetch the commit sha from the page's html
+        let commitTeaseSha = $('.commit-tease-sha')
+        if (commitTeaseSha.length) {
+          return commitTeaseSha.attr('href').split('/').slice(-1)[0]
+        }
+
+        // fallback to the API
+        return gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
+          .then(data => data.object.sha)
+      })
+      .then(sha =>
+        gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`)
+      )
       .then(data => data.tree.map(blob => blob.path))
 
     if (postProcess) {
