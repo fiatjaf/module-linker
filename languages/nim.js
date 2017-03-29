@@ -100,10 +100,16 @@ module.exports.process = function process () {
                 // found something
                 if (endswith(path, moduleAsPath + extension)) {
                   // it is a file
-                  return [moduleName, bloburl(user, repo, ref, path)]
+                  return [moduleName, {
+                    url: bloburl(user, repo, ref, path),
+                    kind: 'maybe'
+                  }]
                 } else {
                   // it is probably a directory
-                  return [moduleName, treeurl(user, repo, ref, path.split('/').slice(0, -1).join('/'))]
+                  return [moduleName, {
+                    url: treeurl(user, repo, ref, path.split('/').slice(0, -1).join('/')),
+                    kind: 'maybe'
+                  }]
                 }
               }
             }
@@ -124,12 +130,12 @@ module.exports.process = function process () {
 
         var baseIndex = 0
         var resultingHTML = ''
-        results.forEach(([moduleName, url]) => {
+        results.forEach(([moduleName, info]) => {
           let index = elem.innerHTML.slice(baseIndex).search(moduleName)
           if (index === -1) return // should never happen.
           let endIndex = baseIndex + index + moduleName.length
           let html = elem.innerHTML.slice(baseIndex, endIndex)
-          let withLink = htmlWithLink(html, moduleName, url)
+          let withLink = htmlWithLink(html, moduleName, info)
 
           resultingHTML += withLink
           baseIndex = endIndex
