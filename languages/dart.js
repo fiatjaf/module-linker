@@ -65,18 +65,18 @@ function processLine (elem, line, currentPath, lineIndex) {
       return bloburl(user, repo, ref, path)
     }
   })
-  .then(url => {
+  .then(info => {
     if (typeof lineIndex !== 'undefined') {
       // lineIndex is passed from markdown.js, meaning we must replace
       // only in that line -- in this case `elem` is the whole code block,
       // not, as normally, a single line.
       let lines = elem.innerHTML.split('\n')
-      lines[lineIndex] = htmlWithLink(lines[lineIndex], moduleName, url)
+      lines[lineIndex] = htmlWithLink(lines[lineIndex], moduleName, info)
       elem.innerHTML = lines.join('\n')
       return
     }
 
-    createLink(elem, moduleName, url, true)
+    createLink(elem, moduleName, info, true)
   })
 }
 
