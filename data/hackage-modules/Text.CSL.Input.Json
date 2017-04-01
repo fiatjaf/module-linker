@@ -1,1 +1,1 @@
-pandoc-citeproc
+citeproc-hs

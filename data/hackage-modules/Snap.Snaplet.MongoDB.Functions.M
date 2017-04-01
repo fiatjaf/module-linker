@@ -1,0 +1,1 @@
+snaplet-mongodb-minimalistic
