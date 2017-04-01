@@ -1,0 +1,1 @@
+diagrams-core

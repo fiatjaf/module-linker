@@ -1,0 +1,1 @@
+http://package.elm-lang.org/packages/rogeriochaves/elm-testable/latest/Testable.Cmd

@@ -1,0 +1,1 @@
+http://package.elm-lang.org/packages/williamwhitacre/scaffold/latest/Scaffold.App

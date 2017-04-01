@@ -1,0 +1,1 @@
+yi-mode-javascript
