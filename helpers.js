@@ -152,6 +152,12 @@ module.exports.cached = function cachedHttpRequest (url) {
   let key = url
   if (httpCache[key]) return httpCache[key]
   httpCache[key] = fetch(url)
+    .then(r => {
+      if (r.status >= 300) {
+        throw new Error(`failed to fetch ${url}.`)
+      }
+      return r
+    })
   return httpCache[key]
 }
 
