@@ -4,6 +4,7 @@
   --ball-colour-default: #B1E0C0;
   --ball-colour-stdlib: #00556E;
   --ball-colour-external: #F8D726;
+  --ball-colour-docs: #DD9928;
   --ball-colour-maybe: #990134;
   --wenk-colour: rgba(12, 12, 44, 0.7);
   --wenk-font-size: 11px;
@@ -27,6 +28,7 @@ a.module-linker::after {
 a.module-linker::after { background: var(--ball-colour-default); }
 a.module-linker.stdlib::after { background: var(--ball-colour-stdlib); }
 a.module-linker.external::after { background: var(--ball-colour-external); }
+a.module-linker.docs::after { background: var(--ball-colour-docs); }
 a.module-linker.maybe::after { background: var(--ball-colour-maybe); }
 a.module-linker:hover {
   text-decoration: none;

@@ -13,7 +13,11 @@ module.exports.process = function process () {
     let moduleName = match[1]
     text(`https://raw.githubusercontent.com/fiatjaf/module-linker/backends/data/elm-modules/${moduleName}`)
       .then(packageName => {
-        createLink(elem, moduleName, `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`)
+        let info = {
+          url: `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`,
+          kind: 'docs'
+        }
+        createLink(elem, moduleName, info)
       })
   })
 }

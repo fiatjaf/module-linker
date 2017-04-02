@@ -13,7 +13,11 @@ module.exports.process = function process () {
     let moduleName = match[1]
     text(`https://raw.githubusercontent.com/fiatjaf/module-linker/backends/data/hackage-modules/${moduleName}`)
       .then(packageName => {
-        createLink(elem, moduleName, `https://hackage.haskell.org/package/${packageName}/docs/${moduleName.split('.').join('-')}.html`)
+        let info = {
+          url: `https://hackage.haskell.org/package/${packageName}/docs/${moduleName.split('.').join('-')}.html`,
+          kind: 'docs'
+        }
+        createLink(elem, moduleName, info)
       })
   })
 }
