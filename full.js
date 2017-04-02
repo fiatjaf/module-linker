@@ -15,6 +15,7 @@ const toml = require('./languages/toml').process
 const rust = require('./languages/rust').process
 const dart = require('./languages/dart').process
 const nim = require('./languages/nim').process
+const elm = require('./languages/elm').process
 const go = require('./languages/go').process
 const markdown = require('./languages/markdown').process
 
@@ -77,6 +78,9 @@ function main () {
     case 'gemspec':
     case 'Rakefile':
       ruby()
+      break
+    case 'elm':
+      elm()
       break
     case 'Gemfile':
       gemfile()
