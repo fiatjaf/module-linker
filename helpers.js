@@ -120,10 +120,10 @@ const exturls = [
   `https://fiatjaf.stdlib.com/external-resolver/`,
   `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master`
 ] // all these urls work by just appending the same querystring to them.
-var waitingCache = {} // a cache of promises to external modules.
+var moduleCache = {} // a cache of promises to external modules.
 module.exports.external = function externalResolver (registry, module) {
   let key = `${registry}::${module}`
-  if (waitingCache[key]) return waitingCache[key]
+  if (moduleCache[key]) return moduleCache[key]
 
   let exidx = excount % exturls.length
   let url = exturls[exidx] + `?r=${registry}&m=${module}`
@@ -143,6 +143,19 @@ module.exports.external = function externalResolver (registry, module) {
   excount++ // this will cause the delay to increase after each call to the same backend
   setTimeout(() => { excount = 0 }, 15000 /* reset after 15 seconds */)
 
-  waitingCache[key] = res
-  return waitingCache[key]
+  moduleCache[key] = res
+  return moduleCache[key]
+}
+
+var httpCache = {} // a cache of promises to external http results
+module.exports.cached = function cachedHttpRequest (url) {
+  let key = url
+  if (httpCache[key]) return httpCache[key]
+  httpCache[key] = fetch(url)
+  return httpCache[key]
+}
+
+module.exports.text = function cachedTextHttpRequest (url) {
+  return module.exports.cached(url)
+    .then(r => r.text())
 }
