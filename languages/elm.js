@@ -1,6 +1,8 @@
 const $ = window.jQuery
 
 const text = require('../helpers').text
+const json = require('../helpers').json
+const bloburl = require('../helpers').bloburl
 const createLink = require('../helpers').createLink
 
 module.exports.process = function process () {
@@ -11,13 +13,28 @@ module.exports.process = function process () {
     if (!match) return
 
     let moduleName = match[1]
-    text(`https://raw.githubusercontent.com/fiatjaf/module-linker/backends/data/elm-modules/${moduleName}`)
-      .then(packageName => {
-        let info = {
-          url: `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`,
-          kind: 'docs'
-        }
-        createLink(elem, moduleName, info)
+
+    // search for this module on our sub-index of package.elm-lang.org
+    Promise.resolve()
+    .then(() =>
+      text(`https://raw.githubusercontent.com/fiatjaf/module-linker/backends/data/elm-modules/${moduleName}`)
+    )
+    .then(packageName => ({
+      url: `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`,
+      kind: 'docs'
+    }))
+    .catch(() => {
+      // if it fails, we'll try a local module
+      let {user, repo, ref} = window.pathdata
+      return json(
+        `https://raw.githubusercontent.com/${user}/${repo}/${ref}/elm-package.json`)
+      .then(metadata => {
+        let srcdir = metadata['source-directories'][0]
+        let {user, repo, ref} = window.pathdata
+        return bloburl(user, repo, ref,
+          srcdir + '/' + moduleName.split('.').join('/') + '.elm')
       })
+    })
+    .then(info => { createLink(elem, moduleName, info) })
   })
 }

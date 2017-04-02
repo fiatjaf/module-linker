@@ -150,18 +150,22 @@ module.exports.external = function externalResolver (registry, module) {
 var httpCache = {} // a cache of promises to external http results
 module.exports.cached = function cachedHttpRequest (url) {
   let key = url
-  if (httpCache[key]) return httpCache[key]
+  if (httpCache[key]) return Promise.resolve(httpCache[key])
   httpCache[key] = fetch(url)
     .then(r => {
       if (r.status >= 300) {
         throw new Error(`failed to fetch ${url}.`)
       }
-      return r
+      return r.text()
     })
   return httpCache[key]
 }
 
 module.exports.text = function cachedTextHttpRequest (url) {
   return module.exports.cached(url)
-    .then(r => r.text())
+}
+
+module.exports.json = function cachedJsonHttpRequest (url) {
+  return module.exports.cached(url)
+    .then(text => JSON.parse(text))
 }
