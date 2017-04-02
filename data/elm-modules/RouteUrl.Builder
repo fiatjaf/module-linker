@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/rgrempel/elm-route-url/latest/RouteUrl.Builder
+rgrempel/elm-route-url

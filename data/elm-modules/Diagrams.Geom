@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/vilterp/elm-diagrams/latest/Diagrams.Geom
+vilterp/elm-diagrams

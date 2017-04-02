@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/eeue56/elm-html-in-elm/latest/ElmHtml.Markdown
+eeue56/elm-html-in-elm

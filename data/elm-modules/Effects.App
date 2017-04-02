@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/akbiggs/elm-effects/latest/Effects.App
+akbiggs/elm-effects

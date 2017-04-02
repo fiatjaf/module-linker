@@ -1,5 +1,6 @@
 set here (pwd)
-mkdir $here/hackage-modules
+mkdir -p $here/hackage-modules
+rm -fr /tmp/hackage
 mkdir /tmp/hackage
 cd /tmp/hackage
 wget https://hackage.haskell.org/packages/index.tar.gz -O hackage-all.tar.gz

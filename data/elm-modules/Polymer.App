@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/edvail/elm-polymer/latest/Polymer.App
+edvail/elm-polymer

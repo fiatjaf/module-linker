@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/jamesmacaulay/elm-graphql/latest/GraphQL.Request.Builder
+jamesmacaulay/elm-graphql

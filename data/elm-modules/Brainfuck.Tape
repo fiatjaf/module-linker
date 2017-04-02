@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/robinpokorny/elm-brainfuck/latest/Brainfuck.Tape
+robinpokorny/elm-brainfuck

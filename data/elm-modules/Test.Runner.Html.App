@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/rtfeldman/html-test-runner/latest/Test.Runner.Html.App
+rtfeldman/html-test-runner

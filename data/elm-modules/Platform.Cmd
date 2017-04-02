@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/elm-lang/core/latest/Platform.Cmd
+elm-lang/core

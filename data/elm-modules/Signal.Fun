@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/Apanatshka/elm-signal-extra/latest/Signal.Fun
+Apanatshka/elm-signal-extra

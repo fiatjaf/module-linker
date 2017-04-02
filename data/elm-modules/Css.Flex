@@ -1,1 +1,1 @@
-http://package.elm-lang.org/packages/adam-r-kowalski/elm-css-legacy/latest/Css.Flex
+adam-r-kowalski/elm-css-legacy
