@@ -6,7 +6,7 @@ Module Linker adds direct links in the GitHub source code viewer, to any importe
 
 ![python-screencast](https://raw.githubusercontent.com/fiatjaf/module-linker/gh-pages/screenshot/python-screencast.gif)
 
-Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, Elm, Haskell, Julia, Crystal and more!
+Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, Elm, Haskell, Julia, Crystal, Purescript and more!
 
 See [this page](http://fiatjaf.alhur.es/module-linker/) for a full list of supported files, and screenshots.
 

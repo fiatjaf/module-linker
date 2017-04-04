@@ -16,6 +16,7 @@ const rust = require('./languages/rust').process
 const dart = require('./languages/dart').process
 const nim = require('./languages/nim').process
 const elm = require('./languages/elm').process
+const purescript = require('./languages/purescript').process
 const haskell = require('./languages/haskell').process
 const go = require('./languages/go').process
 const markdown = require('./languages/markdown').process
@@ -85,6 +86,9 @@ function main () {
       break
     case 'elm':
       elm()
+      break
+    case 'purs':
+      purescript()
       break
     case 'Gemfile':
       gemfile()
