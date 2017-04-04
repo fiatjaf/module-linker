@@ -1,4 +1,6 @@
 const $ = window.jQuery
+const startswith = require('lodash.startswith')
+const endswith = require('lodash.endswith')
 
 const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
@@ -19,19 +21,24 @@ function treeProcess (tree) {
 }
 
 module.exports.process = function process () {
-  let { user, repo, ref } = window.pathdata
+  let { user, repo, ref, current } = window.pathdata
 
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
-    let require = /require ["']([\w-_\/]*)["']/.exec(line)
-    if (!require) return
-    let moduleName = require[1]
+    let require = /(?:require|load)(?: +|\()?["']([\w-_\/]*)["']\)?/.exec(line)
+    let relative = /require_relative(?: +|\()?["']([\w-_\/]*)["']\)?/.exec(line)
+    if (!require && !relative) return
+    let moduleName = (relative || require)[1]
 
     treePromise(treeProcess).then(paths => {
       for (let i = 0; i < paths.length; i++) {
         let {prefix, suffix} = paths[i]
 
-        if (suffix.slice(0, -3) === moduleName) {
+        if (suffix === moduleName + '.rb') {
+          return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
+        }
+
+        if (relative && startswith(suffix, current.join('/')) && endswith(suffix, moduleName + '.rb')) {
           return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
         }
       }
@@ -47,7 +54,7 @@ module.exports.process = function process () {
       }
     })
     .then(url => {
-      createLink(elem, moduleName, url)
+      createLink(elem, moduleName, url, true)
     })
   })
 }
@@ -67,7 +74,7 @@ module.exports.processGemfile = function process () {
 
     if (github) {
       let path = github[1]
-      createLink(elem, path, `https://github.com/${path}`)
+      createLink(elem, path, `https://github.com/${path}`, true)
     }
   })
 }
