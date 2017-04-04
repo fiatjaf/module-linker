@@ -4,7 +4,9 @@
 
 Module Linker adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.
 
-Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, and more!
+![python-screencast](https://raw.githubusercontent.com/fiatjaf/module-linker/gh-pages/screenshot/python-screencast.gif)
+
+Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, Elm, Haskell, Julia, Crystal and more!
 
 See [this page](http://fiatjaf.alhur.es/module-linker/) for a full list of supported files, and screenshots.
 
