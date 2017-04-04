@@ -1,28 +1,12 @@
 const $ = window.jQuery
-const startswith = require('lodash.startswith')
-const endswith = require('lodash.endswith')
+const resolve = require('resolve-pathname')
 
 const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
 
-function treeProcess (tree) {
-  return tree.map(path => {
-    let parts = path.split('/')
-    let index = parts.indexOf('lib')
-    if (index === -1) return null
-    return {
-      prefix: parts.slice(0, index).join('/'),
-      suffix: parts.slice(index + 1).join('/')
-    }
-  })
-  .filter(path => path)
-}
-
 module.exports.process = function process () {
-  let { user, repo, ref, current } = window.pathdata
-
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
     let require = /(?:require|load)(?: +|\()?["']([\w-_\/]*)["']\)?/.exec(line)
@@ -30,33 +14,76 @@ module.exports.process = function process () {
     if (!require && !relative) return
     let moduleName = (relative || require)[1]
 
-    treePromise(treeProcess).then(paths => {
-      for (let i = 0; i < paths.length; i++) {
-        let {prefix, suffix} = paths[i]
+    Promise.resolve()
+    .then(() => {
+      if (require) {
+        return doRequire(moduleName)
+        .then(info => {
+          if (info) return info // check if we got a relative url from doRequire, otherwise try external
 
-        if (suffix === moduleName + '.rb') {
-          return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
-        }
-
-        if (relative && startswith(suffix, current.join('/')) && endswith(suffix, moduleName + '.rb')) {
-          return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
-        }
-      }
-
-      if (moduleName in stdlib) {
-        return {
-          url: 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html',
-          kind: 'stdlib'
-        }
-      } else {
-        moduleName = moduleName.split('/')[0]
-        return rubygemsurl(moduleName)
+          if (moduleName in stdlib) {
+            return {
+              url: 'http://ruby-doc.org/stdlib/libdoc/' + moduleName + '/rdoc/index.html',
+              kind: 'stdlib'
+            }
+          } else {
+            moduleName = moduleName.split('/')[0]
+            return rubygemsurl(moduleName)
+          }
+        })
+      } else if (relative) {
+        return doRelative(moduleName)
       }
     })
     .then(url => {
       createLink(elem, moduleName, url, true)
     })
   })
+}
+
+function doRequire (moduleName) {
+  let { user, repo, ref } = window.pathdata
+
+  return treePromise()
+  .then(tree =>
+    tree.map(path => {
+      let parts = path.split('/')
+      let index = parts.indexOf('lib')
+      if (index === -1) return null
+      return {
+        prefix: parts.slice(0, index).join('/'),
+        suffix: parts.slice(index + 1).join('/')
+      }
+    })
+    .filter(path => path)
+  )
+  .then(paths => {
+    for (let i = 0; i < paths.length; i++) {
+      let {prefix, suffix} = paths[i]
+
+      if (suffix === moduleName + '.rb') {
+        return bloburl(user, repo, ref, `${prefix}/lib/${suffix}`)
+      }
+    }
+  })
+}
+
+function doRelative (moduleName) {
+  let { user, repo, ref, current } = window.pathdata
+
+  return treePromise()
+    .then(paths => {
+      for (let i = 0; i < paths.length; i++) {
+        let path = paths[i]
+        let resolved = resolve(moduleName, current.join('/')) + '.rb'
+        if (resolved === path) {
+          return bloburl(user, repo, ref, path)
+        }
+      }
+
+      // fallback to default 'require'
+      return doRequire(moduleName)
+    })
 }
 
 module.exports.processGemfile = function process () {
