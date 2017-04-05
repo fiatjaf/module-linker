@@ -112,4 +112,5 @@ function main () {
 main()
 chrome.runtime.onMessage.addListener(function () {
   main()
+  setTimeout(main, 4000)
 })
