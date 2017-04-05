@@ -1,7 +1,7 @@
 const $ = window.jQuery
 const resolve = require('resolve-pathname')
 
-const external = require('../helpers').external
+const text = require('../helpers').text
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
 
@@ -45,7 +45,12 @@ module.exports.processRequire = function () {
 
 module.exports.juliaurl = juliaurl
 function juliaurl (moduleName) {
-  return external('julia', moduleName).catch(() => '')
+  return text(`https://raw.githubusercontent.com/JuliaLang/METADATA.jl/metadata-v2/${moduleName}/url`)
+    .then(url => ({
+      url: url.trim().replace('git://', 'https://'),
+      kind: 'external'
+    }))
+    .catch(() => '')
 }
 
 const Base = Promise.resolve({
