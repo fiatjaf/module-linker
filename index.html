@@ -16,6 +16,8 @@
 </div>
 
 <main id=top>
+  <article class=mainscreencast></article>
+
   <p><b>Module Linker</b> adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.</p>
   
   <p>Languages and files supported (click to see screenshots):</p>
@@ -161,4 +163,10 @@ document.querySelector('ul').addEventListener('click', function (e) {
     window.tc && tc(1)
   }
 })
+</script>
+<script>
+var cast = document.createElement('img')
+var gifs = document.querySelectorAll('img[src$=".gif"]')
+cast.src = gifs[parseInt(Math.random()*gifs.length)].src
+document.getElementsByClassName('mainscreencast')[0].appendChild(cast)
 </script>

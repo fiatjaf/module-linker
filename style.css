@@ -20,6 +20,7 @@ article img {
   border: 7px solid #333;
   margin-bottom: 20px;
 }
+article.mainscreencast { display: initial; }
 
 ul, p { text-align: justify; }
 
@@ -30,9 +31,7 @@ a {
 a:hover { text-decoration: underline; }
 a:active { color: #f42040; }
 
-#top a.to-top {
-  display: none;
-}
-#top:not(:target) a.to-top {
-  display: initial;
-}
+#top a.to-top { display: none; }
+#top article.mainscreencast img { display: initial; }
+#top:not(:target) a.to-top { display: initial; }
+#top:not(:target) article.mainscreencast img { display: none; }
