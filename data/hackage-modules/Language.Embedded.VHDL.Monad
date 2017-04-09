@@ -1,1 +1,1 @@
-imperative-edsl-vhdl
+hardware-edsl

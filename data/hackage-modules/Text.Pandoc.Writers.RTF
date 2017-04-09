@@ -1,1 +1,1 @@
-pandoc
+open-pandoc

@@ -1,1 +1,1 @@
-haskell-tools-rewrite
+haskell-tools-ast-gen

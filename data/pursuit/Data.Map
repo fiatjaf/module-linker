@@ -1,1 +1,1 @@
-purescript-maps@2.1.2
+purescript-maps@3.0.0

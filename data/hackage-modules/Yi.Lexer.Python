@@ -1,1 +1,1 @@
-yi-misc-modes
+yi

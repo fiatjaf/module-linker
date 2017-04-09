@@ -1,1 +1,1 @@
-haskell-tools-backend-ghc
+haskell-tools-ast-fromghc

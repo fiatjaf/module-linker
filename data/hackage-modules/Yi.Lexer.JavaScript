@@ -1,1 +1,1 @@
-yi-mode-javascript
+yi-language

@@ -1,1 +1,1 @@
-writer-cps-transformers
+writer-cps-full

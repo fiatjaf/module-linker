@@ -1,1 +1,1 @@
-plot-gtk3
+plot-gtk

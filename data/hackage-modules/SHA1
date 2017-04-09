@@ -1,1 +1,1 @@
-darcs-beta
+darcs
