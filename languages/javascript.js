@@ -111,6 +111,9 @@ function npmurl (moduleName) {
   return external('npm', moduleName)
     .then(info => {
       info.url = info.url.replace('git://', 'https://')
+      if (info.url.indexOf('ssh://') !== -1) {
+        info.url = info.url.replace(/^[^@]+@/, 'https://')
+      }
       return info
     })
     .catch(() => ({
