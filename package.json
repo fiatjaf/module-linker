@@ -30,8 +30,8 @@
     "bubleify": "^0.7.0"
   },
   "scripts": {
-    "watch": "ls *.js languages/*.js | entr browserifyinc -vd full.js -o dist/full.js",
-    "build": "mkdir -p dist && browserifyinc full.js --outfile dist/full.js && cp background.js dist/",
+    "watch": "ls *.js languages/*.js | entr browserifyinc -vd github.js -o dist/full.js",
+    "build": "mkdir -p dist && browserifyinc github.js --outfile dist/full.js && cp background.js dist/",
     "pack": "rm -fr tmp/ && npm run build && mkdir -p tmp && cp -r dist vendor tmp/ && cp icon128.png icon64.png icon48.png icon16.png manifest.json options.html options.js links.css tmp/ && cd tmp/ && zip -r archive * && mv archive.zip ../ && cd .."
   }
 }

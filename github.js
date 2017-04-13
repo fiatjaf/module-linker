@@ -107,6 +107,12 @@ function main () {
   }
 
   $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 6000})
+
+  let {user, repo} = window.pathdata
+  $('.js-site-search-form')
+    .attr('action', `/${user}/${repo}/search`)
+    .find('.header-search-scope')
+      .attr('href', `/${user}/${repo}`)
 }
 
 main()
