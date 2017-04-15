@@ -30,7 +30,7 @@ function main () {
   window.pathdata = {
     user: path[1],
     repo: path[2],
-    ref: path[4] || 'master',
+    ref: path[4] || $('.branch-select-menu .js-select-button').text().trim() || 'master',
     current: path[4] ? path.slice(5) : '',
     last: path.slice(-1)[0]
   }
