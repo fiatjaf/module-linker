@@ -1,5 +1,6 @@
 const $ = window.jQuery
 const endswith = require('lodash.endswith')
+const startswith = require('lodash.startswith')
 
 const external = require('../helpers').external
 const treePromise = require('../helpers').treePromise
@@ -34,7 +35,6 @@ module.exports.process = function process () {
     let moduleName = fromimport ? fromimport[1] : normalimport[1]
     if (moduleName[0] === '.') {
       // do not search the stdlib when starting with a dot.
-      moduleName = moduleName.slice(1) // remove the dot before continuing.
       if (moduleName === '') return
     } else {
       // search the stdlib
@@ -58,11 +58,32 @@ module.exports.process = function process () {
       var filepath
       var tryingModule
 
+      let leadingdots = moduleName.match(/^\.+/)
+      if (leadingdots) {
+        switch (leadingdots[0].length) {
+          case 1:
+            // search paths relative to this directory
+            paths = paths.filter(path =>
+              startswith(path, current.join('/'))
+            )
+            moduleName = moduleName.slice(1)
+            break
+          case 2:
+            // search paths relative to parent directory
+            paths = paths.filter(path =>
+              startswith(path, current.slice(0, -1).join('/'))
+            )
+            moduleName = moduleName.slice(2)
+            break
+        }
+      }
+
       // try every possible alternative.
       for (let i = 0; i < paths.length; i++) {
         filepath = paths[i]
 
-        // the matching occurs between a "modulified" version of the pathname and the actual moduleName.
+        // the matching occurs between a modulified
+        // version of the pathname and the actual moduleName.
         let potentialModule = filepath.slice(0, -3).split('/').join('.')
 
         tryingModule = moduleName
