@@ -10,6 +10,12 @@ const bloburl = require('../helpers').bloburl
 const treeurl = require('../helpers').treeurl
 
 const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'es', 'es6']
+const more = ['css', 'scss', 'sass', 'styl', 'hson', 'csv', 'tsv', 'oj',
+              'xml', 'svg', 'json5', 'purs', 'miel', 'wisp', 'cjsx',
+              'sibilant', 'elm', 'oj', 'html', 'ejs', 'yaml', 'yml',
+              'md', 'markdown', 'mdown', 'jade', 'pug', 'riot', 'em',
+              'haml', 'hamlc', 'jinja2', 'j2', 'hbs', 'cess', 'png',
+              'jpeg', 'jpg', 'bmp', 'webm', 'gif', 'avi', 'mp4', 'ico']
 
 module.exports.process = function process () {
   let { current } = window.pathdata
@@ -45,7 +51,9 @@ function processLine (elem, line, currentPath, lineIndex) {
   .then(() => {
     if (startswith(moduleName, '.')) {
       // is a local file.
-      if (extensions.indexOf(moduleName.split('.').slice(-1)[0]) !== -1) {
+      if (extensions
+            .concat(more /* allow all kinds of bizarre imports */)
+            .indexOf(moduleName.split('.').slice(-1)[0]) !== -1) {
         return moduleName // the url is exactly this relative path.
       } else {
         return typeof lineIndex === 'undefined'
@@ -53,6 +61,12 @@ function processLine (elem, line, currentPath, lineIndex) {
           .then(paths => {
             for (let i = 0; i < paths.length; i++) {
               let path = paths[i]
+
+              // ignore paths ending in anything but one of our primary extensions
+              if (extensions.indexOf(path.split('.').slice(-1)[0]) === -1) {
+                continue
+              }
+
               let resolved = resolve(moduleName, currentPath)
               if (path.split('/').slice(0, -1).join('/') === resolved ||
                   path.split('.').slice(0, -1).join('.') === resolved) {
@@ -64,10 +78,10 @@ function processLine (elem, line, currentPath, lineIndex) {
           })
           .catch(() => {
             // fallback: navigate to the directory in which this required file might be
-            // sometimes packages require their own root directory and there's nothing there,
-            // but CommonJS looks into package.json and redirects them to the "main" file.
-            // we're not going to do that, but in this cases it is sensible that we serve the
-            // root directory instead.
+            // sometimes packages require their own root directory and there's nothing
+            // there, but CommonJS looks into package.json and redirects them to the
+            // "main" file. we're not going to do that, but in this cases it is sensible
+            // that we serve the root directory instead.
             let {user, repo, ref} = window.pathdata
             return {
               url: treeurl(user, repo, ref, resolve(moduleName, currentPath)),
