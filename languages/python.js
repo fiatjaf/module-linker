@@ -45,7 +45,8 @@ module.exports.process = function process () {
           {
             url: `https://docs.python.org/3/library/${moduleName.split('.')[0]}.html`,
             kind: 'stdlib'
-          }
+          },
+          !fromimport
         )
         return
       }
@@ -143,7 +144,7 @@ module.exports.process = function process () {
     })
     .then(([qualifiedName, url]) => {
       // now we got the url we wanted.
-      createLink(elem, qualifiedName, url)
+      createLink(elem, qualifiedName, url, !fromimport)
     })
   })
 }
