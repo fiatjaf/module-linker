@@ -7,7 +7,8 @@ const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
 
-function treeProcess (tree) {
+// `mod` searches relatively
+function modTreeProcess (tree) {
   let {current} = window.pathdata
 
   return tree
@@ -15,6 +16,25 @@ function treeProcess (tree) {
       startswith(path, current.slice(0, -2).join('/')) &&
       endswith(path, '.rs')
     )
+}
+
+// `use` searches from the root of the crate
+function useTreeProcess (tree) {
+  return tree
+    .map(path => {
+      if (!endswith(path, '.rs')) return false
+
+      let parts = path.split('/')
+      let index = parts.indexOf('src')
+
+      if (index === -1) return false
+
+      return {
+        prefix: parts.slice(0, index).join('/'),
+        suffix: parts.slice(index + 1).join('/')
+      }
+    })
+    .filter(p => p)
 }
 
 module.exports.process = function process () {
@@ -44,7 +64,7 @@ function handleMod (lineElem) {
 
   // search the repository tree (only this same path and
   // a path immediately above)
-  treePromise(treeProcess)
+  treePromise(modTreeProcess)
     .then(paths => {
       for (let i = 0; i < paths.length; i++) {
         let path = paths[i]
@@ -81,7 +101,7 @@ function handleExternCrate (lineElem) {
 }
 
 function handleUse (lineElem) {
-  let {user, repo, ref, current} = window.pathdata
+  let {user, repo, ref} = window.pathdata
 
   var declaredModules = []
   try {
@@ -149,32 +169,17 @@ function handleUse (lineElem) {
       return
     } else {
       Promise.resolve()
-        .then(() => {
-          var importingitself = false
+        .then(() =>
+          // search relatively from the crate root
+          treePromise(useTreeProcess)
+        )
+        .then(suffixesAndPrefixes => {
+          for (let i = 0; i < suffixesAndPrefixes.length; i++) {
+            let {suffix, prefix} = suffixesAndPrefixes[i]
 
-          let noextfilename = current.slice(-1)[0].split('.').slice(0, -1).join()
-          if (noextfilename === modulePath[0]) {
-            importingitself = true
-          } else if (noextfilename === 'mod') {
-            let dir = current.slice(-2)[0]
-            importingitself = (dir === modulePath[0])
-          }
-
-          if (importingitself) {
-            // if this path is trying to import a module with the same name as itself
-            // do not import itself, instead search directly for external crates
-            throw new Error('file trying to import itself as module.')
-          }
-
-          // look for the module path in the list of files of the repo.
-          return treePromise(treeProcess)
-        })
-        .then(paths => {
-          for (let i = 0; i < paths.length; i++) {
-            let path = paths[i]
-            if (endswith(path, '/' + modulePath.join('/') + '.rs') ||
-                endswith(path, '/' + modulePath.join('/') + '/mod.rs')) {
-              let url = bloburl(user, repo, ref, path)
+            if (suffix === modulePath.join('/') + '.rs' ||
+                suffix === modulePath.join('/') + '/mod.rs') {
+              let url = bloburl(user, repo, ref, `${prefix}/src/${suffix}`)
 
               var kind = 'relative'
               if (declaredIndex !== declaredModules.length - 1) {

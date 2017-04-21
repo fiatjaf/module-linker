@@ -32,8 +32,10 @@ function gh (path) {
 
 var treePromiseCache = {}
 module.exports.treePromise = function (postProcess) {
+  let pp = typeof postProcess !== 'undefined' ? postProcess.name : ''
+
   let { user, repo, ref } = window.pathdata
-  let key = `${user}:${repo}:${ref}`
+  let key = `${user}:${repo}:${ref}:${pp}`
 
   if (!treePromiseCache[key]) {
     let treePromise = Promise.resolve()
