@@ -67,7 +67,7 @@ function handleExternCrate (lineElem) {
 }
 
 function handleUse (lineElem) {
-  let {user, repo, ref} = window.pathdata
+  let {user, repo, ref, current} = window.pathdata
 
   var declaredModules = []
   try {
@@ -101,7 +101,7 @@ function handleUse (lineElem) {
     }
   }
 
-  var alreadyDidExternalFetchingForThisLine = false
+  var noExternalFetchingForThisLine = false
   declaredModules.forEach((modulePath, declaredIndex) => {
     if (modulePath[0] in stdlib) {
       // is from the stdlib (`std` or `core` or `collections` or whatever)
@@ -126,14 +126,35 @@ function handleUse (lineElem) {
       createLink(
         lineElem,
         modulePath.slice(-1)[0],
-        {url, kind}
+        {url, kind},
+        true
       )
+      noExternalFetchingForThisLine = true
     } else if (modulePath[0] === 'self' || modulePath[0] === 'super') {
       // these are to refer to locally defined modules etc.
       return
     } else {
-      // otherwise look for the module path in the list of files of the repo.
-      treePromise(treeProcess)
+      Promise.resolve()
+        .then(() => {
+          var importingitself = false
+
+          let noextfilename = current.slice(-1)[0].split('.').slice(0, -1).join()
+          if (noextfilename === modulePath[0]) {
+            importingitself = true
+          } else if (noextfilename === 'mod') {
+            let dir = current.slice(-2)[0]
+            importingitself = (dir === modulePath[0])
+          }
+
+          if (importingitself) {
+            // if this path is trying to import a module with the same name as itself
+            // do not import itself, instead search directly for external crates
+            throw new Error('file trying to import itself as module.')
+          }
+
+          // look for the module path in the list of files of the repo.
+          return treePromise(treeProcess)
+        })
         .then(paths => {
           for (let i = 0; i < paths.length; i++) {
             let path = paths[i]
@@ -150,17 +171,22 @@ function handleUse (lineElem) {
               createLink(
                 lineElem,
                 modulePath.slice(-1)[0],
-                {url, kind}
+                {url, kind},
+                true
               )
+              noExternalFetchingForThisLine = true
               return
             }
           }
 
+          throw new Error('no relative modules found.')
+        })
+        .catch(() => {
           // no compatibility in our file tree -- let's try external modules then
-          if (alreadyDidExternalFetchingForThisLine) return
+          if (noExternalFetchingForThisLine) return
           cratesurl(modulePath[0])
             .then(url => { createLink(lineElem, modulePath[0], url) })
-          alreadyDidExternalFetchingForThisLine = true
+          noExternalFetchingForThisLine = true
         })
     }
   })
