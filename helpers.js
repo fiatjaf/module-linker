@@ -83,15 +83,13 @@ module.exports.createLink = function (elem, moduleName, url, backwards = false) 
 }
 
 module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = false) {
+  let kind = url.kind || 'relative'
+
   var link = $('<a>')
     .addClass('module-linker')
     .attr('href', url.url || url)
     .text(moduleName)
-
-  if (url.kind) {
-    // stdlib, external, maybe
-    link = link.addClass(url.kind)
-  }
+    .addClass(kind)
 
   if (url.desc) {
     link = $('<span>')
