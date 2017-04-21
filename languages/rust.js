@@ -32,6 +32,11 @@ module.exports.process = function process () {
 }
 
 function handleMod (lineElem) {
+  if (endswith(lineElem.innerText.trim(), '{')) {
+    // modules defined in this same file.
+    return
+  }
+
   let moduleName = lineElem.innerText.match(/mod +([\w_]+)/)[1]
 
   let {user, repo, ref, current} = window.pathdata
