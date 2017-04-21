@@ -61,8 +61,22 @@ function handleMod (lineElem) {
 function handleExternCrate (lineElem) {
   try {
     let moduleName = lineElem.innerText.match(/extern +crate +([\w_]+)/)[1]
-    cratesurl(moduleName)
-      .then(url => { createLink(lineElem, moduleName, url) })
+
+    if (moduleName in stdlib) {
+      createLink(
+        lineElem,
+        moduleName,
+        {
+          url: `https://doc.rust-lang.org/${moduleName}/`,
+          kind: 'stdlib'
+        }
+      )
+    } else {
+      cratesurl(moduleName)
+        .then(url => {
+          createLink(lineElem, moduleName, url)
+        })
+    }
   } catch (e) {}
 }
 

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Add direct links to imported modules on GitHub source code.",
-  "version": "1.11.4",
+  "version": "1.11.5",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
