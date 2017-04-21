@@ -12,7 +12,10 @@ function treeProcess (tree) {
   let {current} = window.pathdata
 
   return tree
-    .filter(path => startswith(path, current.slice(0, -1).join('/')) && endswith(path, '.rs'))
+    .filter(path =>
+      startswith(path, current.slice(0, -2).join('/')) &&
+      endswith(path, '.rs')
+    )
 }
 
 module.exports.process = function process () {
@@ -38,12 +41,22 @@ function handleMod (lineElem) {
   }
 
   let moduleName = lineElem.innerText.match(/mod +([\w_]+)/)[1]
+  let {user, repo, ref} = window.pathdata
 
-  let {user, repo, ref, current} = window.pathdata
-  let relative = resolve(moduleName, current.join('/'))
-  let url = bloburl(user, repo, ref, relative) + '.rs'
-
-  createLink(lineElem, moduleName, url)
+  // search the repository tree (only this same path and
+  // a path immediately above)
+  treePromise(treeProcess)
+    .then(paths => {
+      for (let i = 0; i < paths.length; i++) {
+        let path = paths[i]
+        if (endswith(path, '/' + moduleName + '.rs') ||
+            endswith(path, '/' + moduleName + '/mod.rs')) {
+          let url = bloburl(user, repo, ref, path)
+          createLink(lineElem, moduleName, url)
+          return
+        }
+      }
+    })
 }
 
 function handleExternCrate (lineElem) {
