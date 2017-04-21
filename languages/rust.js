@@ -1,5 +1,4 @@
 const $ = window.jQuery
-const resolve = require('resolve-pathname')
 const endswith = require('lodash.endswith')
 const startswith = require('lodash.startswith')
 
@@ -68,7 +67,7 @@ function handleExternCrate (lineElem) {
 }
 
 function handleUse (lineElem) {
-  let {user, repo, ref, current} = window.pathdata
+  let {user, repo, ref} = window.pathdata
 
   var declaredModules = []
   try {
@@ -76,11 +75,12 @@ function handleUse (lineElem) {
     let declaration = lineElem.innerText.match(/use +([\w:_]+)/)[1]
     declaration.split('::').forEach(part => {
       // filter out non-modules
-      if (!part || part[0] !== part[0].toLowerCase()) /* modules are lowercased, it seems. */ {
+      if (!isModule(part)) {
         return
       }
 
-      // append each module in the entire module path along with its ancestors, as an array.
+      // append each module in the entire module path along with its
+      // ancestors, as an array.
       var modulePath
       if (declaredModules.length) {
         modulePath = declaredModules.slice(-1)[0].concat(part)
@@ -94,44 +94,63 @@ function handleUse (lineElem) {
       // multiple modules, like `use {logger, handler}`
       declaredModules = lineElem.innerText.match(/use { *((?:[\w_]+[, ]*)+) *}/)[1]
         .split(/[, ]+/)
-        .map(part => [part] /* just because declaredModules should be an array of modulePaths */)
+        .filter(isModule) // filter out non-modules
+        .map(part => [part]) // because declaredModules should be an array of modulePaths
     } catch (e) {
       return
     }
   }
 
   var alreadyDidExternalFetchingForThisLine = false
-  declaredModules.forEach(modulePath => {
-    if (modulePath.length === 2 && modulePath[0] === 'std') {
-      // is from the stdlib
+  declaredModules.forEach((modulePath, declaredIndex) => {
+    if (modulePath[0] in stdlib) {
+      // is from the stdlib (`std` or `core` or `collections` or whatever)
+      var url = `https://doc.rust-lang.org/` // the crate
+      var i = 0
+      while (true) {
+        if (modulePath.length >= i + 1 && isModule(modulePath[i])) {
+          // a module
+          url += `${modulePath[i]}/`
+          i++
+        } else {
+          break
+        }
+      }
+
+      var kind = 'stdlib'
+      if (declaredIndex !== declaredModules.length - 1) {
+        // only the module after the last :: gets the floating ball
+        kind = 'none'
+      }
+
       createLink(
         lineElem,
-        modulePath[1],
-        {
-          url: `https://doc.rust-lang.org/std/${modulePath[1]}/`,
-          kind: 'stdlib'
-        }
+        modulePath.slice(-1)[0],
+        {url, kind}
       )
     } else if (modulePath[0] === 'self' || modulePath[0] === 'super') {
-      return
-    } else if (modulePath.length !== 2 && modulePath[0] === 'std') {
+      // these are to refer to locally defined modules etc.
       return
     } else {
-      // the module path, delimited by ::, resembles the directory structure.
-      let absModulePath = resolve(modulePath.join('/'), current.join('/'))
-
       // otherwise look for the module path in the list of files of the repo.
       treePromise(treeProcess)
         .then(paths => {
           for (let i = 0; i < paths.length; i++) {
             let path = paths[i]
-            if (absModulePath + '.rs' === path || absModulePath + '/mod.rs' === path) {
+            if (endswith(path, '/' + modulePath.join('/') + '.rs') ||
+                endswith(path, '/' + modulePath.join('/') + '/mod.rs')) {
               let url = bloburl(user, repo, ref, path)
+
+              var kind = 'relative'
+              if (declaredIndex !== declaredModules.length - 1) {
+                // only the module after the last :: gets the floating ball
+                kind = 'none'
+              }
+
               createLink(
                 lineElem,
-                /* replace only the last word in the HTML (after the last '::') */
                 modulePath.slice(-1)[0],
-                url
+                {url, kind}
               )
               return
             }
@@ -154,4 +173,18 @@ function cratesurl (moduleName) {
       url: `https://crates.io/crates/${moduleName}`,
       kind: 'maybe'
     }))
+}
+
+const stdlib = {std: 1, core: 1, collections: 1, alloc: 1, std_unicode: 1}
+
+function isModule (name) {
+  if (name.length === 0) {
+    return
+  }
+
+  if (name[0] === name[0].toLowerCase()) {
+    // first is lowercase
+    return true
+  }
+  return false
 }
