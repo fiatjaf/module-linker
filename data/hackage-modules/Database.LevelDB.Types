@@ -1,1 +1,1 @@
-leveldb-haskell
+leveldb-haskell-fork

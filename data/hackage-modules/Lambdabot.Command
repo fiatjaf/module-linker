@@ -1,1 +1,1 @@
-lambdabot-core
+lambdabot

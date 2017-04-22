@@ -1,1 +1,1 @@
-purescript-redox@1.0.2
+purescript-redox@2.0.0
