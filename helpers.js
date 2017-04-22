@@ -30,43 +30,60 @@ function gh (path) {
   )
 }
 
+module.exports.treePromise = treePromise
 var treePromiseCache = {}
-module.exports.treePromise = function (postProcess) {
+function treePromise (postProcess) {
   let pp = typeof postProcess !== 'undefined' ? postProcess.name : ''
 
   let { user, repo, ref } = window.pathdata
-  let key = `${user}:${repo}:${ref}:${pp}`
+  let xhrkey = `${user}:${repo}:${ref}`
+  let ppkey = xhrkey + ':' + pp
 
-  if (!treePromiseCache[key]) {
-    let treePromise = Promise.resolve()
-      .then(() => {
-        if (ref.length >= 40) {
-          return ref // ref is the commit sha itself
-        }
-
-        // try to fetch the commit sha from the page's html
-        let commitTeaseSha = $('.commit-tease-sha')
-        if (commitTeaseSha.length) {
-          return commitTeaseSha.attr('href').split('/').slice(-1)[0]
-        }
-
-        // fallback to the API
-        return gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
-          .then(data => data.object.sha)
-      })
-      .then(sha =>
-        gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`)
-      )
-      .then(data => data.tree.map(blob => blob.path))
-
-    if (postProcess) {
-      treePromise = treePromise.then(postProcess)
-    }
-
-    treePromiseCache[key] = treePromise
+  // full cache hit
+  if (treePromiseCache[ppkey]) {
+    return treePromiseCache[ppkey]
   }
 
-  return treePromiseCache[key]
+  // cached tree, but not with the postProcess fn
+  // (happens when there is more than one postProcess function
+  //  in the same user/repo/ref)
+  if (treePromiseCache[xhrkey]) {
+    let processedPromise = treePromiseCache[xhrkey]
+      .then(tree => {
+        if (postProcess) {
+          return postProcess(tree)
+        }
+        return tree
+      })
+    treePromiseCache[ppkey] = processedPromise
+    return processedPromise
+  }
+
+  // nothing found. fetch the tree then recall this same function
+  let xhrPromise = Promise.resolve()
+    .then(() => {
+      if (ref.length >= 40) {
+        return ref // ref is the commit sha itself
+      }
+
+      // try to fetch the commit sha from the page's html
+      let commitTeaseSha = $('.commit-tease-sha')
+      if (commitTeaseSha.length) {
+        return commitTeaseSha.attr('href').split('/').slice(-1)[0]
+      }
+
+      // fallback to the API
+      return gh(`repos/${user}/${repo}/git/refs/heads/${ref}`)
+        .then(data => data.object.sha)
+    })
+    .then(sha =>
+      gh(`repos/${user}/${repo}/git/trees/${sha}?recursive=4`)
+    )
+    .then(data => data.tree.map(blob => blob.path))
+
+  treePromiseCache[xhrkey] = xhrPromise
+
+  return treePromise(postProcess)
 }
 
 module.exports.bloburl = function (user, repo, ref, path) {
