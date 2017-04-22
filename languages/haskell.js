@@ -19,9 +19,8 @@ function treeProcess (tree) {
       for (let i = parts.length - 1; i >= 0; i--) {
         let part = parts[i]
 
-        // this regex checks if the name contains only letters, the first one
-        // uppercase, and at least one lowercase (i.e., minimun 2 letters)
-        if (addingToModulePath && part.match(/[A-Z]\w*[a-z]+\w*/)) {
+        // this regex checks if the name contains only letters, the 1st uppercase
+        if (addingToModulePath && part.match(/[A-Z]\w*/)) {
           modulePaths.unshift(part)
         } else {
           addingToModulePath = false
