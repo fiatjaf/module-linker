@@ -1,1 +1,1 @@
-haskell-neo4j-client
+hypher
