@@ -5,11 +5,11 @@ const fetch = window.fetch
 const delay = require('delay')
 
 var waitToken = new Promise((resolve, reject) => {
-  chrome.storage.sync.get('token', ({token}) => {
+  chrome.storage.sync.get('token', (res) => {
     if (chrome.runtime.lastError) {
       reject(chrome.runtime.lastError.message)
     } else {
-      resolve(token)
+      resolve(res.token)
     }
   })
 })

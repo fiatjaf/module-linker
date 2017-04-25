@@ -1,8 +1,15 @@
 {
+  "id": "module-linker",
+  "applications": {
+    "gecko": {
+      "id": "{fd697d8c-616c-4f6e-8509-0ed4a69e544e}",
+      "strict_min_version": "53.0"
+    }
+  },
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Add direct links to imported modules on GitHub source code.",
-  "version": "1.11.3",
+  "version": "1.12.0",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -29,7 +36,6 @@
   "permissions": [
     "https://github.com/*/*/blob/*",
     "https://api.github.com/repos/*",
-    "https://githublinker.herokuapp.com/q/*/*",
     "https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver",
     "https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master",
     "https://fiatjaf.stdlib.com/external-resolver",
