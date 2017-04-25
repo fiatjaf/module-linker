@@ -2,6 +2,7 @@
   --link-colour: #3DA071;
   --hover-colour: #E81481;
   --ball-colour-default: #B1E0C0;
+  --ball-colour-relative: #B1E0C0;
   --ball-colour-stdlib: #00556E;
   --ball-colour-external: #F8D726;
   --ball-colour-docs: #DD9928;
@@ -25,7 +26,12 @@ a.module-linker::after {
   position: relative;
   top: 6px;
 }
+a.module-linker.none::after {
+  /* .none disables the floating point. */
+  display: none
+}
 a.module-linker::after { background: var(--ball-colour-default); }
+a.module-linker.relative::after { background: var(--ball-colour-relative); }
 a.module-linker.stdlib::after { background: var(--ball-colour-stdlib); }
 a.module-linker.external::after { background: var(--ball-colour-external); }
 a.module-linker.docs::after { background: var(--ball-colour-docs); }

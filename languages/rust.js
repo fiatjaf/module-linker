@@ -1,5 +1,4 @@
 const $ = window.jQuery
-const resolve = require('resolve-pathname')
 const endswith = require('lodash.endswith')
 const startswith = require('lodash.startswith')
 
@@ -8,11 +7,34 @@ const treePromise = require('../helpers').treePromise
 const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
 
-function treeProcess (tree) {
+// `mod` searches relatively
+function modTreeProcess (tree) {
   let {current} = window.pathdata
 
   return tree
-    .filter(path => startswith(path, current.slice(0, -1).join('/')) && endswith(path, '.rs'))
+    .filter(path =>
+      startswith(path, current.slice(0, -2).join('/')) &&
+      endswith(path, '.rs')
+    )
+}
+
+// `use` searches from the root of the crate
+function useTreeProcess (tree) {
+  return tree
+    .map(path => {
+      if (!endswith(path, '.rs')) return false
+
+      let parts = path.split('/')
+      let index = parts.indexOf('src')
+
+      if (index === -1) return false
+
+      return {
+        prefix: parts.slice(0, index).join('/'),
+        suffix: parts.slice(index + 1).join('/')
+      }
+    })
+    .filter(p => p)
 }
 
 module.exports.process = function process () {
@@ -32,25 +54,54 @@ module.exports.process = function process () {
 }
 
 function handleMod (lineElem) {
+  if (endswith(lineElem.innerText.trim(), '{')) {
+    // modules defined in this same file.
+    return
+  }
+
   let moduleName = lineElem.innerText.match(/mod +([\w_]+)/)[1]
+  let {user, repo, ref} = window.pathdata
 
-  let {user, repo, ref, current} = window.pathdata
-  let relative = resolve(moduleName, current.join('/'))
-  let url = bloburl(user, repo, ref, relative) + '.rs'
-
-  createLink(lineElem, moduleName, url)
+  // search the repository tree (only this same path and
+  // a path immediately above)
+  treePromise(modTreeProcess)
+    .then(paths => {
+      for (let i = 0; i < paths.length; i++) {
+        let path = paths[i]
+        if (endswith(path, '/' + moduleName + '.rs') ||
+            endswith(path, '/' + moduleName + '/mod.rs')) {
+          let url = bloburl(user, repo, ref, path)
+          createLink(lineElem, moduleName, url)
+          return
+        }
+      }
+    })
 }
 
 function handleExternCrate (lineElem) {
   try {
     let moduleName = lineElem.innerText.match(/extern +crate +([\w_]+)/)[1]
-    cratesurl(moduleName)
-      .then(url => { createLink(lineElem, moduleName, url) })
+
+    if (moduleName in stdlib) {
+      createLink(
+        lineElem,
+        moduleName,
+        {
+          url: `https://doc.rust-lang.org/${moduleName}/`,
+          kind: 'stdlib'
+        }
+      )
+    } else {
+      cratesurl(moduleName)
+        .then(url => {
+          createLink(lineElem, moduleName, url)
+        })
+    }
   } catch (e) {}
 }
 
 function handleUse (lineElem) {
-  let {user, repo, ref, current} = window.pathdata
+  let {user, repo, ref} = window.pathdata
 
   var declaredModules = []
   try {
@@ -58,11 +109,12 @@ function handleUse (lineElem) {
     let declaration = lineElem.innerText.match(/use +([\w:_]+)/)[1]
     declaration.split('::').forEach(part => {
       // filter out non-modules
-      if (!part || part[0] !== part[0].toLowerCase()) /* modules are lowercased, it seems. */ {
+      if (!isModule(part)) {
         return
       }
 
-      // append each module in the entire module path along with its ancestors, as an array.
+      // append each module in the entire module path along with its
+      // ancestors, as an array.
       var modulePath
       if (declaredModules.length) {
         modulePath = declaredModules.slice(-1)[0].concat(part)
@@ -76,54 +128,84 @@ function handleUse (lineElem) {
       // multiple modules, like `use {logger, handler}`
       declaredModules = lineElem.innerText.match(/use { *((?:[\w_]+[, ]*)+) *}/)[1]
         .split(/[, ]+/)
-        .map(part => [part] /* just because declaredModules should be an array of modulePaths */)
+        .filter(isModule) // filter out non-modules
+        .map(part => [part]) // because declaredModules should be an array of modulePaths
     } catch (e) {
       return
     }
   }
 
-  var alreadyDidExternalFetchingForThisLine = false
-  declaredModules.forEach(modulePath => {
-    if (modulePath.length === 2 && modulePath[0] === 'std') {
-      // is from the stdlib
+  var noExternalFetchingForThisLine = false
+  declaredModules.forEach((modulePath, declaredIndex) => {
+    if (modulePath[0] in stdlib) {
+      // is from the stdlib (`std` or `core` or `collections` or whatever)
+      var url = `https://doc.rust-lang.org/` // the crate
+      var i = 0
+      while (true) {
+        if (modulePath.length >= i + 1 && isModule(modulePath[i])) {
+          // a module
+          url += `${modulePath[i]}/`
+          i++
+        } else {
+          break
+        }
+      }
+
+      var kind = 'stdlib'
+      if (declaredIndex !== declaredModules.length - 1) {
+        // only the module after the last :: gets the floating ball
+        kind = 'none'
+      }
+
       createLink(
         lineElem,
-        modulePath[1],
-        {
-          url: `https://doc.rust-lang.org/std/${modulePath[1]}/`,
-          kind: 'stdlib'
-        }
+        modulePath.slice(-1)[0],
+        {url, kind},
+        true
       )
+      noExternalFetchingForThisLine = true
     } else if (modulePath[0] === 'self' || modulePath[0] === 'super') {
-      return
-    } else if (modulePath.length !== 2 && modulePath[0] === 'std') {
+      // these are to refer to locally defined modules etc.
       return
     } else {
-      // the module path, delimited by ::, resembles the directory structure.
-      let absModulePath = resolve(modulePath.join('/'), current.join('/'))
+      Promise.resolve()
+        .then(() =>
+          // search relatively from the crate root
+          treePromise(useTreeProcess)
+        )
+        .then(suffixesAndPrefixes => {
+          for (let i = 0; i < suffixesAndPrefixes.length; i++) {
+            let {suffix, prefix} = suffixesAndPrefixes[i]
 
-      // otherwise look for the module path in the list of files of the repo.
-      treePromise(treeProcess)
-        .then(paths => {
-          for (let i = 0; i < paths.length; i++) {
-            let path = paths[i]
-            if (absModulePath + '.rs' === path || absModulePath + '/mod.rs' === path) {
-              let url = bloburl(user, repo, ref, path)
+            if (suffix === modulePath.join('/') + '.rs' ||
+                suffix === modulePath.join('/') + '/mod.rs') {
+              let url = bloburl(user, repo, ref, `${prefix}/src/${suffix}`)
+
+              var kind = 'relative'
+              if (declaredIndex !== declaredModules.length - 1) {
+                // only the module after the last :: gets the floating ball
+                kind = 'none'
+              }
+
               createLink(
                 lineElem,
-                /* replace only the last word in the HTML (after the last '::') */
                 modulePath.slice(-1)[0],
-                url
+                {url, kind},
+                true
               )
+              noExternalFetchingForThisLine = true
               return
             }
           }
 
+          throw new Error('no relative modules found.')
+        })
+        .catch(() => {
           // no compatibility in our file tree -- let's try external modules then
-          if (alreadyDidExternalFetchingForThisLine) return
+          if (noExternalFetchingForThisLine) return
           cratesurl(modulePath[0])
             .then(url => { createLink(lineElem, modulePath[0], url) })
-          alreadyDidExternalFetchingForThisLine = true
+          noExternalFetchingForThisLine = true
         })
     }
   })
@@ -136,4 +218,18 @@ function cratesurl (moduleName) {
       url: `https://crates.io/crates/${moduleName}`,
       kind: 'maybe'
     }))
+}
+
+const stdlib = {std: 1, core: 1, collections: 1, alloc: 1, std_unicode: 1}
+
+function isModule (name) {
+  if (name.length === 0) {
+    return
+  }
+
+  if (name[0] === name[0].toLowerCase()) {
+    // first is lowercase
+    return true
+  }
+  return false
 }
