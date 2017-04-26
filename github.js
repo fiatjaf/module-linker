@@ -16,6 +16,7 @@ const rust = require('./languages/rust').process
 const dart = require('./languages/dart').process
 const nim = require('./languages/nim').process
 const elm = require('./languages/elm').process
+const c = require('./languages/c').process
 const purescript = require('./languages/purescript').process
 const haskell = require('./languages/haskell').process
 const go = require('./languages/go').process
@@ -83,6 +84,10 @@ function main () {
       break
     case 'hs':
       haskell()
+      break
+    case 'c':
+    case 'h':
+      c()
       break
     case 'elm':
       elm()
