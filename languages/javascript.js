@@ -9,7 +9,7 @@ const htmlWithLink = require('../helpers').htmlWithLink
 const bloburl = require('../helpers').bloburl
 const treeurl = require('../helpers').treeurl
 
-const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'es', 'es6']
+const extensions = ['js', 'jsx', 'json', 'coffee', 'ts', 'tsx', 'es']
 const more = ['css', 'scss', 'sass', 'styl', 'hson', 'csv', 'tsv', 'oj',
               'xml', 'svg', 'json5', 'purs', 'miel', 'wisp', 'cjsx',
               'sibilant', 'elm', 'oj', 'html', 'ejs', 'yaml', 'yml',

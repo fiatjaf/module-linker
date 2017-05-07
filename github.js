@@ -49,6 +49,7 @@ function main () {
     case 'jsx':
     case 'es':
     case 'ts':
+    case 'tsx':
     case 'coffee':
       javascript()
       break
