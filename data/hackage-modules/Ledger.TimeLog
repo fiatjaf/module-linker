@@ -1,1 +1,1 @@
-hledger-lib
+hledger

@@ -11,7 +11,6 @@ for packageURL in (curl --silent --location 'https://pursuit.purescript.org/' | 
     set packageName (echo $moduleURL | string split '/' | tail -n 4 | head -n 1)
 
     echo "$packageName@$version" > "pursuit/$moduleName"
-    sleep 1
   end
   sleep 1
 end

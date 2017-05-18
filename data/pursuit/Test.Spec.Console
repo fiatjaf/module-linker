@@ -1,1 +1,1 @@
-purescript-spec@0.13.0
+purescript-spec@1.0.0
