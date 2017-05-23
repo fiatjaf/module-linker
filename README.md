@@ -10,6 +10,7 @@ Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, Elm, Haskell
 
 See [this page](http://fiatjaf.alhur.es/module-linker/) for a full list of supported files, and screenshots.
 
-Install it: https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn
+Install it: https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn or https://addons.mozilla.org/firefox/addon/module-linker/
 
 [![chrome webstore icon](https://cdn.rawgit.com/fiatjaf/module-linker/gh-pages/chrome-button.png)](https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn)
+[![firefox icon](http://fiatjaf.alhur.es/module-linker/firefox-button.png)](https://addons.mozilla.org/firefox/addon/module-linker/)
