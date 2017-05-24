@@ -1,8 +1,8 @@
+const resolve = require('resolve-pathname')
 const $ = window.jQuery
 
 const npmurl = require('./javascript').npmurl
 const composerurl = require('./php').composerurl
-
 const createLink = require('../helpers').createLink
 
 module.exports.process = function process () {
@@ -44,8 +44,8 @@ function composerjson () {
 function packagejson () {
   var depsOpen = false
 
-  $('.blob-code-inner').each((_, elem) => {
-    elem = $(elem)
+  $('.blob-code-inner').each((_, rawelem) => {
+    let elem = $(rawelem)
     let line = elem.text().trim()
 
     if (line.match(/"dependencies"/) || line.match(/"devDependencies"/) ||
@@ -59,6 +59,12 @@ function packagejson () {
 
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, npmurl)
+    }
+
+    if (line.match(/"main":/)) {
+      let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
     }
   })
 }
