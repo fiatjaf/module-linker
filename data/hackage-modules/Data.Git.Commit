@@ -1,1 +1,1 @@
-hlibgit2
+gitlib

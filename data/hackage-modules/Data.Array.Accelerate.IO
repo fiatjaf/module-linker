@@ -1,1 +1,1 @@
-accelerate
+accelerate-io

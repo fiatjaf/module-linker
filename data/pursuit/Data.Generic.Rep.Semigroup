@@ -1,1 +1,1 @@
-purescript-generics-rep@5.0.0
+purescript-generics-rep@5.1.0
