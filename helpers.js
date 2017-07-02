@@ -132,10 +132,10 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
 
 var excount = 0
 const exturls = [
-  `https://external-resolver.now.sh`,
-  `https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver`,
-  `https://fiatjaf.stdlib.com/external-resolver/`,
-  `https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master`
+  'https://external-resolver.now.sh',
+  'https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver',
+  'https://module-linker-external-resolver.glitch.me/',
+  'https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master'
 ] // all these urls work by just appending the same querystring to them.
 var moduleCache = {} // a cache of promises to external modules.
 module.exports.external = function externalResolver (registry, module) {
