@@ -1,6 +1,8 @@
 /* global chrome */
 
 const $ = window.jQuery
+const includes = require('lodash.includes')
+const startswith = require('lodash.startswith')
 
 const python = require('./languages/python').process
 const javascript = require('./languages/javascript').process
@@ -108,8 +110,41 @@ function main () {
     case 'md':
     case 'mdwn':
     case 'markdown':
-    default:
       markdown()
+      break
+    default:
+      let command = $('.blob-code-inner').first().text()
+      if (!startswith(command, '#!')) {
+        markdown()
+      } else if (includes(command, 'run-cargo-script')) {
+        rust()
+      } else if (includes(command, 'runhaskell')) {
+        haskell()
+      } else if (includes(command, 'crystal')) {
+        crystal()
+      } else if (includes(command, 'python')) {
+        python()
+      } else if (includes(command, 'ruby')) {
+        ruby()
+      } else if (includes(command, 'node')) {
+        node()
+      } else if (includes(command, 'dart')) {
+        dart()
+      } else if (includes(command, 'nim')) {
+        nim()
+      } else if (includes(command, 'go')) {
+        go()
+      } else if (includes(command, 'elm-')) {
+        elm()
+      } else if (includes(command, 'julia')) {
+        julia()
+      // TODO: } else if (includes(command, 'pulp?')) { ?
+      //  purescript()
+      // TODO: } else if (includes(command, 'c?')) { ?
+      //   c()
+      } else {
+        markdown()
+      }
   }
 
   $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 6000})
