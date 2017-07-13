@@ -19,75 +19,76 @@ function main () {
   let blobWrapper = document.querySelector('.data.blob-wrapper')
   if (blobWrapper) {
     window.filetype = blobWrapper.className.match(/type-(\w+)/)[1]
+  } else {
+    window.filetype = 'markdown'
+  }
 
-    switch (window.filetype) {
-      case 'javascript':
-      case 'coffeescript':
-      case 'typescript':
-      case 'jsx':
-        require('./languages/javascript').process()
-        break
-      case 'go':
-        require('./languages/go').process()
-        break
-      case 'c':
-        require('./languages/c').process()
-        break
-      case 'haskell':
-        require('./languages/haskell').process()
-        break
-      case 'python':
-        require('./languages/python').process()
-        break
-      case 'ruby':
-        require('./languages/ruby').process()
-        break
-      case 'crystal':
-        require('./languages/crystal').process()
-        break
-      case 'dart':
-        require('./languages/dart').process()
-        break
-      case 'elm':
-      case 'json':
-      case 'json5':
-      case 'jsonld':
-        require('./languages/json').process()
-        break
-      case 'julia':
-        require('./languages/julia').process()
-        break
-      case 'markdown':
-        require('./languages/markdown').process()
-        break
-      case 'nim':
-        require('./languages/nim').process()
-        break
-      case 'purescript':
-        require('./languages/purescript').process()
-        break
-      case 'rust':
-        require('./languages/rust').process()
-        break
-      case 'toml':
-        require('./languages/toml').process()
-        break
-      case 'yaml':
-        require('./languages/yaml').process()
-        break
-      // css
-      // scss
-      // sass
-      // less
-      // stylus
-      // lua
-      // php
-      // ocaml'
-      // restructuredtext'
-      case 'text':
-        require('./languages/text').process()
-        break
-    }
+  switch (window.filetype) {
+    case 'javascript':
+    case 'coffeescript':
+    case 'typescript':
+    case 'jsx':
+      require('./languages/javascript').process()
+      break
+    case 'go':
+      require('./languages/go').process()
+      break
+    case 'c':
+      require('./languages/c').process()
+      break
+    case 'haskell':
+      require('./languages/haskell').process()
+      break
+    case 'python':
+      require('./languages/python').process()
+      break
+    case 'ruby':
+      require('./languages/ruby').process()
+      break
+    case 'crystal':
+      require('./languages/crystal').process()
+      break
+    case 'dart':
+      require('./languages/dart').process()
+      break
+    case 'elm':
+    case 'json':
+    case 'json5':
+    case 'jsonld':
+      require('./languages/json').process()
+      break
+    case 'julia':
+      require('./languages/julia').process()
+      break
+    case 'markdown':
+      require('./languages/markdown').process()
+      break
+    case 'nim':
+      require('./languages/nim').process()
+      break
+    case 'purescript':
+      require('./languages/purescript').process()
+      break
+    case 'rust':
+      require('./languages/rust').process()
+      break
+    case 'toml':
+      require('./languages/toml').process()
+      break
+    case 'yaml':
+      require('./languages/yaml').process()
+      break
+    // css
+    // scss
+    // sass
+    // less
+    // stylus
+    // ocaml'
+    // lua
+    // php
+    case 'text':
+      require('./languages/text').process()
+      break
   }
 
   // setup pjax
