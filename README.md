@@ -19,4 +19,4 @@ Install it: https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnb
 
 Traffic statistics for this repository:
 
-[![](http://ght.trackingco.de/fiatjaf/module-linker)](https://ght.trackingco.de/)
+[![](https://ght.trackingco.de/fiatjaf/module-linker)](https://ght.trackingco.de/)
