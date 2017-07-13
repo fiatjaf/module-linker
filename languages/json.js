@@ -6,7 +6,7 @@ const composerurl = require('./php').composerurl
 const createLink = require('../helpers').createLink
 
 module.exports.process = function process () {
-  switch (location.pathname.split('/').slice(-1)[0]) {
+  switch (window.pathdata.last) {
     case 'composer.json':
       composerjson()
       break

@@ -33,16 +33,6 @@ module.exports.process = function () {
   })
 }
 
-module.exports.processRequire = function () {
-  $('.blob-code-inner').each((i, elem) => {
-    let line = elem.innerText.trim()
-    let match = line.match(/\w+/) // no spaces or hyphens
-    if (match && match[0][0].toUpperCase() === match[0][0]) {
-      juliaurl(match[0]).then(info => createLink(elem, match[0], info))
-    }
-  })
-}
-
 module.exports.juliaurl = juliaurl
 function juliaurl (moduleName) {
   return text(`https://raw.githubusercontent.com/JuliaLang/METADATA.jl/metadata-v2/${moduleName}/url`)

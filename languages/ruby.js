@@ -7,6 +7,11 @@ const createLink = require('../helpers').createLink
 const bloburl = require('../helpers').bloburl
 
 module.exports.process = function process () {
+  if (window.pathdata.last === 'Gemfile') {
+    gemfile()
+    return
+  }
+
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
     let require = /(?:require|load)(?: +|\()?["']([\w-_\/]*)["']\)?/.exec(line)
@@ -86,7 +91,7 @@ function doRelative (moduleName) {
     })
 }
 
-module.exports.processGemfile = function process () {
+function gemfile () {
   $('.blob-code-inner').each((i, elem) => {
     let line = elem.innerText.trim()
     let gem = /gem ["']([\w-_]*)["']/.exec(line)

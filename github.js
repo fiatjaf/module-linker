@@ -2,26 +2,6 @@
 
 const $ = window.jQuery
 
-const python = require('./languages/python').process
-const javascript = require('./languages/javascript').process
-const ruby = require('./languages/ruby').process
-const gemfile = require('./languages/ruby').processGemfile
-const julia = require('./languages/julia').process
-const juliarequire = require('./languages/julia').processRequire
-const crystal = require('./languages/crystal').process
-const json = require('./languages/json').process
-const yaml = require('./languages/yaml').process
-const toml = require('./languages/toml').process
-const rust = require('./languages/rust').process
-const dart = require('./languages/dart').process
-const nim = require('./languages/nim').process
-const elm = require('./languages/elm').process
-const c = require('./languages/c').process
-const purescript = require('./languages/purescript').process
-const haskell = require('./languages/haskell').process
-const go = require('./languages/go').process
-const markdown = require('./languages/markdown').process
-
 function main () {
   // this global check will prevent us from running process() multiple times.
   if ($('#module-linker-done').length) return
@@ -36,89 +16,89 @@ function main () {
     last: path.slice(-1)[0]
   }
 
-  let spath = window.pathdata.last.split('.')
-  window.filetype = spath.length > 1
-    ? spath.slice(-1)[0]
-    : window.pathdata.last
+  let blobWrapper = document.querySelector('.data.blob-wrapper')
+  if (blobWrapper) {
+    window.filetype = blobWrapper.className.match(/type-(\w+)/)[1]
 
-  switch (window.filetype) {
-    case 'py':
-      python()
-      break
-    case 'js':
-    case 'jsx':
-    case 'es':
-    case 'ts':
-    case 'tsx':
-    case 'coffee':
-      javascript()
-      break
-    case 'json':
-      json()
-      break
-    case 'yaml':
-    case 'yml':
-      yaml()
-      break
-    case 'toml':
-      toml()
-      break
-    case 'dart':
-      dart()
-      break
-    case 'rs':
-      rust()
-      break
-    case 'nim':
-      nim()
-      break
-    case 'cr':
-      crystal()
-      break
-    case 'go':
-      go()
-      break
-    case 'rb':
-    case 'gemspec':
-    case 'Rakefile':
-      ruby()
-      break
-    case 'hs':
-      haskell()
-      break
-    case 'c':
-    case 'h':
-      c()
-      break
-    case 'elm':
-      elm()
-      break
-    case 'purs':
-      purescript()
-      break
-    case 'Gemfile':
-      gemfile()
-      break
-    case 'jl':
-      julia()
-      break
-    case 'REQUIRE':
-      juliarequire()
-      break
-    case 'md':
-    case 'mdwn':
-    case 'markdown':
-    default:
-      markdown()
+    switch (window.filetype) {
+      case 'javascript':
+      case 'coffeescript':
+      case 'typescript':
+      case 'jsx':
+        require('./languages/javascript').process()
+        break
+      case 'go':
+        require('./languages/go').process()
+        break
+      case 'c':
+        require('./languages/c').process()
+        break
+      case 'haskell':
+        require('./languages/haskell').process()
+        break
+      case 'python':
+        require('./languages/python').process()
+        break
+      case 'ruby':
+        require('./languages/ruby').process()
+        break
+      case 'crystal':
+        require('./languages/crystal').process()
+        break
+      case 'dart':
+        require('./languages/dart').process()
+        break
+      case 'elm':
+      case 'json':
+      case 'json5':
+      case 'jsonld':
+        require('./languages/json').process()
+        break
+      case 'julia':
+        require('./languages/julia').process()
+        break
+      case 'markdown':
+        require('./languages/markdown').process()
+        break
+      case 'nim':
+        require('./languages/nim').process()
+        break
+      case 'purescript':
+        require('./languages/purescript').process()
+        break
+      case 'rust':
+        require('./languages/rust').process()
+        break
+      case 'toml':
+        require('./languages/toml').process()
+        break
+      case 'yaml':
+        require('./languages/yaml').process()
+        break
+      // css
+      // scss
+      // sass
+      // less
+      // stylus
+      // lua
+      // php
+      // ocaml'
+      // restructuredtext'
+      case 'text':
+        require('./languages/text').process()
+        break
+    }
   }
 
+  // setup pjax
   $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 6000})
 
+  // update search box repo name tag and action attr after pjax
   let {user, repo} = window.pathdata
   $('.js-site-search-form')
     .attr('action', `/${user}/${repo}/search`)
     .find('.header-search-scope')
-      .attr('href', `/${user}/${repo}`)
+    .attr('href', `/${user}/${repo}`)
 }
 
 main()
