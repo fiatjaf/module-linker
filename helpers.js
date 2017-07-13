@@ -16,18 +16,16 @@ var waitToken = new Promise((resolve, reject) => {
 
 function gh (path) {
   return waitToken
-  .then(token =>
-    fetch(`https://api.github.com/${path}`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'github.com/fiatjaf/module-linker',
-        'Authorization': `token ${token}`
-      }
-    })
-    .then(r => {
-      return r.json()
-    })
-  )
+    .then(token =>
+      fetch(`https://api.github.com/${path}`, {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'github.com/fiatjaf/module-linker',
+          'Authorization': `token ${token}`
+        }
+      })
+    )
+    .then(r => r.json())
 }
 
 module.exports.treePromise = treePromise
@@ -135,7 +133,7 @@ const exturls = [
   'https://external-resolver.now.sh',
   'https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver',
   'https://module-linker-external-resolver.glitch.me/',
-  'https://runkit.io/fiatjaf/58cea8a57fb61d0014ab7135/branches/master'
+  'https://untitled-p8z6su8hb0so.runkit.sh/'
 ] // all these urls work by just appending the same querystring to them.
 var moduleCache = {} // a cache of promises to external modules.
 module.exports.external = function externalResolver (registry, module) {
