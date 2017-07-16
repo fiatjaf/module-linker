@@ -61,6 +61,12 @@ function packagejson () {
       lineWithUrlFetcher(elem, npmurl)
     }
 
+    if (line.match(/"name":/)) {
+      let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = 'https://npmjs.com/package/' + name
+      createLink(rawelem, name, {url, kind: 'maybe'})
+    }
+
     if (line.match(/"main":/)) {
       let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = resolve(main, location.pathname)
