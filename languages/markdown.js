@@ -5,7 +5,7 @@ const lineDart = require('./dart').processLine
 const blockGo = require('./go').processBlock
 
 module.exports.process = function process () {
-  $('.highlight-source-js').each((_, elem) => {
+  $('.highlight-source-js, .highlight-source-js-jsx').each((_, elem) => {
     elem.innerText.trim()
       .split('\n')
       .forEach((line, i) => {
