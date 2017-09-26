@@ -52,6 +52,7 @@ function main () {
       require('./languages/dart').process()
       break
     case 'elm':
+      require('./languages/elm').process()
     case 'json':
     case 'json5':
     case 'jsonld':
