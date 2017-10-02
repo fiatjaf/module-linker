@@ -9,7 +9,7 @@
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Add direct links to imported modules on GitHub source code.",
-  "version": "1.14.0",
+  "version": "1.14.1",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -36,8 +36,11 @@
   "permissions": [
     "https://github.com/*/*/blob/*",
     "https://api.github.com/repos/*",
+    "https://raw.githubusercontent.com/*",
     "https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver",
     "https://external-resolver.now.sh/",
+    "https://module-linker-external-resolver.glitch.me/",
+    "https://untitled-p8z6su8hb0so.runkit.sh/",
     "activeTab",
     "webNavigation",
     "storage"
