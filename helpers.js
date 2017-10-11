@@ -3,6 +3,7 @@
 const $ = window.jQuery
 const fetch = window.fetch
 const delay = require('delay')
+const {lastIndexOfRegex} = require('index-of-regex')
 
 var waitToken = new Promise((resolve, reject) => {
   chrome.storage.sync.get('token', (res) => {
@@ -115,16 +116,17 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
   }
 
   link = link.get(0).outerHTML
+  let regex = new RegExp('\\b' + moduleName.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&') + '\\b')
 
   if (backwards) {
-    let index = baseHTML.lastIndexOf(moduleName)
+    let index = lastIndexOfRegex(baseHTML, regex)
     return baseHTML.slice(0, index) +
       link +
       baseHTML.slice(index + moduleName.length)
   } else {
     // use regex to replace the module name, but escape regex special characters before
     return baseHTML.replace(
-      new RegExp('\\b' + moduleName.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&') + '\\b'),
+      regex,
       link
     )
   }
