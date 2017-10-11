@@ -124,7 +124,11 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
       link +
       baseHTML.slice(index + moduleName.length)
   } else {
-    return baseHTML.replace(moduleName, link)
+    // use regex to replace the module name, but escape regex special characters before
+    return baseHTML.replace(
+      new RegExp('\\b' + moduleName.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&') + '\\b'),
+      link
+    )
   }
 }
 
