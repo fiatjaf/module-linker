@@ -48,3 +48,92 @@ a.module-linker:hover::after {
   background: var(--hover-colour);
   transition: color 300ms linear;
 }
+
+/* wenk.css -- very abbreviated, cut and edited version */
+[data-wenk] { position: relative }
+
+[data-wenk]:after {
+  position: absolute;
+  font-size: 13px;
+  border-radius: .4rem;
+  content: attr(data-wenk);
+  padding: 12.8px;
+  padding: .8rem;
+  background-color: rgba(17, 17, 17, .8);
+  box-shadow: 0 0 14px rgba(0, 0, 0, .1);
+  color: #fff;
+  line-height: 20px;
+  line-height: 1.25rem;
+  text-align: left;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  bottom: 100%;
+  left: 50%;
+  -webkit-transform: translate(-50%, 10px);
+      transform: translate(-50%, 10px);
+  white-space: pre;
+  width: auto;
+
+  white-space: normal;
+  width: 150px
+}
+
+[data-wenk]:after { opacity: 0 }
+[data-wenk]:hover { overflow: visible }
+[data-wenk]:hover:after {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: translate(-50%, -10px);
+      transform: translate(-50%, -10px)
+}
+
+[data-wenk] {}
+[data-wenk]:after {
+  bottom: auto;
+  top: 50%;
+  left: 100%;
+  -webkit-transform: translate(-10px, -50%);
+      transform: translate(-10px, -50%)
+}
+
+[data-wenk]:hover {}
+[data-wenk]:hover:after {
+  -webkit-transform: translate(10px, -50%);
+      transform: translate(10px, -50%)
+}
+
+tr:nth-child(-n+2) [data-wenk] {}
+tr:nth-child(-n+2) [data-wenk]:after {
+  bottom: auto;
+  top: 100%;
+  -webkit-transform: translate(-10px, -1em);
+      transform: translate(-10px, -1em)
+}
+tr:nth-child(-n+2) [data-wenk]:hover {}
+tr:nth-child(-n+2) [data-wenk]:hover:after {
+  -webkit-transform: translate(10px, -1em);
+      transform: translate(10px, -1em)
+}
+
+tr:nth-last-child(-n+2) [data-wenk] {}
+tr:nth-last-child(-n+2) [data-wenk]:after {
+  bottom: 100%;
+  top: auto;
+  -webkit-transform: translate(-10px, 1em);
+      transform: translate(-10px, 1em)
+}
+tr:nth-last-child(-n+2) [data-wenk]:hover {}
+tr:nth-last-child(-n+2) [data-wenk]:hover:after {
+  -webkit-transform: translate(10px, 1em);
+      transform: translate(10px, 1em)
+}
+
+[data-wenk=""]:after {
+  visibility: hidden !important;
+}

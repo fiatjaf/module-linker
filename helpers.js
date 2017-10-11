@@ -111,8 +111,6 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
   if (url.desc) {
     link = $('<span>')
       .attr('data-wenk', url.desc)
-      .attr('data-wenk-pos', 'right')
-      .addClass('wenk-length--medium')
       .append(link)
   }
 
