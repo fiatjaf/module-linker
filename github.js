@@ -34,6 +34,9 @@ function main () {
       require('./languages/go').process()
       break
     case 'c':
+    case 'h':
+    case 'cpp':
+    case 'hpp':
       require('./languages/c').process()
       break
     case 'haskell':
