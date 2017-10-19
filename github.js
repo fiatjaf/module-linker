@@ -53,6 +53,7 @@ function main () {
       break
     case 'elm':
       require('./languages/elm').process()
+      break
     case 'json':
     case 'json5':
     case 'jsonld':
