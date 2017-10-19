@@ -93,7 +93,10 @@ function main () {
   }
 
   // setup pjax
-  $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 6000})
+  $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 0})
+  $(document).on('pjax:timeout', function (e) {
+    e.preventDefault()
+  })
 
   // update search box repo name tag and action attr after pjax
   let {user, repo} = window.pathdata
