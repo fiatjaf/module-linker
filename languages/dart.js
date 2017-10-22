@@ -11,13 +11,15 @@ const bloburl = require('../helpers').bloburl
 
 function treeProcess (tree) {
   let paths = tree
-    .filter(path => startswith(path, 'lib/'))
-    .filter(path => endswith(path, '.dart'))
+    .filter(path => endswith(path, '.dart') && path.match('lib/'))
 
   var filemap = {}
   for (let i = 0; i < paths.length; i++) {
     let path = paths[i]
-    filemap[path.split('/').slice(1).join('/')] = true
+    let libpos = path.indexOf('lib/') + 4
+    let prefix = path.slice(0, libpos)
+    let suffix = path.slice(libpos)
+    filemap[suffix] = prefix
   }
 
   return filemap
@@ -61,9 +63,10 @@ function processLine (elem, line, currentPath, lineIndex) {
       return treePromise(treeProcess)
         .then(filemap => {
           // found it here -- BEWARE: this code doesn't check the name of the package.
-          if (filemap[extrapath]) {
+          let prefix = filemap[extrapath]
+          if (prefix) {
             let {user, repo, ref, _} = window.pathdata
-            return bloburl(user, repo, ref, 'lib/' + extrapath)
+            return bloburl(user, repo, ref, prefix + extrapath)
           }
 
           return darturl(name)
