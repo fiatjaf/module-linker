@@ -3,7 +3,7 @@ const startswith = require('lodash.startswith')
 const endswith = require('lodash.endswith')
 const resolve = require('resolve-pathname')
 
-const external = require('../helpers').external
+// const external = require('../helpers').external
 const createLink = require('../helpers').createLink
 const htmlWithLink = require('../helpers').htmlWithLink
 const treePromise = require('../helpers').treePromise
@@ -112,9 +112,14 @@ function processLine (elem, line, currentPath, lineIndex) {
 
 module.exports.darturl = darturl
 function darturl (moduleName) {
-  return external('dart', moduleName)
-    .catch(() => ({
-      url: `https://pub.dartlang.org/packages/${moduleName}`,
-      kind: 'maybe'
-    }))
+  return Promise.resolve({
+    url: `https://www.dartdocs.org/documentation/${moduleName}/latest/`,
+    kind: 'docs'
+  })
+
+  // return external('dart', moduleName)
+  //   .catch(() => ({
+  //     url: `https://pub.dartlang.org/packages/${moduleName}`,
+  //     kind: 'maybe'
+  //   }))
 }
