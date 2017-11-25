@@ -116,7 +116,12 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
   }
 
   link = link.get(0).outerHTML
-  let regex = new RegExp('\\b' + moduleName.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&') + '\\b')
+  let regexN = moduleName.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+  let regex = new RegExp(
+    (moduleName[0].match(/\w/) ? '\\b' : '') +
+    regexN +
+    (moduleName.slice(-1)[0].match(/w/) ? '\\b' : '')
+  )
 
   if (backwards) {
     let index = lastIndexOfRegex(baseHTML, regex)
@@ -140,7 +145,7 @@ const exturls = [
   'https://untitled-p8z6su8hb0so.runkit.sh/'
 ] // all these urls work by just appending the same querystring to them.
 var moduleCache = {} // a cache of promises to external modules.
-module.exports.external = function externalResolver (registry, module) {
+module.exports.external = function externalResolver (registry, module, alt = []) {
   let key = `${registry}::${module}`
   if (moduleCache[key]) return moduleCache[key]
 
