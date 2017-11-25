@@ -38,7 +38,7 @@ function useTreeProcess (tree) {
 }
 
 module.exports.process = function process () {
-  $('.blob-code-inner > .pl-k').each((_, elem) => {
+  $('.blob-code-inner > .pl-k').each((i, elem) => {
     switch (elem.innerText) {
       case 'mod':
         handleMod(elem.parentNode)
@@ -126,7 +126,7 @@ function handleUse (lineElem) {
   } catch (e) {
     try {
       // multiple modules, like `use {logger, handler}`
-      declaredModules = lineElem.innerText.match(/use { *((?:[\w_]+[, ]*)+) *}/)[1]
+      declaredModules = lineElem.innerText.match(/use { *((?:[\w_]+[, ]*)+) *}?/)[1]
         .split(/[, ]+/)
         .filter(isModule) // filter out non-modules
         .map(part => [part]) // because declaredModules should be an array of modulePaths
