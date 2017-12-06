@@ -2,7 +2,7 @@
 
 const $ = window.jQuery
 const fetch = window.fetch
-const delay = require('delay')
+// const delay = require('delay')
 const {lastIndexOfRegex} = require('index-of-regex')
 
 var waitToken = new Promise((resolve, reject) => {
@@ -137,37 +137,121 @@ module.exports.htmlWithLink = function (baseHTML, moduleName, url, backwards = f
   }
 }
 
-var excount = 0
-const exturls = [
-  'https://external-resolver.now.sh',
-  'https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver',
-  'https://module-linker-external-resolver.glitch.me/',
-  'https://untitled-p8z6su8hb0so.runkit.sh/'
-] // all these urls work by just appending the same querystring to them.
 var moduleCache = {} // a cache of promises to external modules.
-module.exports.external = function externalResolver (registry, module, alt = []) {
+module.exports.external = external
+function external (registry, module) {
   let key = `${registry}::${module}`
   if (moduleCache[key]) return moduleCache[key]
 
-  let exidx = excount % exturls.length
-  let url = exturls[exidx] + `?r=${registry}&m=${module}`
-  let dl = (excount - exidx) * 100
+  var w
 
-  let res = delay(dl)
-    .then(() => fetch(url))
-    .then(r => {
-      if (r.status > 299) throw new Error(`${registry}/${module} request failed.`)
-      return r.json()
+  switch (registry) {
+    case 'composer':
+      w = json(`https://packagist.org/packages/${module}.json`)
+        .then(info => ({
+          url: info.package.repository || `https://packagist.org/packages/${module}`,
+          kind: 'external',
+          desc: info.package.description
+        }))
+      break
+    case 'rubygems':
+      w = json(`https://rubygems.org/api/v1/gems/${module}.json`)
+        .then(info => ({
+          url: info.source_code_uri || info.homepage_uri ||
+               info.project_url || `https://rubygems.org/gems/${module}`,
+          docs: info.documentation_uri,
+          kind: 'external',
+          desc: info.info
+        }))
+      break
+    case 'npm':
+      w = json(`https://registry.npmjs.org/${module.replace('/', '%2f')}`)
+        .then(info => ({
+          url: info.url || info.homepage || info.repository.url
+            ? info.repository.url.replace('git+', '')
+            : `https://npmjs.com/package/${module}`,
+          kind: 'external',
+          desc: info.description || info.keywords.join(', ')
+        }))
+      break
+    case 'pypi':
+      w = json(`https://pypi.python.org/pypi/${module}/json`)
+        .then(info => ({
+          url: info.info.home_page || info.info.package_url || `https://pypi.python.org/pypi/${module}`,
+          kind: 'external',
+          desc: info.info.summary
+        }))
+      break
+    case 'crates':
+      w = json(`https://crates.io/api/v1/crates/${module}`)
+        .then(info => ({
+          url: info.crate.repository ||
+               info.crate.homepage ||
+               `https://crates.io/crates/${module}`,
+          docs: info.crate.documentation || info.crate.homepage,
+          kind: 'external',
+          desc: info.crate.description || info.categories.length && info.categories[0].description
+        }))
+      break
+    case 'dart':
+      w = json(`http://pub.dartlang.org/api/packages/${module}`)
+        .then(info => ({
+          url: info.latest.pubspec.homepage ||
+               `https://pub.dartlang.org/packages/${module}`,
+          docs: info.latest.pubspec.documentation,
+          kind: 'external',
+          desc: info.latest.pubspec.description
+        }))
+      break
+    case 'julia':
+      w = text(`https://raw.githubusercontent.com/JuliaLang/METADATA.jl/metadata-v2/${module}/url`)
+        .then(url => ({url: url.trim().replace('git://', 'https://')}))
+        .catch(() =>
+          html('http://pkg.julialang.org')
+            .then($ =>
+              $('.pkgnamedesc a')
+                .map((i, a) => console.log(i, a) || a)
+                .filter((_, a) => $(a).text() === module)
+                .map((_, a) => ({
+                  url: $(a).attr('href'),
+                  kind: 'external',
+                  desc: $(a).parent().parent().find('h4').text()
+                }))
+                .get(0)
+            )
+        )
+      break
+    case 'hackage':
+      w = html(`https://hackage.haskell.org/package/${module}`)
+        .then($ => {
+          let url = $('a[href*="github.com"]').attr('href')
+          if (url) return {url: url.replace('git://', 'https://')}
+          return {
+            kind: 'external',
+            url: `https://hackage.haskell.org/package/$${module}`
+          }
+        })
+      break
+    case 'crystal':
+      w = text(`https://jsonbin.org/fiatjaf/crystal/${module}`)
+        .then(url => ({
+          kind: 'external',
+          url: url
+        }))
+      break
+    default:
+      w = Promise.reject(new Error('no registry found with that name.'))
+  }
+
+  w = w
+    .then(data => {
+      if (data.desc) {
+        data.desc = data.desc.slice(0, 250)
+      }
+      return data
     })
-    .then(info => {
-      info.kind = 'external'
-      return info
-    })
 
-  excount++ // this will cause the delay to increase after each call to the same backend
-  setTimeout(() => { excount = 0 }, 15000 /* reset after 15 seconds */)
-
-  moduleCache[key] = res
+  moduleCache[key] = w
   return moduleCache[key]
 }
 
@@ -185,11 +269,16 @@ module.exports.cached = function cachedHttpRequest (url) {
   return httpCache[key]
 }
 
-module.exports.text = function cachedTextHttpRequest (url) {
+const text = module.exports.text = function cachedTextHttpRequest (url) {
   return module.exports.cached(url)
 }
 
-module.exports.json = function cachedJsonHttpRequest (url) {
+const json = module.exports.json = function cachedJsonHttpRequest (url) {
   return module.exports.cached(url)
     .then(text => JSON.parse(text))
+}
+
+const html = module.exports.html = function cachedHtmlHttpRequest (url) {
+  return module.exports.cached(url)
+    .then(text => $.parseHTML(text))
 }

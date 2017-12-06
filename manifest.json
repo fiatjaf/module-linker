@@ -9,7 +9,7 @@
   "manifest_version": 2,
   "name": "Module Linker",
   "description": "Add direct links to imported modules on GitHub source code.",
-  "version": "1.15.4",
+  "version": "2.0.0",
   "author": "Giovanni T. Parra",
   "icons": {
     "16": "icon16.png",
@@ -25,8 +25,7 @@
     "css": ["links.css"]
   }],
   "background": {
-    "scripts": ["dist/background.js"],
-    "persistent": false
+    "scripts": ["dist/background.js"]
   },
   "options_ui": {
     "page": "options.html",
@@ -34,13 +33,21 @@
     "open_in_tab": true
   },
   "permissions": [
+    "https://github.com/*",
+    "webRequest",
+    "webRequestBlocking",
     "https://github.com/*/*/blob/*",
     "https://api.github.com/repos/*",
     "https://raw.githubusercontent.com/*",
-    "https://wt-fiatjaf-gmail_com-0.run.webtask.io/resolver",
-    "https://external-resolver.now.sh/",
-    "https://module-linker-external-resolver.glitch.me/",
-    "https://untitled-p8z6su8hb0so.runkit.sh/",
+    "https://pypi.python.org/pypi/*/json",
+    "https://registry.npmjs.org/*",
+    "https://hackage.haskell.org/package/*",
+    "https://pkg.julialang.org",
+    "http://pub.dartlang.org/api/packages/*",
+    "https://crates.io/api/v1/crates/*",
+    "https://rubygems.org/api/v1/gems/*",
+    "https://packagist.org/packages/*",
+    "https://jsonbin.org/fiatjaf/crystal/*",
     "activeTab",
     "webNavigation",
     "storage"
