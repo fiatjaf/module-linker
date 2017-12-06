@@ -33,16 +33,15 @@
     "open_in_tab": true
   },
   "permissions": [
-    "https://github.com/*",
     "webRequest",
     "webRequestBlocking",
-    "https://github.com/*/*/blob/*",
+    "https://github.com/*/*",
     "https://api.github.com/repos/*",
     "https://raw.githubusercontent.com/*",
     "https://pypi.python.org/pypi/*/json",
     "https://registry.npmjs.org/*",
     "https://hackage.haskell.org/package/*",
-    "https://pkg.julialang.org",
+    "https://pkg.julialang.org/",
     "http://pub.dartlang.org/api/packages/*",
     "https://crates.io/api/v1/crates/*",
     "https://rubygems.org/api/v1/gems/*",

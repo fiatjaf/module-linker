@@ -29,17 +29,19 @@ chrome.storage.sync.get('token', ({token}) => {
 
 // disable csp headers on github
 // (webextension requests shouldn't need this, but chrome is broken)
-chrome.webRequest.onHeadersReceived.addListener(details => {
-  for (var i = 0; i < details.responseHeaders.length; i++) {
-    if ('content-security-policy' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = ''
+if (chrome.webRequest.onHeadersReceived) {
+  chrome.webRequest.onHeadersReceived.addListener(details => {
+    for (var i = 0; i < details.responseHeaders.length; i++) {
+      if ('content-security-policy' === details.responseHeaders[i].name.toLowerCase()) {
+        details.responseHeaders[i].value = ''
+      }
     }
-  }
 
-  return {
-    responseHeaders: details.responseHeaders
-  }
-}, {
-  urls: ['https://github.com/*'],
-  types: ['main_frame']
-}, ['blocking', 'responseHeaders'])
+    return {
+      responseHeaders: details.responseHeaders
+    }
+  }, {
+    urls: ['https://github.com/*/*'],
+    types: ['main_frame']
+  }, ['blocking', 'responseHeaders'])
+}
