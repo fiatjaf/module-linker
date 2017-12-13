@@ -1,1 +1,1 @@
-yi-keymap-emacs
+yi

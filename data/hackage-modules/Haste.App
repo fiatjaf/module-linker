@@ -1,1 +1,1 @@
-haste-compiler
+haste-app

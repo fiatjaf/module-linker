@@ -1,1 +1,1 @@
-purescript-node-os@1.1.0
+purescript-node-os@2.1.0

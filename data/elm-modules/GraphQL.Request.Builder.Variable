@@ -1,1 +1,1 @@
-jamesmacaulay/elm-graphql
+pro100filipp/elm-graphql

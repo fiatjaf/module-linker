@@ -1,1 +1,1 @@
-purescript-reactnative@4.0.1
+purescript-reactnative@5.0.0
