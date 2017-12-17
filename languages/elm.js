@@ -73,11 +73,15 @@ module.exports.process = function process () {
     .catch(() =>
       // search for an external module
       text(`https://raw.githubusercontent.com/fiatjaf/module-linker/backends/data/elm-modules/${moduleName}`)
-      .then(packageName => {
+      .then(nameAndDesc => {
+        var [packageName, packageDesc] = nameAndDesc.split('|')
+        packageName = packageName.trim()
+        packageDesc = packageDesc.trim()
+
         let info = {
           url: `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`,
           kind: 'docs',
-          desc: `from package ${packageName.trim()}.`
+          desc: `from ${packageName.trim()}: ${packageDesc}.`
         }
         createLink(elem, moduleName, info)
       })

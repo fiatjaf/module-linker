@@ -77,7 +77,7 @@ module.exports.process = function process () {
         let info = {
           url: `https://hackage.haskell.org/package/${packageName}/docs/${moduleName.split('.').join('-')}.html`,
           kind: 'docs',
-          desc: `from package ${packageName.trim()}.`
+          desc: `from ${packageName.trim()}.`
         }
         createLink(elem, moduleName, info)
       })
