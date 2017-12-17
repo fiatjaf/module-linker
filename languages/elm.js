@@ -76,7 +76,8 @@ module.exports.process = function process () {
       .then(packageName => {
         let info = {
           url: `http://package.elm-lang.org/packages/${packageName}/latest/${moduleName.split('.').join('-')}`,
-          kind: 'docs'
+          kind: 'docs',
+          desc: `from package ${packageName.trim()}.`
         }
         createLink(elem, moduleName, info)
       })

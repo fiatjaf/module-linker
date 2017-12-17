@@ -77,7 +77,8 @@ module.exports.process = function process () {
         let [packageName, version] = packageAndVersion.trim().split('@')
         let info = {
           url: `https://pursuit.purescript.org/packages/${packageName}/${version}/docs/${moduleName}`,
-          kind: 'docs'
+          kind: 'docs',
+          desc: `from package ${packageName.trim()}.`
         }
         createLink(elem, moduleName, info)
       })
