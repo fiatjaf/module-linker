@@ -1,1 +1,3 @@
 williamwhitacre/elm-lexer
+|
+A lexer that provides contextual metadata with lexemes.

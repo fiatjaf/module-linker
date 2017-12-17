@@ -1,1 +1,3 @@
 elm-lang/navigation
+|
+Manage browser navigation yourself (a.k.a. SPA routing, browser history)

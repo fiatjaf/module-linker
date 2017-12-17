@@ -1,1 +1,3 @@
 evancz/elm-html
+|
+Fast HTML, rendered with virtual DOM diffing

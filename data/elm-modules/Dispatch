@@ -1,1 +1,3 @@
 vipentti/elm-dispatch
+|
+Dispatch multiple messages in response to a single Html.Event.

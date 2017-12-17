@@ -1,1 +1,3 @@
 splodingsocks/validatable
+|
+A library for storing and checking validatable data, live or delayed.

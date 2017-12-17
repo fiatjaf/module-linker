@@ -1,1 +1,3 @@
 toastal/select-prism
+|
+Use a Monocle Prism to handle <select> conflict between ADTs and Strings

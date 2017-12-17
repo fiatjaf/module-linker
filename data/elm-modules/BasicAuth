@@ -1,1 +1,3 @@
 kallaspriit/elm-basic-auth
+|
+HTTP basic auth utility for generating the authentication header and token

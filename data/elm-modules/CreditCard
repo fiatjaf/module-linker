@@ -1,1 +1,3 @@
 milesrock/elm-creditcard
+|
+package to handle credit card details. It can store, format and validate them.

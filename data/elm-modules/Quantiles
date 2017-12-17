@@ -1,1 +1,3 @@
 ericgj/elm-quantiles
+|
+Calculate quantiles, using various interpolation functions (or your own).

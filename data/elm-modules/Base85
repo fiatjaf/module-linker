@@ -1,1 +1,3 @@
 MichaelCombs28/elm-base85
+|
+A library for encoding and decoding ascii85.

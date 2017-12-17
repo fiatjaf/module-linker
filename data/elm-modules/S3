@@ -1,1 +1,3 @@
 billstclair/elm-s3
+|
+elm-s3 is a pure Elm client library for Amazon S3 and Digital Ocean Spaces.

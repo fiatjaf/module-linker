@@ -1,1 +1,3 @@
 mgold/elm-socketio
+|
+Socket.io (websockets) for bidirectional realtime messaging

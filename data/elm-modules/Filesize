@@ -1,1 +1,3 @@
 basti1302/elm-human-readable-filesize
+|
+Converts file size in bytes to a human readable string

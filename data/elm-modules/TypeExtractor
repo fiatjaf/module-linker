@@ -1,1 +1,3 @@
 splodingsocks/elm-type-extractor
+|
+Transform a string of Elm source into type declarations.

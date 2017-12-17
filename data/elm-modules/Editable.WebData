@@ -1,1 +1,3 @@
 Gizra/elm-editable-webdata
+|
+An EditableWebData represents an Editable value, along with WebData.

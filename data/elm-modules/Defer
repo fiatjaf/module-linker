@@ -1,1 +1,3 @@
 fredcy/elm-defer-command
+|
+Defer commands to run after next animation frame

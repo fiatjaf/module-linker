@@ -1,1 +1,3 @@
 opensolid/webgl-math-interop
+|
+Interop support for opensolid/geometry and Zinggi/elm-webgl-math

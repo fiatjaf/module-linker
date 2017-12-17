@@ -1,1 +1,3 @@
 arowM/elm-raw-html
+|
+An unsafe and unrecommended module to render read-only raw html in Elm view.

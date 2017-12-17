@@ -1,1 +1,3 @@
 enetsee/typed-format
+|
+A type-safe 'sprintf' format printer.

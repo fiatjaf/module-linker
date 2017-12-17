@@ -1,1 +1,3 @@
 flarebyte/ntriples-filter
+|
+This library provides an easy way of filtering a list of simplified n-triples.

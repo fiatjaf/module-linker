@@ -1,1 +1,3 @@
 toastal/either
+|
+A more complete Either for representing a structure with two types

@@ -1,1 +1,3 @@
 yotamDvir/elm-katex
+|
+KaTeX in elm (without ports): a fast LaTeX rendering library from Kahn Academy.

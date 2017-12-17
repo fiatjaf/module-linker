@@ -1,1 +1,3 @@
 robertjlooby/elm-generic-dict
+|
+A dict/set for Elm that accepts a user-provided comparer

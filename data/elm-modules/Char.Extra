@@ -1,1 +1,3 @@
 zeckalpha/char-extra
+|
+Adds `isWhitespace` for Char.

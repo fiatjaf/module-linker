@@ -1,1 +1,3 @@
 GlobalWebIndex/class-namespaces
+|
+Abstraction for easier work with conventional namespaced class names.

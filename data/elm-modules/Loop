@@ -1,1 +1,3 @@
 JohnBugner/elm-loop
+|
+Repeatedly apply a function to a value.

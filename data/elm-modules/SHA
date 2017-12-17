@@ -1,1 +1,3 @@
 spisemisu/elm-sha
+|
+An implementation of the SHA cryptographic hash functions in Elm

@@ -1,1 +1,3 @@
 jasonmahr/html-escaped-unicode
+|
+Allows use of HTML escape Unicode sequences with elm-html

@@ -1,1 +1,3 @@
 yotamDvir/elm-pivot
+|
+Pivot: a list with a cursor pointing at the center, like a zipper.

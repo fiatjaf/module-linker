@@ -1,1 +1,3 @@
 ggb/elm-bloom
+|
+Elm Bloom filter implementation using Murmur3

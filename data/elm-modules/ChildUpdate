@@ -1,1 +1,3 @@
 ktonon/elm-child-update
+|
+Delegates update messages to one or many children

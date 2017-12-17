@@ -1,1 +1,3 @@
 amaksimov/elm-maybe-pipeline
+|
+Library providing infix Maybe.map & .andThen functions.

@@ -1,1 +1,3 @@
 rtfeldman/hashed-class
+|
+Automatically generate elm-css classnames based on their content.

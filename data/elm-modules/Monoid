@@ -1,1 +1,3 @@
 arowM/elm-monoid
+|
+A module to define generic functions for monoid.

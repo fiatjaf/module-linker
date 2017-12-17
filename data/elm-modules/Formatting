@@ -1,1 +1,3 @@
 krisajenkins/formatting
+|
+A type-safe string formatting library - 'printf' for Elm.

@@ -1,1 +1,3 @@
 prikhi/elm-http-builder
+|
+Extra functions for more easily building and handling Http requests

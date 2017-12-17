@@ -1,1 +1,3 @@
 elm-lang/window
+|
+Get the dimensions of the window / screen size.

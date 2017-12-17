@@ -1,1 +1,3 @@
 danielnarey/elm-form-capture
+|
+Capture form input as a dictionary keyed by component id

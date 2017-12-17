@@ -1,1 +1,3 @@
 zwilias/elm-transcoder
+|
+Transcode from one data-structure to another, pipeline style

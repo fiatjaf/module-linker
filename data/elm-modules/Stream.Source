@@ -1,1 +1,3 @@
 naddeoa/stream
+|
+Functional, infinite streams of data that won't overflow the stack

@@ -1,1 +1,3 @@
 zwilias/elm-avl-dict-exploration
+|
+Alternative Dict implementation backed by an AVL tree.

@@ -1,1 +1,3 @@
 fabiommendes/elm-dynamic-forms
+|
+Dynamic forms in Elm. Load and save forms from/to JSON.

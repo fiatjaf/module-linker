@@ -1,1 +1,3 @@
 lynn/elm-arithmetic
+|
+Library for integer arithmetic: primes, bases, divisors, gcd...

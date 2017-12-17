@@ -1,1 +1,3 @@
 blacksheepmails/elm-set
+|
+A Elm set implementation that can store any type

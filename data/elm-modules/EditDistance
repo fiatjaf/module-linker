@@ -1,1 +1,3 @@
 erwald/elm-edit-distance
+|
+A package for calculating between-list edit distances.

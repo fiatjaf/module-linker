@@ -1,1 +1,3 @@
 rhofour/elm-astar
+|
+A library implementing the A-Star pathfinding algorithm.

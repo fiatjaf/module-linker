@@ -1,1 +1,3 @@
 mpizenberg/elm-debounce
+|
+Control messages with debouncing and throttling

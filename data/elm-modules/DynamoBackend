@@ -1,1 +1,3 @@
 billstclair/elm-dynamodb
+|
+Elm interface to Amazon's DynamoDB key/value store.

@@ -1,1 +1,3 @@
 cultureamp/elm-css-modules-loader
+|
+Use Webpack-powered CSS Modules inside your Elm views

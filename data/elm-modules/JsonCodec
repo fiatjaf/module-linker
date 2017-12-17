@@ -1,1 +1,3 @@
 prozacchiwawa/elm-json-codec
+|
+A library for composing json encoders and decoders simultaneously in elm

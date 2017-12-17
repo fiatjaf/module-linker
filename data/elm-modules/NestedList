@@ -1,1 +1,3 @@
 lovasoa/elm-nested-list
+|
+Nested lists and associated Json decoders and encoders for Elm.

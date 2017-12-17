@@ -1,1 +1,3 @@
 NoRedInk/elm-decode-pipeline
+|
+A pipeline-friendly library for building JSON decoders.

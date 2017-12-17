@@ -1,1 +1,3 @@
 sgraf812/elm-intdict
+|
+Optimized dictionary specialization for Integers. Mirrors the dictionary API.

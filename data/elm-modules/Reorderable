@@ -1,1 +1,3 @@
 zwilias/elm-reorderable
+|
+Reorder entries while maintaining a key/value correspondence.

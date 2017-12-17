@@ -1,1 +1,3 @@
 krisajenkins/remotedata
+|
+Tools for fetching data from remote sources (incl. HTTP).

@@ -1,1 +1,3 @@
 terezka/coordinates
+|
+For translating from cartesian coordinates to SVG coordinates and vice versa.

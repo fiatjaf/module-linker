@@ -1,1 +1,3 @@
 etaque/elm-route-parser
+|
+A friendly route parser based on parser combinators

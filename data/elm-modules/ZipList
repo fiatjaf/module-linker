@@ -1,1 +1,3 @@
 Guid75/ziplist
+|
+A collection data type that exposes a single current item

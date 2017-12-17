@@ -1,1 +1,3 @@
 mpizenberg/elm-mouse-events
+|
+Will deprecate in favor of elm-pointer-events in elm 0.19

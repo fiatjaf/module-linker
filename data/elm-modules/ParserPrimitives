@@ -1,1 +1,3 @@
 elm-tools/parser-primitives
+|
+Fast (but safe) primitives for creating parsing packages

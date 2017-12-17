@@ -1,1 +1,3 @@
 mbr/elm-mouse-events
+|
+Mouse events for elm, exposing additional detail like XY-Coordinates

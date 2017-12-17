@@ -1,1 +1,3 @@
 vito/elm-ansi
+|
+Parsing streams of text with ANSI escape sequences

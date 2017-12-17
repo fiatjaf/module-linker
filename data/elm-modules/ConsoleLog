@@ -1,1 +1,3 @@
 jackfranklin/elm-console-log
+|
+A log function that converts to string first

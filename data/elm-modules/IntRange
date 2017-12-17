@@ -1,1 +1,3 @@
 uehaj/IntRange
+|
+Iterates consecutive range of int numbers avoiding consuming extra memory.

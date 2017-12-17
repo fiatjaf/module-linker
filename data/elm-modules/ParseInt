@@ -1,1 +1,3 @@
 fredcy/elm-parseint
+|
+Functions to convert String to Int or Int to String in various radixes

@@ -1,1 +1,3 @@
 rluiten/stemmer
+|
+Stemmer is an Elm language implementation of Porter Stemmer

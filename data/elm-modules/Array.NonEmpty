@@ -1,1 +1,3 @@
 basti1302/elm-non-empty-array
+|
+An array that has at least one element.

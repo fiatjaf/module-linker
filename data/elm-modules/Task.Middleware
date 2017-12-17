@@ -1,1 +1,3 @@
 drojas/elm-task-middleware
+|
+Task.Middleware, a sequence of tasks that can either continue or end.

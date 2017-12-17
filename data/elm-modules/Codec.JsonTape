@@ -1,1 +1,3 @@
 jtojnar/elm-json-tape
+|
+Serialisation of directory trees into JSON.

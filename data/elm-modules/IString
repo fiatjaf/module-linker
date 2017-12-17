@@ -1,1 +1,3 @@
 arowM/elm-istring
+|
+A module to handle unexpected behavior when using `lazy` with `input` tag.

@@ -1,1 +1,3 @@
 gaborv/debouncer
+|
+Simple package to simplify delayed and aggregated message propagation.

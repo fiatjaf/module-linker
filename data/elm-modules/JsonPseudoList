@@ -1,1 +1,3 @@
 lovasoa/elm-jsonpseudolist
+|
+JSON decoder for pseudo-array objects ({"length":1, "0": 123})

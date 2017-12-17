@@ -1,1 +1,3 @@
 ktonon/elm-crypto
+|
+Compute HMAC with SHA-2 hash functions or use SHA-2 directly.

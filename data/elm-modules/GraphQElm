@@ -1,1 +1,3 @@
 chrisalmeida/graphqelm
+|
+A simple Elm API for composing GraphQL queries and making requests.

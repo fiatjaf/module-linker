@@ -1,1 +1,3 @@
 rhofour/elm-pairing-heap
+|
+A simple pairing heap implementation usable as a priority queue.

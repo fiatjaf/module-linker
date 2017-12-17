@@ -1,1 +1,3 @@
 Gizra/elm-storage-key
+|
+A StorageKey represents a value that is either New or Existing.

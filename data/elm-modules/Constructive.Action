@@ -1,1 +1,3 @@
 SelectricSimian/elm-constructive
+|
+A variant of the Elm architecture, where actions directly construct new models

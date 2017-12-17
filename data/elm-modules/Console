@@ -1,1 +1,3 @@
 rtfeldman/console-print
+|
+Print formatted text to the console using ANSI escape sequences.

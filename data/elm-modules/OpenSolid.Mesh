@@ -1,1 +1,3 @@
 opensolid/mesh
+|
+Generic indexed triangular mesh data structure

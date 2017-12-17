@@ -1,1 +1,3 @@
 wintvelt/elm-print-any
+|
+a tiny library to print any record to DOM or to console

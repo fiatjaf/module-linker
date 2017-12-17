@@ -1,1 +1,3 @@
 brainrape/elm-bidict
+|
+Many-to-Many relation using a pair of Dicts

@@ -1,1 +1,3 @@
 ktonon/url-parser
+|
+Parse URLs into nicely structured data. Fork: without dom, html, navigation

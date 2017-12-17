@@ -1,1 +1,3 @@
 soenkehahn/elm-operational
+|
+declare elm components without using `Cmd` to facilitate testing

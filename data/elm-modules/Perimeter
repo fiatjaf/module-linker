@@ -1,1 +1,3 @@
 roine/elm-perimeter
+|
+Creates an invisible perimeter around a target element and monitors breaches

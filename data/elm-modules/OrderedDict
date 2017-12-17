@@ -1,1 +1,3 @@
 wittjosiah/elm-ordered-dict
+|
+A dictionary mapping unique keys to values preserving insert order.

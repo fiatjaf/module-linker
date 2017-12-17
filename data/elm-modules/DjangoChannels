@@ -1,1 +1,3 @@
 valberg/elm-django-channels
+|
+Utilities to ease the communication with Django Channels.

@@ -1,1 +1,3 @@
 bartavelle/json-helpers
+|
+Helpers for Json encoding and decoding of sum types

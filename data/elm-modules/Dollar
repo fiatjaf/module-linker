@@ -1,1 +1,3 @@
 JoelQ/elm-dollar
+|
+Dollar type that wraps Ints to give stronger type safety

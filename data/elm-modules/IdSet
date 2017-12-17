@@ -1,1 +1,3 @@
 besuikerd/elm-dictset
+|
+Adds specialized sets built on top of Dict

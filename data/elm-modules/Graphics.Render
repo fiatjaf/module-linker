@@ -1,1 +1,3 @@
 Kwarrtz/render
+|
+Lightweight graphics similar to Graphics.Collage (backed by SVG)

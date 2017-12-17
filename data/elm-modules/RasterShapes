@@ -1,1 +1,3 @@
 elm-canvas/raster-shapes
+|
+Pixelated shape drawing using the Bresenham algorithms

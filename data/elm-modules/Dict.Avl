@@ -1,1 +1,3 @@
 BrianHicks/elm-avl-exploration
+|
+Drop-in replacement for Dict using AVL trees. Faster get, slower insert.

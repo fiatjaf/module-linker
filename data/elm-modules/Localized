@@ -1,1 +1,3 @@
 iosphere/elm-i18n
+|
+Generate localized versions of your elm-app, import and export strings (PO/CSV)

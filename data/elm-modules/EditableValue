@@ -1,1 +1,3 @@
 DrBearhands/elm-json-editor
+|
+A package providing a view for editing JSON documents with unknown structure

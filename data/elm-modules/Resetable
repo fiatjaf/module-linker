@@ -1,1 +1,3 @@
 stoeffel/resetable
+|
+A datastructure that allows you to reset its value to an original value.

@@ -1,1 +1,3 @@
 NoRedInk/elm-sweet-poll
+|
+HTTP polling with backoff when the server response doesn't change

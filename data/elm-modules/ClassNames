@@ -1,1 +1,3 @@
 dtraft/elm-classnames
+|
+A simple utility for conditionally joining html classes together

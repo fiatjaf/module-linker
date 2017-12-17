@@ -1,1 +1,3 @@
 elm-lang/svg
+|
+Fast SVG, rendered with virtual DOM diffing

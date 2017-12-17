@@ -3,3 +3,7 @@ env.json
 *.swp
 *.swo
 npm-debug.log
+dist
+tmp
+browserify-cache.json
+archive.zip

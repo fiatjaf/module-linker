@@ -1,1 +1,3 @@
 ktonon/elm-aws-core
+|
+Make authenticated REST requests to AWS services.

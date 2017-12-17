@@ -1,1 +1,3 @@
 careport/elm-avl
+|
+AVL tree-based Dicts and Sets using explicit comparison functions

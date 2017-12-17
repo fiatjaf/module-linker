@@ -1,1 +1,3 @@
 stoeffel/elm-verify
+|
+Validate a model into a structure that makes forbidden states impossible.

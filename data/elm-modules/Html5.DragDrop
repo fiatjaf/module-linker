@@ -1,1 +1,3 @@
 tilmans/elm-style-elements-drag-drop
+|
+This library handles drag and drop of style elements using the HTML5 API

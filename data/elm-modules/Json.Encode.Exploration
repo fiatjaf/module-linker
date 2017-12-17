@@ -1,1 +1,3 @@
 zwilias/json-encode-exploration
+|
+Retain highlevel structural information while encoding to JSON

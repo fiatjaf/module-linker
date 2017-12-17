@@ -1,1 +1,3 @@
 danmarcab/elm-retroactive
+|
+Have a retroactive model. Lets you undo / redo with multiple future branches.

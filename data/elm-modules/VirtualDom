@@ -1,1 +1,3 @@
 evancz/virtual-dom
+|
+Core virtual DOM implementation, basis for HTML and SVG libraries

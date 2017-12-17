@@ -1,1 +1,3 @@
 eeue56/elm-http-error-view
+|
+Human-readable messages for Http.Error in a Html view

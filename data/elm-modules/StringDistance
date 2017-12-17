@@ -1,1 +1,3 @@
 rluiten/stringdistance
+|
+Calculate a metric indicating the string distance between two strings

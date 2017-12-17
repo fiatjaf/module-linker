@@ -1,1 +1,3 @@
 z5h/time-app
+|
+Like evancz/start-app, but with `update : action -> Time -> model -> model`.

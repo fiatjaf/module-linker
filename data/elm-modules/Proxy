@@ -1,1 +1,3 @@
 joneshf/elm-proxy
+|
+A library to pass around type information without values

@@ -1,1 +1,3 @@
 powet/elm-funfolding
+|
+Folding (by Composing) a list of functions by means of an accumulator function.

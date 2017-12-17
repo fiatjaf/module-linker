@@ -1,1 +1,3 @@
 joneshf/elm-proof
+|
+Prove properties about elm programs at compile-time.

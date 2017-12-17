@@ -1,1 +1,3 @@
 Gizra/elm-dictlist
+|
+Dict with arbitrary ordering (like List)

@@ -1,1 +1,3 @@
 zaptic/elm-decode-pipeline-strict
+|
+A strict version of elm-decode-pipeline

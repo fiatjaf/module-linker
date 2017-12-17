@@ -1,1 +1,3 @@
 ludvigsen/elm-svg-ast
+|
+Data structure for holding svg, with parser and json encoder/decoder

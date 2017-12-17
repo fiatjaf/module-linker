@@ -1,1 +1,3 @@
 joneshf/elm-tail-recursion
+|
+Package to help mitigate run-time exceptions from recursion

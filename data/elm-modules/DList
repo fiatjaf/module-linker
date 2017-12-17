@@ -1,1 +1,3 @@
 league/difference-list
+|
+DList is a representation of lists with an efficient append operation

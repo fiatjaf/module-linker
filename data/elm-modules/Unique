@@ -1,1 +1,3 @@
 league/unique-id
+|
+Pure generation of unique identifiers in Elm.

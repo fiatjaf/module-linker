@@ -1,1 +1,3 @@
 AaronCZim/to-elm-format-string
+|
+toElmFormatString adds newlines and indentation to toString

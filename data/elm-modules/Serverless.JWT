@@ -1,1 +1,3 @@
 ktonon/elm-serverless-auth-jwt
+|
+Authorization middleware using JWT for elm-serverless

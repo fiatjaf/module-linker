@@ -1,1 +1,3 @@
 prozacchiwawa/elm-urlbase64
+|
+Wrap a base64 library in the url base64 alphabet (+/ -> -_) and handle padding

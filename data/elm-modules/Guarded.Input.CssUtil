@@ -1,1 +1,3 @@
 dosarf/elm-guarded-input
+|
+Utility for guarded text input fields: only valid (or WiP) text is allowed

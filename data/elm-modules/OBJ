@@ -1,1 +1,3 @@
 Zinggi/elm-obj-loader
+|
+Load wavefront .obj files in your WebGL scene.
