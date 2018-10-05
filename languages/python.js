@@ -27,8 +27,8 @@ module.exports.process = function process () {
 
   $('.blob-code-inner').each((_, elem) => {
     let line = elem.innerText.trim()
-    let fromimport = /^from *([\w\.]+) import /.exec(line)
-    let normalimport = /^import *([\w\.]+)/.exec(line)
+    let fromimport = /^from +([\w\.]+) +import /.exec(line)
+    let normalimport = /^import +([\w\.]+)/.exec(line)
 
     if (!fromimport && !normalimport) return
 
