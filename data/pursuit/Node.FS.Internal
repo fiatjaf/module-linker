@@ -1,1 +1,1 @@
-purescript-node-fs@4.0.0
+purescript-node-fs@5.0.0

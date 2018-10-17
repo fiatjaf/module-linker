@@ -1,1 +1,1 @@
-yi
+yi-core

@@ -1,1 +1,1 @@
-purescript-ace@4.0.0
+purescript-ace@6.0.0

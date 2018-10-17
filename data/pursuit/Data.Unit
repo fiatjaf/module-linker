@@ -1,1 +1,1 @@
-purescript-prelude@3.1.0
+purescript-prelude@4.1.0

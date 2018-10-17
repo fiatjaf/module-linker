@@ -1,1 +1,1 @@
-purescript-quickcheck-laws@3.0.0
+purescript-quickcheck-laws@4.0.0

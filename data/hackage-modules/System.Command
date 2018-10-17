@@ -1,1 +1,1 @@
-command
+system-command

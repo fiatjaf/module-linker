@@ -1,1 +1,1 @@
-yi
+yi-language

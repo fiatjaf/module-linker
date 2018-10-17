@@ -1,1 +1,1 @@
-pandoc-types
+scholdoc-types
