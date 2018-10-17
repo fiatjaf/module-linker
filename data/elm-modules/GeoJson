@@ -1,3 +1,3 @@
-trifectalabs/elm-geojson
+mgold/elm-geojson
 |
 Decode GeoJSON (RFC 7946) into an Elm data structure

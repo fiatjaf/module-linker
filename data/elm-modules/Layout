@@ -1,3 +1,3 @@
-jmackie4/elm-bulma
+avh4-experimental/elm-layout
 |
-HTML helpers for working with the Bulma CSS flex framework.
+An experimental alternative to Graphics.Element and elm-html

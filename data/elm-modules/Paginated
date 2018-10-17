@@ -1,0 +1,3 @@
+correl/elm-paginated
+|
+A library for fetching data from paginated JSON REST APIs.

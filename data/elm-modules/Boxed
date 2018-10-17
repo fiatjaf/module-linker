@@ -1,0 +1,3 @@
+bundsol/boxed
+|
+An Elm library to encapsulate any primitive in a single type

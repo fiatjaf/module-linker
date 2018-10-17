@@ -1,3 +1,3 @@
-1602/json-schema
+json-tools/json-schema
 |
 JSON Schema for elm

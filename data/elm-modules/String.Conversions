@@ -1,0 +1,3 @@
+noredink/string-conversions
+|
+Helpers to convert common types into a `String`.

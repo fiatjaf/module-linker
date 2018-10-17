@@ -1,3 +1,3 @@
-elm-lang/core
+elm/core
 |
 Elm's standard libraries

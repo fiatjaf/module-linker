@@ -1,3 +1,3 @@
 jwmerrill/elm-animation-frame
 |
-A signal that is synchronized with the monitor's frame rate.
+DEPRECATED: replaced by elm-lang/animation-frame

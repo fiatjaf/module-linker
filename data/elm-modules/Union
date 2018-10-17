@@ -1,3 +1,3 @@
 r-k-b/elm-interval
 |
-Interval algebra.
+Intervals for Elm. Handles ∩, -, ∪ ops with any combo of open / closed bounds.

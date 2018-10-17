@@ -7,3 +7,5 @@ dist
 tmp
 browserify-cache.json
 archive.zip
+tmpsrc
+sources.zip

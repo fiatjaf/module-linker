@@ -1,0 +1,3 @@
+genthaler/elm-enum
+|
+A library to facilitate using Elm union types as `Enum`s

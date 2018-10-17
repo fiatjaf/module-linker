@@ -1,3 +1,3 @@
-ktonon/url-parser
+terezka/url-parser
 |
-Parse URLs into nicely structured data. Fork: without dom, html, navigation
+Parse URLs, useful for navigation and "routing" in single-page apps (SPA)

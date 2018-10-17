@@ -1,0 +1,3 @@
+TimothyDespair/elm-maybe-applicator
+|
+Partially apply maybes to a function, useful for creating records.

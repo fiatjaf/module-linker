@@ -1,3 +1,3 @@
-sanichi/elm-md5
+truqu/elm-md5
 |
-Compute MD5 message digests in pure Elm
+Quickly compute MD5 message digests in pure Elm

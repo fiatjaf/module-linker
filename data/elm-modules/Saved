@@ -1,0 +1,3 @@
+NoRedInk/elm-saved
+|
+A type keeping track of changes to a value since it was last saved.

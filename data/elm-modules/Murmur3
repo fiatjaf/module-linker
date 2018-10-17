@@ -1,3 +1,3 @@
 Skinney/murmur3
 |
-An implementation of the murmur 3 hash function in elm
+An implementation of the Murmur3 hash function for Elm

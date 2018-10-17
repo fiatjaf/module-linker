@@ -1,3 +1,3 @@
 project-fuzzball/test
 |
-Unit testing support with Console/Html/String outputs.
+DEPRECATED - This has been replaced by elm-community/elm-test

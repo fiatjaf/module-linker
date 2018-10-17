@@ -1,0 +1,3 @@
+arowM/elm-evil-sendmsg
+|
+An evil library for Elm using bad hack to issue Msg on rendering a DOM.

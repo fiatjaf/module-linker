@@ -1,0 +1,3 @@
+jjant/elm-comonad-zipper
+|
+Provides an implementation of the List Zipper and its comonadic interface.

@@ -1,3 +1,3 @@
-elm-lang/core
+elm/time
 |
-Elm's standard libraries
+Work with POSIX times, time zones, years, months, days, hours, seconds, etc.

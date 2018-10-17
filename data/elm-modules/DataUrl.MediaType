@@ -1,0 +1,3 @@
+arowM/elm-data-url
+|
+A module to handle data URLs (IETF RFC 2397) in type safe manner.

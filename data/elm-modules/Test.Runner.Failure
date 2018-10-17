@@ -1,3 +1,3 @@
-elm-community/elm-test
+elm-explorations/test
 |
-Unit and Fuzz testing support with Console/Html/String outputs.
+Write unit and fuzz tests for Elm code.

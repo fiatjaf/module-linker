@@ -1,0 +1,3 @@
+neurodynamic/elm-parse-html
+|
+An HTML parser written in Elm using the elm-tools/parser parsing library.

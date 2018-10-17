@@ -1,0 +1,3 @@
+brightdb/sequence
+|
+A CRDT for sequential data based on LSEQ
