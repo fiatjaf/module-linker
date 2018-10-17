@@ -71,6 +71,9 @@ function main () {
     case 'nim':
       require('./languages/nim').process()
       break
+    case 'nix':
+      require('./languages/nix').process()
+      break
     case 'purescript':
       require('./languages/purescript').process()
       break
