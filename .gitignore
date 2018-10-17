@@ -9,3 +9,5 @@ package.zip
 archive.zip
 tmp.*
 data
+tmpsrc
+sources.zip
