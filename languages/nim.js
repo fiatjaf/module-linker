@@ -181,7 +181,7 @@ function waitForNimbleList () {
   } else {
     requested = true
     packagesPromise =
-      fetch('https://rawgit.com/nim-lang/packages/master/packages.json')
+      fetch('https://gitcdn.xyz/repo/nim-lang/packages/master/packages.json')
         .then(r => r.json())
     return packagesPromise
   }
