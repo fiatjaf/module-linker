@@ -39,6 +39,13 @@ function main () {
     case 'hpp':
       require('./languages/c').process()
       break
+    case 'css':
+    case 'scss':
+    case 'sass':
+    case 'less':
+    case 'styl':
+      require('./languages/css').process()
+      break
     case 'haskell':
       require('./languages/haskell').process()
       break
