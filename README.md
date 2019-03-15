@@ -14,9 +14,3 @@ Install it: https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnb
 
 [![chrome webstore icon](https://rawcdn.githack.com/fiatjaf/module-linker/gh-pages/chrome-button.png)](https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn)
 [![firefox icon](https://rawcdn.githack.com/fiatjaf/module-linker/gh-pages/firefox-button.png)](https://addons.mozilla.org/firefox/addon/module-linker/)
-
----
-
-Traffic statistics for this repository:
-
-[![](https://ght.trackingco.de/fiatjaf/module-linker)](https://ght.trackingco.de/)

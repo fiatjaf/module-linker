@@ -10,7 +10,7 @@
   "name": "Module Linker",
   "description": "Add direct links to imported modules on GitHub source code.",
   "version": "2.1.1",
-  "author": "Giovanni T. Parra",
+  "author": "fiatjaf",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
