@@ -1,1 +1,1 @@
-purescript-record@1.0.0
+purescript-record@2.0.0

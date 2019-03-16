@@ -1,1 +1,1 @@
-yi-dynamic-configuration
+yi

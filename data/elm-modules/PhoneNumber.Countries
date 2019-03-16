@@ -1,0 +1,3 @@
+Skinney/elm-phone-numbers
+|
+A package for validating phone numbers. Based on google's libphonenumber.

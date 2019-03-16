@@ -1,3 +1,3 @@
-Orasund/elm-pair
+wking-io/pair
 |
-a collection of functions for (a,b) and (a,a) tuples
+Product Type that allows you to hold and use two values in one type.

@@ -1,0 +1,3 @@
+harmboschloo/graphql-to-elm-package
+|
+Generate Elm types/encoders/decoders from GraphQL queries. Support package.

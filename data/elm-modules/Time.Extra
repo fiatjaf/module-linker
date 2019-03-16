@@ -1,3 +1,3 @@
-justinmimbs/time-extra
+waratuman/time-extra
 |
-Extra functions for working with Posix times from elm/time
+A set of helpers for working with elm/time

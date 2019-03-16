@@ -1,0 +1,3 @@
+cultureamp/babel-elm-assets-plugin
+|
+Use Webpack-powered asset loading inside your Elm views

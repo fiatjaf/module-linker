@@ -1,1 +1,1 @@
-yi-keymap-vim
+yi

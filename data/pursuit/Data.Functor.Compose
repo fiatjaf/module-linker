@@ -1,1 +1,1 @@
-purescript-functors@3.1.0
+purescript-functors@3.1.1

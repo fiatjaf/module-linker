@@ -1,1 +1,1 @@
-purescript-materialize@0.1.5
+purescript-materialize@0.1.6

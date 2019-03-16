@@ -1,0 +1,3 @@
+ivadzy/bbase64
+|
+Padding insensitive, elm/bytes based, functional implementation of Base64

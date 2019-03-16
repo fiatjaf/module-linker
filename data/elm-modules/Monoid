@@ -1,3 +1,3 @@
-arowM/elm-monoid
+jonathanfishbein1/elm-monoid
 |
-A module to define generic functions for monoid.
+A pack of monoids in the category of endofunctors
