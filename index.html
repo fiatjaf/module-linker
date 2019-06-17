@@ -1,195 +1,211 @@
-<!doctype html>
+<!DOCTYPE html>
 
-<title>Module Linker, the Chrome Extension that improves your life!</title>
-<link rel="shortcut icon" href=https://cdn.rawgit.com/fiatjaf/module-linker/adbd7168/icon48.png>
-<link rel=stylesheet href=style.css>
-<meta property="og:image" content=https://cdn.rawgit.com/fiatjaf/module-linker/adbd7168/icon128.png>
+<html>
+    <head>
+        <title>Module Linker, a browser extension that improves your life!</title>
 
-<h1>Module Linker, a Chrome Extension for browsing source code better</h1>
-<div>
-  <img src=https://cdn.rawgit.com/fiatjaf/module-linker/adbd7168/icon128.png>
-</div>
-<div>
-  <a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn title='download from Chrome Web Store'>
-    <img src=chrome-button.png>
-  </a>
-</div>
-<div>
-  <a href=https://addons.mozilla.org/firefox/addon/module-linker/ title='Download from Mozilla Addons (AMO)'>
-    <img src=firefox-button.png>
-  </a>
-</div>
+        <link rel="shortcut icon" href="icon48.png" />
+        <meta property="og:image" content="icon128.png" />
 
-<article class=mainscreencast></article>
+        <meta charset="UTF-8" />
 
-<main id=top>
-  <p><b>Module Linker</b> adds direct links in the GitHub source code viewer, to any imported modules or files. If you're browsing source code on GitHub this thing extension will improve your life.</p>
-  
-  <p>Languages and files supported (click to see screenshots):</p>
-  
-  <ul>
-   <li><a href=#/crystal>Crystal</a> (.cr and shard.yml files)</li>
-   <li><a href=#/dart>Dart</a> (.dart and pubspec.yaml)</li>
-   <li><a href=#/elm>Elm</a> (modules on .elm files and packages on elm-package.json)</li>
-   <li><a href=#/go>Go</a></li>
-   <li><a href=#/nix>Nix</a> (paths are first-class citizens!)</li>
-   <li><a href=#/haskell>Haskell</a> (modules on .hs files and packages on stack.yaml)</li>
-   <li><a href=#/javascript>Javascript</a> (.js, .jsx, .coffee, .ts, package.json files)</li>
-   <li><a href=#/julia>Julia</a></li>
-   <li><a href=#/css>CSS</a> (and Sass/scss, Less, Stylus)</li>
-   <li><a href=#/nim>Nim</a></li>
-   <li><a href=#/php>PHP</a> (external packages listed on composer.json files)</li>
-   <li><a href=#/purescript>PureScript</a></li>
-   <li><a href=#/python>Python</a></li>
-   <li><a href=#/ruby>Ruby</a> (.rb files, Rakefile and Gemfile)</li>
-   <li><a href=#/rust>Rust</a> (.rs files and Cargo.toml)</li>
-  </ul>
-  
-  <article id=/python>
-    <h1>Python</h1>
-    <img src=screenshot/python-screencast.gif>
-    <img src=screenshot/python-stdlib.png>
-    <img src=screenshot/python-relative.png>
-    <img src=screenshot/python-external.png>
-  </article>
-  
-  <article id=/nim>
-    <h1>Nim</h1>
-    <img src=screenshot/nim-screencast.png>
-    <img src=screenshot/nim-external.png>
-    <img src=screenshot/nim-relative.png>
-  </article>
-  
-  <article id=/dart>
-    <h1>Dart</h1>
-    <img src=screenshot/dart-screencast.gif>
-    <img src=screenshot/dart-stdlib.png>
-    <img src=screenshot/dart-pubspec.png>
-    <img src=screenshot/dart-relative.png>
-  </article>
-  
-  <article id=/javascript>
-    <h1>Javascript</h1>
-    <img src=screenshot/javascript-screencast.gif>
-    <img src=screenshot/javascript-relative.png>
-    <img src=screenshot/javascript-packagejson.png>
-    <img src=screenshot/javascript-es6.png>
-  </article>
-  
-  <article id=/rust>
-    <h1>Rust</h1>
-    <img src=screenshot/rust-screencast.gif>
-    <img src=screenshot/rust-mod.png>
-    <img src=screenshot/rust-cargotoml.png>
-    <img src=screenshot/rust-use.png>
-    <img src=screenshot/rust-externcrate.png>
-  </article>
-  
-  <article id=/crystal>
-    <h1>Crystal</h1>
-    <img src=screenshot/crystal-screencast.gif>
-    <img src=screenshot/crystal-stdlib.png>
-    <img src=screenshot/crystal-shardyml.png>
-    <img src=screenshot/crystal-relative.png>
-  </article>
-  
-  <article id=/ruby>
-    <h1>Ruby</h1>
-    <img src=screenshot/ruby-screencast.gif>
-    <img src=screenshot/ruby-external.png>
-    <img src=screenshot/ruby-relative.png>
-    <img src=screenshot/ruby-gemfile.png>
-  </article>
-  
-  <article id=/php>
-    <h1>PHP</h1>
-    <img src=screenshot/php-composerjson.png>
-  </article>
-  
-  <article id=/elm>
-    <h1>Elm</h1>
-    <img src=screenshot/elm-screencast.gif>
-    <img src=screenshot/elm-module.png>
-    <img src=screenshot/elm-elmpackagejson.png>
-  </article>
-  
-  <article id=/go>
-    <h1>Go</h1>
-    <img src=screenshot/go-screencast.gif>
-    <img src=screenshot/go-stdlib.png>
-    <img src=screenshot/go-relative.png>
-    <img src=screenshot/go-external.png>
-  </article>
+        <link rel="stylesheet" href="style.css" />
+    </head>
 
-  <article id=/nix>
-    <h1>Nix</h1>
-    <img src=screenshot/nix-screencast.gif>
-  </article>
-  
-  <article id=/haskell>
-    <h1>Haskell</h1>
-    <img src=screenshot/haskell-screencast.gif>
-    <img src=screenshot/haskell-module.png>
-    <img src=screenshot/haskell-relative.png>
-    <img src=screenshot/haskell-stackyaml.png>
-  </article>
-  
-  <article id=/julia>
-    <h1>Julia</h1>
-    <img src=screenshot/julia-screencast.gif>
-    <img src=screenshot/julia-relative.png>
-    <img src=screenshot/julia-external.png>
-  </article>
-  
-  <article id=/css>
-    <h1>CSS</h1>
-    <img src=screenshot/css-screencast.gif>
-  </article>
-  
-  <article id=/purescript>
-    <h1>PureScript</h1>
-    <img src=screenshot/purescript-screencast.gif>
-    <img src=screenshot/purescript-module.png>
-  </article>
-  
-  <p><a href=#top class=to-top>see other supported languages</a></p>
-  
-  <p>Unlike <a href=http://octolinker.github.io/ target=_blank>Octolinker</a>, <b>Module Linker</b> creates real &lt;a href="..."&gt; links, so there are no problems with middle-clicks, Ctrl-clicks etc.</p>
-  
-  <p>Also, links load without reloading the page, so ultra-fast (like normal GitHub links).</p>
-</main>
+    <body>
+        <h1>Module Linker, a browser extension for browsing source code better</h1>
 
-<p><a href=https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn>install on Chrome or Chromium</a></p>
-<p><a href=https://addons.mozilla.org/firefox/addon/module-linker/>install on Firefox</a></p>
-<p><a href=https://github.com/fiatjaf/module-linker>source code on GitHub</a></p>
+        <div>
+            <img src="icon128.png" alt="Module Linker logo" />
+        </div>
+        <br />
+        <div>
+            <a href="https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn" title="Download from Chrome Web Store">
+                <img src="chrome-button.png" alt="Download from Chrome Web Store" />
+            </a>
+        </div>
+        <div>
+            <a href="https://addons.mozilla.org/firefox/addon/module-linker/" title="Download from Mozilla Addons (AMO)">
+                <img src="firefox-button.png" alt="Download from Mozilla Addons (AMO)" />
+            </a>
+        </div>
 
-<script>
-(function (d, s, c) {
-  var x, h, n = Date.now()
-  tc = function (p) {
-    m = s.getItem('_tcx') > n ? s.getItem('_tch') : 'remela-pelanca'
-    x = new XMLHttpRequest()
-    x.addEventListener('load', function () {
-      if (x.status == 200) {
-        s.setItem('_tch', x.responseText)
-        s.setItem('_tcx', n + 14400000)
-      }
-    })
-    x.open('GET', 'https://visitantes.alhur.es/'+m+'.xml?r='+d.referrer+'&c='+c+(p?'&p='+p:''))
-    x.send()
-  }
-  tc()
-})(document, localStorage, 'mzfzx9')
+        <article class="mainscreencast"></article>
 
-document.querySelector('ul').addEventListener('click', function (e) {
-  if (e.target.tagName) {
-    window.tc && tc(1)
-  }
-})
-</script>
-<script>
-var cast = document.createElement('img')
-var gifs = document.querySelectorAll('img[src$=".gif"]')
-cast.src = gifs[parseInt(Math.random()*gifs.length)].src
-document.getElementsByClassName('mainscreencast')[0].appendChild(cast)
-</script>
+        <main id="top">
+            <p><strong>Module Linker</strong> adds direct links in the GitHub source code viewer, to any imported modules or files. If you"re browsing source code on GitHub this thing extension will improve your life.</p>
+
+            <p>Languages and files supported (click to see screenshots):</p>
+            <ul>
+                <li><a href="#/crystal">Crystal</a> (.cr and shard.yml files)</li>
+                <li><a href="#/dart">Dart</a> (.dart and pubspec.yaml)</li>
+                <li><a href="#/elm">Elm</a> (modules on .elm files and packages on elm-package.json)</li>
+                <li><a href="#/go">Go</a></li>
+                <li><a href="#/nix">Nix</a> (paths are first-class citizens!)</li>
+                <li><a href="#/haskell">Haskell</a> (modules on .hs files and packages on stack.yaml)</li>
+                <li><a href="#/javascript">Javascript</a> (.js, .jsx, .coffee, .ts, package.json files)</li>
+                <li><a href="#/julia">Julia</a></li>
+                <li><a href="#/css">CSS</a> (and Sass/scss, Less, Stylus)</li>
+                <li><a href="#/nim">Nim</a></li>
+                <li><a href="#/php">PHP</a> (external packages listed on composer.json files)</li>
+                <li><a href="#/purescript">PureScript</a></li>
+                <li><a href="#/python">Python</a></li>
+                <li><a href="#/ruby">Ruby</a> (.rb files, Rakefile and Gemfile)</li>
+                <li><a href="#/rust">Rust</a> (.rs files and Cargo.toml)</li>
+            </ul>
+
+            <article id="/python">
+                <h1>Python</h1>
+                <img src="screenshot/python-screencast.gif" />
+                <img src="screenshot/python-stdlib.png" />
+                <img src="screenshot/python-relative.png" />
+                <img src="screenshot/python-external.png" />
+            </article>
+
+            <article id="/nim">
+            <h1>Nim</h1>
+                <img src="screenshot/nim-screencast.png" />
+                <img src="screenshot/nim-external.png">
+                <img src="screenshot/nim-relative.png" />
+            </article>
+
+            <article id="/dart">
+                <h1>Dart</h1>
+                <img src="screenshot/dart-screencast.gif" />
+                <img src="screenshot/dart-stdlib.png" />
+                <img src="screenshot/dart-pubspec.png" />
+                <img src="screenshot/dart-relative.png" />
+            </article>
+
+            <article id="/javascript">
+            <h1>Javascript</h1>
+                <img src="screenshot/javascript-screencast.gif" />
+                <img src="screenshot/javascript-relative.png" />
+                <img src="screenshot/javascript-packagejson.png" />
+                <img src="screenshot/javascript-es6.png" />
+            </article>
+
+            <article id="/rust">
+            <h1>Rust</h1>
+                <img src="screenshot/rust-screencast.gif" />
+                <img src="screenshot/rust-mod.png" />
+                <img src="screenshot/rust-cargotoml.png" />
+                <img src="screenshot/rust-use.png" />
+                <img src="screenshot/rust-externcrate.png" />
+            </article>
+
+            <article id="/crystal">
+            <h1>Crystal</h1>
+                <img src="screenshot/crystal-screencast.gif" />
+                <img src="screenshot/crystal-stdlib.png" />
+                <img src="screenshot/crystal-shardyml.png" />
+                <img src="screenshot/crystal-relative.png" />
+            </article>
+
+            <article id="/ruby">
+                <h1>Ruby</h1>
+                <img src="screenshot/ruby-screencast.gif" />
+                <img src="screenshot/ruby-external.png" />
+                <img src="screenshot/ruby-relative.png" />
+                <img src="screenshot/ruby-gemfile.png" />
+            </article>
+
+            <article id="/php">
+                <h1>PHP</h1>
+                <img src="screenshot/php-composerjson.png" />
+            </article>
+
+            <article id="/elm">
+                <h1>Elm</h1>
+                <img src="screenshot/elm-screencast.gif" />
+                <img src="screenshot/elm-module.png" />
+                <img src="screenshot/elm-elmpackagejson.png" />
+            </article>
+
+            <article id="/go">
+                <h1>Go</h1>
+                <img src="screenshot/go-screencast.gif" />
+                <img src="screenshot/go-stdlib.png" />
+                <img src="screenshot/go-relative.png" />
+                <img src="screenshot/go-external.png" />
+            </article>
+
+            <article id="/nix">
+                <h1>Nix</h1>
+                <img src="screenshot/nix-screencast.gif" />
+            </article>
+
+            <article id="/haskell">
+                <h1>Haskell</h1>
+                <img src="screenshot/haskell-screencast.gif" />
+                <img src="screenshot/haskell-module.png" />
+                <img src="screenshot/haskell-relative.png" />
+                <img src="screenshot/haskell-stackyaml.png" />
+            </article>
+
+            <article id="/julia">
+                <h1>Julia</h1>
+                <img src="screenshot/julia-screencast.gif" />
+                <img src="screenshot/julia-relative.png" />
+                <img src="screenshot/julia-external.png" />
+            </article>
+
+            <article id="/css">
+                <h1>CSS</h1>
+                <img src="screenshot/css-screencast.gif" />
+            </article>
+
+            <article id="/purescript">
+                <h1>PureScript</h1>
+                <img src="screenshot/purescript-screencast.gif" />
+                <img src="screenshot/purescript-module.png" />
+            </article>
+
+            <p><a href="#top" class="to-top">See other supported languages</a></p>
+
+            <p>Unlike <a href="http://octolinker.github.io/" target="_blank">Octolinker</a>, <strong>Module Linker</strong> creates real <code>&lt;a href="..."&gt;</code> links, so there are no problems with middle-clicks, Ctrl-clicks etc.</p>
+            <p>Also, links load without reloading the page, so ultra-fast (like normal GitHub links).</p>
+        </main>
+
+        <p>
+            <a href="https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn">Install on Chrome or Chromium</a>
+            <br />
+            <a href="https://addons.mozilla.org/firefox/addon/module-linker/">Install on Firefox</a>
+        </p>
+        <p>
+            <a href="https://github.com/fiatjaf/module-linker">Source code on GitHub</a>
+        </p>
+
+        <script>
+        (function (d, s, c) {
+          var x, h, n = Date.now()
+          tc = function (p) {
+            m = s.getItem('_tcx') > n ? s.getItem('_tch') : 'remela-pelanca'
+            x = new XMLHttpRequest()
+            x.addEventListener('load', function () {
+              if (x.status == 200) {
+                s.setItem('_tch', x.responseText)
+                s.setItem('_tcx', n + 14400000)
+              }
+            })
+            x.open('GET', 'https://visitantes.alhur.es/'+m+'.xml?r='+d.referrer+'&c='+c+(p?'&p='+p:''))
+            x.send()
+          }
+          tc()
+        })(document, localStorage, 'mzfzx9')
+
+        document.querySelector('ul').addEventListener('click', function (e) {
+          if (e.target.tagName) {
+            window.tc && tc(1)
+          }
+        })
+        </script>
+
+        <script>
+        var cast = document.createElement('img')
+        var gifs = document.querySelectorAll('img[src$=.gif]')
+        cast.src = gifs[parseInt(Math.random()*gifs.length)].src
+        document.getElementsByClassName('mainscreencast')[0].appendChild(cast)
+        </script>
+    </body>
+</html>
