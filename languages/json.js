@@ -43,6 +43,8 @@ function composerjson () {
 
 function packagejson () {
   var depsOpen = false
+  var contributorsOpen = false
+  var authorOpen = false
 
   $('.blob-code-inner').each((_, rawelem) => {
     let elem = $(rawelem)
@@ -57,11 +59,27 @@ function packagejson () {
       depsOpen = false
     }
 
+    if (line.match(/"contributors"/) || line.match(/"authors"/)) {
+      contributorsOpen = true
+    }
+
+    if (line.match(']')) {
+      contributorsOpen = false
+    }
+
+    if (line.match(/"author"/) && line.match('{')) {
+      authorOpen = true
+    }
+
+    if (line.match('}')) {
+      authorOpen = false
+    }
+
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, npmurl)
     }
 
-    if (line.match(/"name":/)) {
+    if (!contributorsOpen && !authorOpen && line.match(/"name":/)) {
       let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = 'https://npmjs.com/package/' + name
       createLink(rawelem, name, {url, kind: 'maybe'})
