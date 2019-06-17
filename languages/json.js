@@ -45,6 +45,7 @@ function packagejson () {
   var depsOpen = false
   var contributorsOpen = false
   var authorOpen = false
+  var binOpen = false
 
   $('.blob-code-inner').each((_, rawelem) => {
     let elem = $(rawelem)
@@ -75,6 +76,14 @@ function packagejson () {
       authorOpen = false
     }
 
+    if (line.match(/"bin"/) && line.match('{')) {
+      binOpen = true
+    }
+
+    if (line.match('}')) {
+      binOpen = false
+    }
+
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, npmurl)
     }
@@ -85,7 +94,19 @@ function packagejson () {
       createLink(rawelem, name, {url, kind: 'maybe'})
     }
 
-    if (line.match(/"main":/)) {
+    if (binOpen && line.split(':').length == 2) {
+      let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
+    }
+
+    if (line.match(/"main":/) || line.match(/"module":/) || line.match(/"es2015":/) || line.match(/"esnext":/) || // Files for different Node.js versions
+        (line.match(/"browser":/) && !line.match(/"browser": {/)) || line.match(/"web":/) || // Files for web browsers
+        line.match(/"unpkg":/) || line.match(/"jsdelivr":/) || line.match(/"runkitExampleFilename":/) || // Files for popular CDNs and examples
+        line.match(/"source":/) || line.match(/"src":/) || line.match(/"typings":/) || line.match(/"types":/) || // Files for sources and typings
+        line.match(/"node":/) || line.match(/"deno":/) || // Files for different runtimes
+        (line.match(/"bin":/) && !line.match(/"bin": {/)) // Executable file
+    ) {
       let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = resolve(main, location.pathname)
       createLink(rawelem, main, url)
