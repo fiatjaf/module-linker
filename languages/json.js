@@ -85,7 +85,12 @@ function packagejson () {
       createLink(rawelem, name, {url, kind: 'maybe'})
     }
 
-    if (line.match(/"main":/)) {
+    if (line.match(/"main":/) || line.match(/"module":/) || line.match(/"es2015":/) || line.match(/"esnext":/) || // Files for different Node.js versions
+        (line.match(/"browser":/) && !line.match(/"browser": {/)) || line.match(/"web":/) || // Files for web browsers
+        line.match(/"unpkg":/) || line.match(/"jsdelivr":/) || line.match(/"runkitExampleFilename":/) || // Files for popular CDNs and examples
+        line.match(/"source":/) || line.match(/"src":/) || line.match(/"typings":/) || line.match(/"types":/) || // Files for sources and typings
+        line.match(/"node":/) || line.match(/"deno":/) // Files for different runtimes
+    ) {
       let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = resolve(main, location.pathname)
       createLink(rawelem, main, url)
