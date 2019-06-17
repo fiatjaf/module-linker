@@ -21,9 +21,11 @@ module.exports.process = function process () {
 
 function composerjson () {
   var depsOpen = false
+  var authorsOpen = false
+  var binOpen = false
 
-  $('.blob-code-inner').each((_, elem) => {
-    elem = $(elem)
+  $('.blob-code-inner').each((_, rawelem) => {
+    let elem = $(rawelem)
     let line = elem.text().trim()
 
     if (line.match(/"require"/) || line.match(/"require-dev"/) ||
@@ -35,8 +37,36 @@ function composerjson () {
       depsOpen = false
     }
 
+    if (line.match(/"authors"/)) {
+      authorsOpen = true
+    }
+
+    if (line.match(']')) {
+      authorsOpen = false
+    }
+
+    if (line.match(/"bin"/)) {
+      binOpen = true
+    }
+
+    if (line.match(']')) {
+      binOpen = false
+    }
+
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, composerurl)
+    }
+
+    if (!authorsOpen && line.match(/"name"\s?:/)) {
+      let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = 'https://packagist.org/packages/' + name
+      createLink(rawelem, name, {url, kind: 'maybe'})
+    }
+
+    if (binOpen && line.split(':').length == 1) {
+      let main = elem.find('.pl-s').eq(0).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
     }
   })
 }
