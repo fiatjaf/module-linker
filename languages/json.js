@@ -101,24 +101,12 @@ function packagejson () {
       depsOpen = true
     }
 
-    if (line.match('}')) {
-      depsOpen = false
-    }
-
     if (line.match(/"contributors"/) || line.match(/"authors"/)) {
       contributorsOpen = true
     }
 
-    if (line.match(']')) {
-      contributorsOpen = false
-    }
-
     if (line.match(/"author"/) && line.match('{')) {
       authorOpen = true
-    }
-
-    if (line.match('}')) {
-      authorOpen = false
     }
 
     if (line.match(/"bin"/) && line.match('{')) {
@@ -126,7 +114,13 @@ function packagejson () {
     }
 
     if (line.match('}')) {
+      depsOpen = false
+      authorOpen = false
       binOpen = false
+    }
+
+    if (line.match(']')) {
+      contributorsOpen = false
     }
 
     if (depsOpen && elem.find('.pl-s').length === 2) {
