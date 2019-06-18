@@ -24,13 +24,13 @@ function processLine (elem, line, currentPath, lineIndex) {
   let moduleName
 
   let names = [
-    /require +(?:__DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
+    /require+(?: __DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
     /require +(?:__DIR__ *\. *)? *['"]([^)]+)['"];/.exec(line),
-    /require_once +(?:__DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
+    /require_once+(?: __DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
     /require_once +(?:__DIR__ *\. *)? *['"]([^)]+)['"];/.exec(line),
-    /include +(?:__DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
+    /include+(?: __DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
     /include +(?:__DIR__ *\. *)? *['"]([^)]+)['"];/.exec(line),
-    /include_once +(?:__DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
+    /include_once+(?: __DIR__ *\. *)? *\(['"]([^)]+)['"]\);/.exec(line),
     /include_once +(?:__DIR__ *\. *)? *['"]([^)]+)['"];/.exec(line),
   ]
     .filter(x => x)
