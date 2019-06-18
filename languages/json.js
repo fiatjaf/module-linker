@@ -21,9 +21,13 @@ module.exports.process = function process () {
 
 function composerjson () {
   var depsOpen = false
+  var authorsOpen = false
+  var binOpen = false
+  var psrOpen = false
+  var filesOpen = false
 
-  $('.blob-code-inner').each((_, elem) => {
-    elem = $(elem)
+  $('.blob-code-inner').each((_, rawelem) => {
+    let elem = $(rawelem)
     let line = elem.text().trim()
 
     if (line.match(/"require"/) || line.match(/"require-dev"/) ||
@@ -31,12 +35,53 @@ function composerjson () {
       depsOpen = true
     }
 
+    if (line.match(/"authors"/)) {
+      authorsOpen = true
+    }
+
+    if (line.match(/"bin"/)) {
+      binOpen = true
+    }
+
+    if (line.match(/"psr-0"/) || line.match(/"psr-4"/)) {
+      psrOpen = true
+    }
+
+    if (line.match(/"classmap"/) || line.match(/"files"/)) {
+      filesOpen = true
+    }
+
     if (line.match('}')) {
       depsOpen = false
+      psrOpen = false
+    }
+
+    if (line.match(']')) {
+      authorsOpen = false
+      binOpen = false
+      filesOpen = false
     }
 
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, composerurl)
+    }
+
+    if (!authorsOpen && line.match(/"name"\s*:/)) {
+      let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = 'https://packagist.org/packages/' + name
+      createLink(rawelem, name, {url, kind: 'maybe'})
+    }
+
+    if ((binOpen || filesOpen) && line.split(':').length == 1) {
+      let main = elem.find('.pl-s').eq(0).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
+    }
+
+    if (psrOpen && line.match(/".*"\s?/)) {
+      let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
     }
   })
 }
