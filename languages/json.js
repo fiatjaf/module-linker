@@ -66,7 +66,7 @@ function composerjson () {
       lineWithUrlFetcher(elem, composerurl)
     }
 
-    if (!authorsOpen && line.match(/"name"\s?:/)) {
+    if (!authorsOpen && line.match(/"name"\s*:/)) {
       let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = 'https://packagist.org/packages/' + name
       createLink(rawelem, name, {url, kind: 'maybe'})
