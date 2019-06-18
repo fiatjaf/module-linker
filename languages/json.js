@@ -88,7 +88,7 @@ function packagejson () {
       lineWithUrlFetcher(elem, npmurl)
     }
 
-    if (!contributorsOpen && !authorOpen && line.match(/"name":/)) {
+    if (!contributorsOpen && !authorOpen && line.match(/"name"\s*:/)) {
       let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = 'https://npmjs.com/package/' + name
       createLink(rawelem, name, {url, kind: 'maybe'})
@@ -100,12 +100,12 @@ function packagejson () {
       createLink(rawelem, main, url)
     }
 
-    if (line.match(/"main":/) || line.match(/"module":/) || line.match(/"es2015":/) || line.match(/"esnext":/) || // Files for different Node.js versions
-        (line.match(/"browser":/) && !line.match(/"browser": {/)) || line.match(/"web":/) || // Files for web browsers
-        line.match(/"unpkg":/) || line.match(/"jsdelivr":/) || line.match(/"runkitExampleFilename":/) || // Files for popular CDNs and examples
-        line.match(/"source":/) || line.match(/"src":/) || line.match(/"typings":/) || line.match(/"types":/) || // Files for sources and typings
-        line.match(/"node":/) || line.match(/"deno":/) || // Files for different runtimes
-        (line.match(/"bin":/) && !line.match(/"bin": {/)) // Executable file
+    if (line.match(/"main"\s*:/) || line.match(/"module"\s*:/) || line.match(/"es2015"\s*:/) || line.match(/"esnext"\s*:/) || // Files for different Node.js versions
+        (line.match(/"browser"\s*:/) && !line.match(/"browser"\s*:\s*{/)) || line.match(/"web"\s*:/) || // Files for web browsers
+        line.match(/"unpkg"\s*:/) || line.match(/"jsdelivr"\s*:/) || line.match(/"runkitExampleFilename"\s*:/) || // Files for popular CDNs and examples
+        line.match(/"source"\s*:/) || line.match(/"src"\s*:/) || line.match(/"typings"\s*:/) || line.match(/"types"\s*:/) || // Files for sources and typings
+        line.match(/"node"\s*:/) || line.match(/"deno"\s*:/) || // Files for different runtimes
+        (line.match(/"bin"\s*:/) && !line.match(/"bin"\s*:\s*{/)) // Executable file
     ) {
       let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = resolve(main, location.pathname)
