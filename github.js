@@ -93,6 +93,9 @@ function main () {
     case 'yaml':
       require('./languages/yaml').process()
       break
+    case 'php':
+      require('./languages/php').process()
+      break
     // css
     // scss
     // sass
@@ -100,7 +103,6 @@ function main () {
     // stylus
     // ocaml'
     // lua
-    // php
     case 'text':
       require('./languages/text').process()
       break

@@ -21,9 +21,13 @@ module.exports.process = function process () {
 
 function composerjson () {
   var depsOpen = false
+  var authorsOpen = false
+  var binOpen = false
+  var psrOpen = false
+  var filesOpen = false
 
-  $('.blob-code-inner').each((_, elem) => {
-    elem = $(elem)
+  $('.blob-code-inner').each((_, rawelem) => {
+    let elem = $(rawelem)
     let line = elem.text().trim()
 
     if (line.match(/"require"/) || line.match(/"require-dev"/) ||
@@ -31,12 +35,53 @@ function composerjson () {
       depsOpen = true
     }
 
+    if (line.match(/"authors"/)) {
+      authorsOpen = true
+    }
+
+    if (line.match(/"bin"/)) {
+      binOpen = true
+    }
+
+    if (line.match(/"psr-0"/) || line.match(/"psr-4"/)) {
+      psrOpen = true
+    }
+
+    if (line.match(/"classmap"/) || line.match(/"files"/)) {
+      filesOpen = true
+    }
+
     if (line.match('}')) {
       depsOpen = false
+      psrOpen = false
+    }
+
+    if (line.match(']')) {
+      authorsOpen = false
+      binOpen = false
+      filesOpen = false
     }
 
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, composerurl)
+    }
+
+    if (!authorsOpen && line.match(/"name"\s*:/)) {
+      let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = 'https://packagist.org/packages/' + name
+      createLink(rawelem, name, {url, kind: 'maybe'})
+    }
+
+    if ((binOpen || filesOpen) && line.split(':').length == 1) {
+      let main = elem.find('.pl-s').eq(0).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
+    }
+
+    if (psrOpen && line.match(/".*"\s?/)) {
+      let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
+      let url = resolve(main, location.pathname)
+      createLink(rawelem, main, url)
     }
   })
 }
@@ -56,24 +101,12 @@ function packagejson () {
       depsOpen = true
     }
 
-    if (line.match('}')) {
-      depsOpen = false
-    }
-
     if (line.match(/"contributors"/) || line.match(/"authors"/)) {
       contributorsOpen = true
     }
 
-    if (line.match(']')) {
-      contributorsOpen = false
-    }
-
     if (line.match(/"author"/) && line.match('{')) {
       authorOpen = true
-    }
-
-    if (line.match('}')) {
-      authorOpen = false
     }
 
     if (line.match(/"bin"/) && line.match('{')) {
@@ -81,14 +114,20 @@ function packagejson () {
     }
 
     if (line.match('}')) {
+      depsOpen = false
+      authorOpen = false
       binOpen = false
+    }
+
+    if (line.match(']')) {
+      contributorsOpen = false
     }
 
     if (depsOpen && elem.find('.pl-s').length === 2) {
       lineWithUrlFetcher(elem, npmurl)
     }
 
-    if (!contributorsOpen && !authorOpen && line.match(/"name":/)) {
+    if (!contributorsOpen && !authorOpen && line.match(/"name"\s*:/)) {
       let name = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = 'https://npmjs.com/package/' + name
       createLink(rawelem, name, {url, kind: 'maybe'})
@@ -100,12 +139,12 @@ function packagejson () {
       createLink(rawelem, main, url)
     }
 
-    if (line.match(/"main":/) || line.match(/"module":/) || line.match(/"es2015":/) || line.match(/"esnext":/) || // Files for different Node.js versions
-        (line.match(/"browser":/) && !line.match(/"browser": {/)) || line.match(/"web":/) || // Files for web browsers
-        line.match(/"unpkg":/) || line.match(/"jsdelivr":/) || line.match(/"runkitExampleFilename":/) || // Files for popular CDNs and examples
-        line.match(/"source":/) || line.match(/"src":/) || line.match(/"typings":/) || line.match(/"types":/) || // Files for sources and typings
-        line.match(/"node":/) || line.match(/"deno":/) || // Files for different runtimes
-        (line.match(/"bin":/) && !line.match(/"bin": {/)) // Executable file
+    if (line.match(/"main"\s*:/) || line.match(/"module"\s*:/) || line.match(/"es2015"\s*:/) || line.match(/"esnext"\s*:/) || // Files for different Node.js versions
+        (line.match(/"browser"\s*:/) && !line.match(/"browser"\s*:\s*{/)) || line.match(/"web"\s*:/) || // Files for web browsers
+        line.match(/"unpkg"\s*:/) || line.match(/"jsdelivr"\s*:/) || line.match(/"runkitExampleFilename"\s*:/) || // Files for popular CDNs and examples
+        line.match(/"source"\s*:/) || line.match(/"src"\s*:/) || line.match(/"typings"\s*:/) || line.match(/"types"\s*:/) || // Files for sources and typings
+        line.match(/"node"\s*:/) || line.match(/"deno"\s*:/) || // Files for different runtimes
+        (line.match(/"bin"\s*:/) && !line.match(/"bin"\s*:\s*{/)) // Executable file
     ) {
       let main = elem.find('.pl-s').eq(1).text().trim().slice(1, -1)
       let url = resolve(main, location.pathname)
