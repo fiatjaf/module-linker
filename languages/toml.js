@@ -19,7 +19,7 @@ function cargotoml () {
     elem = $(elem)
     let line = elem.text().trim()
 
-    if (line === '[dependencies]' || line === '[dev-dependencies]') {
+    if (/(\[|\.)(dev-)?dependencies\]/.test(line)) {
       depsOpen = true
       return
     }
