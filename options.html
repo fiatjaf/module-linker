@@ -1,6 +1,7 @@
 <!doctype html>
 
 <title>Module Linker</title>
+<link href="links.css" rel="stylesheet">
 <style>
 * {
   font-size: 120%;
@@ -18,6 +19,34 @@ input {
   width: 100%;
   padding: 5px;
 }
+.legend-row {
+  display: flex;
+  margin-bottom: 0.4em;
+}
+.dot {
+  border-radius: 50%;
+  width: 0.7em;
+  height: 0.7em;
+  display: inline-block;
+  margin: 0.15em 0.4em 0 0;
+  flex: 0 0 auto;
+}
+.relative {
+  background: var(--ball-colour-relative);
+}
+.stdlib {
+  background: var(--ball-colour-stdlib);
+}
+.external {
+  background: var(--ball-colour-external);
+}
+.docs {
+  background: var(--ball-colour-docs);
+}
+.maybe {
+  background: var(--ball-colour-maybe);
+}
+
 </style>
 
 <header><a target=_blank href=https://github.com/fiatjaf/module-linker><img src=/icon128.png></a><h3>Module Linker</h3></header>
@@ -27,5 +56,10 @@ input {
 <p>you can get a personal GitHub API token at <a target=_blank href=https://github.com/settings/tokens>https://github.com/settings/tokens</a> (don't need to authorize any scopes, a blank token is fine), then just paste it here:</p>
 <input id=token placeholder="your GitHub API token">
 <p id=message></p>
-
+<h3>Link color legend</h3>
+<div class="legend-row"><div class="dot external"></div>External module, probably fetched from a registry</div>
+<div class="legend-row"><div class="dot stdlib"></div>Standard library module</div>
+<div class="legend-row"><div class="dot relative"></div>Relative file or a "local" module</div>
+<div class="legend-row"><div class="dot docs"></div>A link to the documentation of an external module(only in functional languages)</div>
+<div class="legend-row"><div class="dot maybe"></div>Insufficient information, the link is a best guess</div>
 <script src=options.js></script>
