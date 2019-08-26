@@ -1,16 +1,3 @@
-:root {
-  --link-colour: #3DA071;
-  --hover-colour: #E81481;
-  --ball-colour-default: #B1E0C0;
-  --ball-colour-relative: #B1E0C0;
-  --ball-colour-stdlib: #00556E;
-  --ball-colour-external: #F8D726;
-  --ball-colour-docs: #DD9928;
-  --ball-colour-maybe: #990134;
-  --wenk-colour: rgba(12, 12, 44, 0.7);
-  --wenk-font-size: 11px;
-}
-
 a.module-linker {
   color: var(--link-colour);
   transition: color 200ms linear;
