@@ -22,7 +22,7 @@
       "https://github.com/*/*"
     ],
     "js": ["vendor/jquery.js", "vendor/jquery.pjax.js", "dist/full.js"],
-    "css": ["links.css"]
+    "css": ["root.css", "links.css"]
   }],
   "background": {
     "scripts": ["dist/background.js"]
