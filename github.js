@@ -7,7 +7,6 @@ const $ = window.jQuery
 function main () {
   // this global check will prevent us from running process() multiple times.
   if ($('#module-linker-done').length) return
-  $('#js-repo-pjax-container').append($('<span id="module-linker-done">'))
   $(PJAX_CONTAINER_SELECTOR).append($('<span id="module-linker-done">'))
 
   let path = location.pathname.split('/')
@@ -112,7 +111,6 @@ function main () {
   }
 
   // setup pjax
-  $(document).pjax('a.module-linker', '#js-repo-pjax-container', {timeout: 0})
   $(document).pjax('a.module-linker', PJAX_CONTAINER_SELECTOR, {timeout: 0})
   $(document).on('pjax:timeout', function (e) {
     e.preventDefault()
