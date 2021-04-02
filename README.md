@@ -1,3 +1,7 @@
+## Notice
+
+Module Linker only works on Firefox now because Google Chrome invented something called "manifest v3" and kicked Module Linker because it kept using v2 and didn't submit to their everchanging will fast enough.
+
 # Module Linker
 
 ![module linker logo](https://rawcdn.githack.com/fiatjaf/module-linker/adbd7168/icon128.png)
@@ -10,7 +14,6 @@ Works with all flavours of Javascript, Python, Go, Rust, Nim, Ruby, Elm, Haskell
 
 See [this page](http://module-linker.alhur.es/) for a full list of supported files, and screenshots.
 
-Install it: https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn or https://addons.mozilla.org/firefox/addon/module-linker/
+Install it: https://addons.mozilla.org/firefox/addon/module-linker/
 
-[![chrome webstore icon](https://rawcdn.githack.com/fiatjaf/module-linker/gh-pages/chrome-button.png)](https://chrome.google.com/webstore/detail/dglofghjinifeolcpjfjmfdnnbaanggn)
 [![firefox icon](https://rawcdn.githack.com/fiatjaf/module-linker/gh-pages/firefox-button.png)](https://addons.mozilla.org/firefox/addon/module-linker/)
