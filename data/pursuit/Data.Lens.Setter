@@ -1,1 +1,1 @@
-purescript-profunctor-lenses@5.0.0
+purescript-profunctor-lenses@3.2.2

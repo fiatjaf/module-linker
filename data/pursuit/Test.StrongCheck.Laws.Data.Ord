@@ -1,1 +1,1 @@
-purescript-strongcheck-laws@3.2.0
+purescript-strongcheck-laws@3.2.2

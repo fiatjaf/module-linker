@@ -1,1 +1,1 @@
-purescript-arrays@5.2.0
+purescript-arrays@3.2.2

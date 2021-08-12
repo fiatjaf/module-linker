@@ -1,1 +1,1 @@
-purescript-sql@0.1.0
+purescript-sql@3.2.2

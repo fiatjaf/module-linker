@@ -1,1 +1,1 @@
-purescript-specular@0.2.0
+purescript-specular@3.2.2

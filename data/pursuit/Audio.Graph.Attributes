@@ -1,1 +1,1 @@
-purescript-audiograph@0.2.1
+purescript-audiograph@3.2.2

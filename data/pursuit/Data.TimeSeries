@@ -1,1 +1,1 @@
-purescript-timeseries@0.8.1
+purescript-timeseries@3.2.2

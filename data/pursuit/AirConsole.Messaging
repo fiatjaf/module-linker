@@ -1,1 +1,1 @@
-purescript-airconsole@0.3.1
+purescript-airconsole@3.2.2

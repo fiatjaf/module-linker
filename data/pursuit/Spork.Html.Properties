@@ -1,1 +1,1 @@
-purescript-spork@0.6.0
+purescript-spork@3.2.2

@@ -1,1 +1,1 @@
-purescript-p5@0.8.0
+purescript-p5@3.2.2

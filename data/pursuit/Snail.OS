@@ -1,1 +1,1 @@
-purescript-snail@3.0.0
+purescript-snail@3.2.2

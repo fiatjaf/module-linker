@@ -1,1 +1,1 @@
-purescript-kubernetes@0.6.0
+purescript-kubernetes@3.2.2

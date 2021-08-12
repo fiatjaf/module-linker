@@ -1,1 +1,1 @@
-purescript-reflection@4.0.0
+purescript-reflection@3.2.2

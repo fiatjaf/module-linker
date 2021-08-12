@@ -1,1 +1,1 @@
-purescript-outwatch@0.7.0
+purescript-outwatch@3.2.2

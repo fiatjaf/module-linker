@@ -1,1 +1,1 @@
-purescript-dominator-core@0.1.1
+purescript-dominator-core@3.2.2

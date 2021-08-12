@@ -14,7 +14,7 @@ for pkg in (cat elm-all.json | jq -r 'keys | .[]')
   end
   echo "  desc: $desc"
   echo "  modules:"
-  for moduleName in (curl -s "https://package.elm-lang.org/packages/$pkg/$vers" | jq -rc '.[].name')
+  for moduleName in (curl -H "Accept: application/json" -s "https://package.elm-lang.org/packages/$pkg/$vers/docs.json" | jq -rc '.[].name')
     echo "    $moduleName"
     echo $pkg > $here/elm-modules/$moduleName
     echo "|" >> $here/elm-modules/$moduleName

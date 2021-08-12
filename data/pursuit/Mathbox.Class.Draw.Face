@@ -1,1 +1,1 @@
-purescript-mathbox@0.4.0
+purescript-mathbox@3.2.2

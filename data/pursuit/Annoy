@@ -1,1 +1,1 @@
-purescript-annoy@0.1.1
+purescript-annoy@3.2.2

@@ -1,1 +1,1 @@
-purescript-fixed-points@5.1.0
+purescript-fixed-points@3.2.2

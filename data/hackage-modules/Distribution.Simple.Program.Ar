@@ -1,1 +1,1 @@
-Cabal
+Cabal-ide-backend

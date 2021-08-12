@@ -1,1 +1,1 @@
-yi-vty
+yi-gtk
