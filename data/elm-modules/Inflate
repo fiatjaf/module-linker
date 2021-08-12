@@ -1,0 +1,3 @@
+folkertdev/elm-tiny-inflate
+|
+Inflate data compressed with a deflate (zip, gzip, woff, png)

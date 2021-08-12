@@ -1,0 +1,3 @@
+sparksp/elm-review-camelcase
+|
+elm-review rule to ensure your code uses camelCase.

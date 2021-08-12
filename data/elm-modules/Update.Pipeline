@@ -1,0 +1,3 @@
+laserpants/elm-update-pipeline
+|
+Interface for sequential composition of updates in the style of pipelines.

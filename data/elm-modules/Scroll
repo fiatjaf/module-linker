@@ -1,3 +1,3 @@
-abrykajlo/elm-scroll
+ursi/elm-scroll
 |
-Make scrolling easy with Signals and event system
+Easily scroll an element to the desired position

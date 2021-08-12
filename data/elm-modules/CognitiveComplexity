@@ -1,0 +1,3 @@
+jfmengels/elm-review-cognitive-complexity
+|
+Provide an elm-review rule to measure the cognitive complexity of a function.

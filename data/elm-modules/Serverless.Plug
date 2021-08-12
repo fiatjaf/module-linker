@@ -1,3 +1,3 @@
-ktonon/elm-serverless
+the-sett/elm-serverless
 |
-Deploy an elm worker to AWS Lambda using serverless
+Use Elm with the serverless framework (deploy to AWS, Azure, Google)

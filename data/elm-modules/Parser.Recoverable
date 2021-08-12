@@ -1,0 +1,3 @@
+the-sett/parser-recoverable
+|
+An extension of elm/parser with error recovery.

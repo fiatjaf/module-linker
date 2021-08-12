@@ -1,0 +1,3 @@
+andre-dietrich/elm-url-extension
+|
+A wrapper for elm/url that allows to use other protocols than http and https.

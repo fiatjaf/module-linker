@@ -1,0 +1,3 @@
+the-sett/elm-aws-elastic-containers
+|
+Elm client for the AWS ECR and ECS services.

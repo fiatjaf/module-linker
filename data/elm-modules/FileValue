@@ -1,0 +1,3 @@
+mpizenberg/elm-file
+|
+Alternative to elm/file that can be encoded and passed through ports

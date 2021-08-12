@@ -1,0 +1,3 @@
+layflags/elm-bic
+|
+This library is for parsing Business Identifier Codes (BIC) used in banking

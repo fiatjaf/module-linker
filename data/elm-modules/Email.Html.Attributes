@@ -1,0 +1,3 @@
+MartinSStewart/send-grid
+|
+Send emails with the Send Grid API. Only useful for server-side Elm.

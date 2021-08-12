@@ -1,0 +1,3 @@
+MackeyRMS/json-decode-attempt
+|
+Decode JSON in a way that can both fallback and report errors

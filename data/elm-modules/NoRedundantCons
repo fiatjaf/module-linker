@@ -1,0 +1,3 @@
+truqu/elm-review-noredundantcons
+|
+Provides an elm-review rule to prohibit redundant usage of `::`

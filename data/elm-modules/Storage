@@ -1,0 +1,3 @@
+tricycle/elm-storage
+|
+A key-value container similar to Dict but stores different types of values.

@@ -1,0 +1,3 @@
+showell/dict-dot-dot
+|
+core Dict exposing Dict(..), NColor(..)

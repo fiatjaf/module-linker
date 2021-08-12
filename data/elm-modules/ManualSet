@@ -1,0 +1,3 @@
+timo-weike/generic-collections
+|
+Dict that works with any key types by converting keys to String

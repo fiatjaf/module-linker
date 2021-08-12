@@ -1,0 +1,3 @@
+kress95/elm-review-indirect-internal
+|
+Block indirect imports to internal modules

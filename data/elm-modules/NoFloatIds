@@ -1,0 +1,3 @@
+r-k-b/no-float-ids
+|
+A rule for elm-review that discourages Float types for "Id"s.

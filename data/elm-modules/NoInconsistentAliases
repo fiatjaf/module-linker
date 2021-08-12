@@ -1,0 +1,3 @@
+sparksp/elm-review-imports
+|
+elm-review rule enforce consistent import aliases.

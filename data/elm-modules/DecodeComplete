@@ -1,0 +1,3 @@
+eike/json-decode-complete
+|
+Decode JSON objects making sure that all fields are handled by your Elm code.

@@ -1,3 +1,3 @@
-ericgj/elm-csv-decode
+fifth-postulate/elm-csv-decode
 |
-Decode CSV records to types
+Decode CSV just like you decode JSON.

@@ -1,0 +1,3 @@
+ContaSystemer/review-noregex
+|
+"elm-review" rule to forbid Regex package usage in favour of Parser package
