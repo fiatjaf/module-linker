@@ -1,0 +1,3 @@
+andre-dietrich/elm-generic
+|
+Simplify the decoding and encoding of json, xml, yaml by one simple generic API

@@ -1,0 +1,3 @@
+BrianHicks/elm-string-graphemes
+|
+Do string operations based on graphemes instead of codepoints or bytes.

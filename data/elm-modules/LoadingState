@@ -1,0 +1,3 @@
+sli/loadingstate
+|
+A type for tracking the state of a loading resource.

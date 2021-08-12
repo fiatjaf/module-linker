@@ -1,0 +1,3 @@
+alma/elm-sms-length
+|
+A lib that from a string tells you how many SMS would be needed.

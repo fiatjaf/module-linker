@@ -1,0 +1,3 @@
+sparksp/elm-review-forbidden-words
+|
+elm-review rule to forbid words in Elm comments, README and elm.json.

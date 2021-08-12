@@ -1,3 +1,3 @@
-jjant/elm-comonad-zipper
+z5h/zipper
 |
-Provides an implementation of the List Zipper and its comonadic interface.
+A zipper allows easy manipulation of nested records.

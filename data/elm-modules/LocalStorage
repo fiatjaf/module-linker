@@ -1,0 +1,3 @@
+the-sett/elm-localstorage
+|
+elm-localstorage provides persistence via JavaScript's localStorage.

@@ -1,0 +1,3 @@
+choonkeat/elm-aws
+|
+Make signed REST api calls to AWS, e.g. DynamoDB

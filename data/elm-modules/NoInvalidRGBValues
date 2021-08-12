@@ -1,0 +1,3 @@
+folq/review-rgb-ranges
+|
+Provides elm-review rules to detect rgb values out of range

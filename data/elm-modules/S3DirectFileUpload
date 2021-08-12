@@ -1,0 +1,3 @@
+robotmay/s3-direct-file-upload
+|
+Abstract module for directly uploading files to S3, compatible with Shrine.rb

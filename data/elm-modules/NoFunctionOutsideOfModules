@@ -1,0 +1,3 @@
+NeoVier/elm-review-no-function-outside-of-modules
+|
+Provides elm-review rules to forbid using functions outside of certain modules

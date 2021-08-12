@@ -1,0 +1,3 @@
+fysiweb/elm-review-no-import-as
+|
+Provides elm-review rules to forbid the use of import aliases

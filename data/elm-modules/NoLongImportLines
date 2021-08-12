@@ -1,0 +1,3 @@
+r-k-b/no-long-import-lines
+|
+A rule for elm-review that discourages long one-line Imports.

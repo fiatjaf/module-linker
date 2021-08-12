@@ -1,0 +1,3 @@
+SiriusStarr/elm-review-no-single-pattern-case
+|
+Provides elm-review rules to disallow single-pattern case expressions.

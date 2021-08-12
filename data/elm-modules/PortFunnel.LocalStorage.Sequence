@@ -1,0 +1,3 @@
+billstclair/elm-localstorage
+|
+elm-localstorage provides persistence via JavaScript's localStorage.

@@ -1,0 +1,3 @@
+choonkeat/elm-fullstack
+|
+Small framework for writing fullstack HTTP webapp in Elm. Try `npx elm-webapp`

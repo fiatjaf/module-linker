@@ -1,0 +1,3 @@
+sparksp/elm-review-always
+|
+elm-review rule to forbid `always`.

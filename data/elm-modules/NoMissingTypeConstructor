@@ -1,0 +1,3 @@
+Arkham/elm-review-no-missing-type-constructor
+|
+elm-review rule to detect missing type constructor

@@ -1,0 +1,3 @@
+gigobyte/iso8601-duration
+|
+Convert between ISO-8601 durations strings and Duration values

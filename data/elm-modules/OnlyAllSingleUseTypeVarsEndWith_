@@ -1,0 +1,3 @@
+lue-bird/elm-review-single-use-type-vars-end-with-underscore
+|
+make sure type variables only used once end with _

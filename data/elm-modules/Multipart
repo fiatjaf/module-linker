@@ -1,0 +1,3 @@
+choonkeat/elm-multipart
+|
+build a multipart email as `String` with minimal dependencies

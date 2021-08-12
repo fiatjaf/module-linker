@@ -1,0 +1,3 @@
+truqu/elm-review-noleftpizza
+|
+Provides an elm-review rule to prevent the use of the left pizza operator

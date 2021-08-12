@@ -1,0 +1,3 @@
+jfmengels/elm-review-license
+|
+Provides an elm-review rule to prevent using packages with unapproved licenses

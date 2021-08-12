@@ -1,0 +1,3 @@
+lxierita/no-typealias-constructor-call
+|
+elm-review rule to disallows using type alias record constructor
