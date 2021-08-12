@@ -1,1 +1,1 @@
-purescript-bulma@2.0.0
+purescript-bulma@3.2.2

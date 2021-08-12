@@ -1,1 +1,1 @@
-purescript-webdriver@4.0.1
+purescript-webdriver@3.2.2

@@ -1,1 +1,1 @@
-purescript-foreign-object@2.0.1
+purescript-foreign-object@3.2.2

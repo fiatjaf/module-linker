@@ -1,1 +1,1 @@
-GPipe
+GPipe-Core

@@ -1,1 +1,1 @@
-purescript-subtlecrypto@0.0.0
+purescript-subtlecrypto@3.2.2

@@ -1,1 +1,1 @@
-purescript-freedom@0.6.1
+purescript-freedom@3.2.2

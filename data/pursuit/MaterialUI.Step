@@ -1,1 +1,1 @@
-purescript-react-mui@3.1.0
+purescript-react-mui@3.2.2

@@ -1,1 +1,1 @@
-purescript-ws@0.0.2
+purescript-ws@3.2.2

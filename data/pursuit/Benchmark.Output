@@ -1,1 +1,1 @@
-purescript-benchmark@0.1.0
+purescript-benchmark@3.2.2

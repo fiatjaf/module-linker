@@ -1,1 +1,1 @@
-faker
+fakedata

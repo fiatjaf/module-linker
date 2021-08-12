@@ -1,1 +1,1 @@
-purescript-screeps-classy@3.0.1
+purescript-screeps-classy@3.2.2

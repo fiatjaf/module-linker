@@ -1,1 +1,1 @@
-toxcore
+toxcore-c

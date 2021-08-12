@@ -1,1 +1,1 @@
-purescript-profunctor@4.0.0
+purescript-profunctor@3.2.2

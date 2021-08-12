@@ -1,1 +1,1 @@
-casr-logbook
+casr-logbook-types

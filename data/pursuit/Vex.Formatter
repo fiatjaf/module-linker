@@ -1,1 +1,1 @@
-purescript-vexflow@0.1.0
+purescript-vexflow@3.2.2

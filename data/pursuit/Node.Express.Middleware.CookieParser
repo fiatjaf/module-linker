@@ -1,1 +1,1 @@
-purescript-express@0.7.1
+purescript-express@3.2.2

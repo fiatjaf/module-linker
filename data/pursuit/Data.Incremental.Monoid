@@ -1,1 +1,1 @@
-purescript-incremental-functions@2.0.0
+purescript-incremental-functions@3.2.2

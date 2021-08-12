@@ -1,1 +1,1 @@
-scholdoc
+open-pandoc

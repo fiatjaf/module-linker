@@ -1,1 +1,1 @@
-shakespeare
+shakespeare-js
